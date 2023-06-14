@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import type {PropsWithChildren} from 'react';
 import { Image, TouchableOpacityComponent } from "react-native";
@@ -53,16 +52,5 @@ const styles = StyleSheet.create({
         flex:5
     }
 }) 
-=======
-import React from "react-native"
-import type {PropsWithChildren} from 'react';
-import { Button, Text, View } from "react-native";
-
-function Topping(): JSX.Element{
-    return(
-        <View><Text>áklflasfa</Text></View>
-    )
-};
->>>>>>> phat.huynh
 
 export default Topping;
