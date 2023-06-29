@@ -9,6 +9,7 @@ import Begin from'./src/Begin';
 import Login from'./src/Login';
 import Signin from'./src/Signin';
 import Home from './src/Home';
-import Search from './src/Search.tsx'
+import Search from './src/Search.tsx';
+import ListPizza from './src/ListPizza'
 
-AppRegistry.registerComponent(appName, () => Search);
+AppRegistry.registerComponent(appName, () => Home);
