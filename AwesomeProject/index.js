@@ -9,4 +9,5 @@ import Begin from'./src/Begin';
 import Login from'./src/Login';
 import Signin from'./src/Signin';
 import Payment from './src/Payment'
-AppRegistry.registerComponent(appName, () => Payment);
+import Size from './src/Size';
+AppRegistry.registerComponent(appName, () => Size);
