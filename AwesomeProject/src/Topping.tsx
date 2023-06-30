@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Dimensions, Image, ScrollView, TouchableOpacityComponent } from "react-native";
+import { Image, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
-import { Button, Text, View } from "react-native";
-import ToppingButton from "../components/ToppingButton";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
+import ToppingButton from "./components/ToppingButton";
 
 
 function Topping(): JSX.Element{
 
-    const [showImage, setShowImage] = useState(false);
+    const [showImage, setShowImage] = useState<boolean>(false);
 
     const handleSelectToppingButton = () => {
         setShowImage(true);

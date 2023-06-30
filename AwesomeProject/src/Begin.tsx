@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-
+import Login from "./Login";
 
 interface BeginProps {
   navigation: any; // Thay thế any bằng kiểu dữ liệu của navigation prop
@@ -60,6 +60,7 @@ const Begin: React.FC<BeginProps> = ({ navigation }) => {
             width: '70%',
             alignSelf: 'center',
           }}
+          onPress={() => navigation.navigate('Login')}
         >
           <Text style={{ fontSize: 40 }}>Start Order</Text>
         </TouchableOpacity>
@@ -74,10 +75,11 @@ const styles = StyleSheet.create({
   },
   texttile: {
     fontSize: 30,
-    fontWeight: '700',
+    // fontWeight: '700',
     marginLeft: 70,
     marginTop: 20,
-    color: '#A45D51'
+    color: '#A45D51',
+    fontFamily: 'Comfortaa-Bold'
   },
   img: {
     alignSelf: 'center',

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   texttitle: {
     fontWeight: 'bold',
     fontSize: 36,
-    fontFamily: 'Comfortaa',
+    fontFamily: 'Comfortaa-Regular',
     color: '#A45D51',
   },
   text2: {

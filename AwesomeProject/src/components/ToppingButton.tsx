@@ -2,10 +2,11 @@
 import React, { useState } from 'react';
 import {
     Image,
-    StyleSheet, Text, Touchable, TouchableOpacity, View
+    StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
+import { ToppingButtonProps } from '../interface/ToppingButtonProps';
 
-function ToppingButton({ showImage, setShowImage }): JSX.Element {
+function ToppingButton({ showImage, setShowImage }: ToppingButtonProps): JSX.Element {
     
     const [isPressed, setIsPressed] = useState(false);
 
@@ -16,7 +17,7 @@ function ToppingButton({ showImage, setShowImage }): JSX.Element {
 
     return (
         <View style ={styles.item}>
-            <Image source={require('../assets/bacon.png')} style = {styles.img}/>
+            <Image source={require('../../assets/bacon.png')} style = {styles.img}/>
             <View style = {styles.box}>
                 <Text style = {styles.titleTopping}>Bacon</Text>
                 <Text style = {styles.titleTopping}>$2</Text>
