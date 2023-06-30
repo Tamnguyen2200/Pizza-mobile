@@ -2,6 +2,11 @@
   "name": "AwesomeProject",
   "version": "0.0.1",
   "private": true,
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -13,6 +18,10 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.17",
+<<<<<<< HEAD
+=======
+    "expo-font": "^11.1.1",
+>>>>>>> phat.huynh
     "react": "18.2.0",
     "react-icons": "^4.9.0",
     "react-native": "^0.71.8",
