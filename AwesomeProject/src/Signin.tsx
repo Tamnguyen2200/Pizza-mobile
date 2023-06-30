@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { NavigationProps } from './interface/Props';
 
-
-function Signin(): JSX.Element {
+function Signin({ navigation }: NavigationProps): JSX.Element {
   return (
     <View style={{ backgroundColor: '#A45D51', flex: 1 }}>
       {/* Login */}
@@ -37,6 +37,7 @@ function Signin(): JSX.Element {
                   borderRadius: 10,
                   width: '60%',
                 }}
+                onPress={() => navigation.navigate('Login')}
               >
                 <Text style={{ fontSize: 28, color: '#A45D51' }}>Register</Text>
               </TouchableOpacity>
@@ -55,6 +56,7 @@ function Signin(): JSX.Element {
                   width: '25%',
                   height: '60%',
                 }}
+                onPress={() => navigation.navigate('Login')}
               >
                 <Text style={{ fontSize: 20, color: '#A45D51' }}>Register</Text>
               </TouchableOpacity>

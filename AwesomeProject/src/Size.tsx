@@ -1,12 +1,13 @@
 import React from'react'
 import {Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { NavigationProps } from './interface/Props';
 
-function Size(): JSX.Element
+function Size({ navigation }: NavigationProps): JSX.Element
 {
      return(
         <SafeAreaView style={styles.container}>
             <View style = {styles.sectionButton}>
-                <TouchableOpacity style = {styles.sectionButton}>
+                <TouchableOpacity style = {styles.sectionButton} onPress={() => navigation.navigate('Home')}>
                     <Image source={require('../assets/arrowback.png')}/>
                     <Text style = {styles.text}>Home</Text>
                 </TouchableOpacity>

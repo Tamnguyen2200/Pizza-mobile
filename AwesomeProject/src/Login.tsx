@@ -7,9 +7,10 @@ import { View,
      TextInput, 
      TouchableOpacity,
       Animated } from 'react-native';
+import { NavigationProps } from "./interface/Props";
 
 
-function Login(): JSX.Element{
+function Login({ navigation }: NavigationProps): JSX.Element{
 return (
     <View style={{backgroundColor: '#A45D51', flex: 1}}>
       {/* Login */}
@@ -53,7 +54,8 @@ return (
                   borderColor: '#A45D51',
                   borderRadius: 10,
                   width: '60%',
-                }}>
+                }}
+                onPress={() => navigation.navigate('Home')}>
                 <Text style={{fontSize: 28, color: '#A45D51'}}>Log In</Text>
               </TouchableOpacity>
             </View>
@@ -82,7 +84,8 @@ return (
                   borderRadius: 50,
                   width: '30%',
                   height: '60%',
-                }}>
+                }}
+                onPress={() => navigation.navigate('Signin')}>
                 <Text style={{fontSize: 20, color: '#A45D51'}}>Sig In</Text>
               </TouchableOpacity>
             </View>

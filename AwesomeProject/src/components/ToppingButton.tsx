@@ -4,7 +4,7 @@ import {
     Image,
     StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import { ToppingButtonProps } from '../interface/ToppingButtonProps';
+import { ToppingButtonProps } from '../interface/Props';
 
 function ToppingButton({ showImage, setShowImage }: ToppingButtonProps): JSX.Element {
     

@@ -1,17 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import type {PropsWithChildren} from 'react';
-import { Animated, Image, TouchableOpacityComponent } from "react-native";
+import { Animated } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
-import { Button, Text, View } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import Login from "./Login";
+import { StyleSheet } from "react-native";
+import { Text, View } from "react-native";
+import { NavigationProps } from "./interface/Props";
 
-interface BeginProps {
-  navigation: any; // Thay thế any bằng kiểu dữ liệu của navigation prop
-}
 
-const Begin: React.FC<BeginProps> = ({ navigation }) => {
+const Begin: React.FC<NavigationProps> = ({ navigation }) => {
   const rotateValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {

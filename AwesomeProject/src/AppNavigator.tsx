@@ -9,6 +9,7 @@ import Login from './Login';
 import Payment from './Payment';
 import Search from './Search';
 import Topping from './Topping';
+import Size from './Size';
 
 const Stack = createNativeStackNavigator();
 function Navigation() {
@@ -22,6 +23,7 @@ function Navigation() {
           <Stack.Screen name="Payment" component={Payment} />
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="Topping" component={Topping} />
+          <Stack.Screen name="Size" component={Size} />
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -3,22 +3,26 @@ import { Dimensions, Image, ScrollView, TextInput, TouchableOpacityComponent } f
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
+import { NavigationProps } from "./interface/Props";
 
-
-function Payment(): JSX.Element{
+function Payment({ navigation }:NavigationProps ): JSX.Element{
     
     return( 
         <View style={{
             backgroundColor: '#F5F5F5',
             flex: 100
         }}>
-    
+            <View style = {styles.sectionButton}>
+                <TouchableOpacity style = {styles.sectionButton} onPress={() => navigation.navigate('Home')}>
+                    <Image source={require('../assets/arrowback.png')}/>
+                </TouchableOpacity>
+            </View>
             {/* View1 */}
             <View style={{ 
                 flexDirection: 'row',
-                flex: 10,
+                flex: 5,
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
             }}>
                 <Text style={{
                     color: '#000000',
@@ -215,7 +219,25 @@ function Payment(): JSX.Element{
         </View>
     )
 }
-
+const styles = StyleSheet.create({
+    sectionContainer:{
+        flex:100,
+        backgroundColor: (`#F5F5F5`)
+    },
+    sectionButton:{
+        fontWeight: 700,
+        display: 'flex',
+        flexDirection: 'row',
+        flex:5,
+        padding: 5
+    },
+    text: {
+        fontWeight: '700', 
+        fontSize: 20,
+        color: 'black',
+        marginLeft: 20
+    },
+})
 
 
 export default Payment;

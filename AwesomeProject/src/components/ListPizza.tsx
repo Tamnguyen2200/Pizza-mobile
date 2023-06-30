@@ -10,17 +10,13 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { ListPizzaProps } from '../interface/Props';
 
 
-interface ListPizzaProps {
-    img: any;
-    name: string;
-    price: string;
-  }
 
 const {width, height} = Dimensions.get('screen'); // lấy kích thước màn hình
 
-function ListPizza({ img, name, price }: ListPizzaProps): JSX.Element {
+function ListPizza({ img, name, price, navigation }: ListPizzaProps): JSX.Element {
   return (
     <View style={styles.post}>
       <TouchableOpacity>
@@ -37,7 +33,7 @@ function ListPizza({ img, name, price }: ListPizzaProps): JSX.Element {
           <View>
             <View style={styles.textInfor}>
               <Text style={styles.textPrice}> {price} </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Size')}>
                 <AntDesign name="pluscircle" size={30} color="#900" />
               </TouchableOpacity>
             </View>

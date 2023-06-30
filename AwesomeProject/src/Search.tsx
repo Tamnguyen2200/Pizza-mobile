@@ -3,7 +3,7 @@ import {Text, View, TextInput, StyleSheet } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
-function Search(): JSX.Element
+function Search({ navigation }): JSX.Element
 {
      return(
          <View>
