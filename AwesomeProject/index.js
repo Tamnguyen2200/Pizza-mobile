@@ -1,7 +1,7 @@
 /**
  * @format
  */
-
+ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import Topping from './src/Topping';
 import {name as appName} from './app.json';
@@ -12,4 +12,4 @@ import Home from './src/Home';
 import Search from './src/Search.tsx';
 import ListPizza from './src/ListPizza'
 
-AppRegistry.registerComponent(appName, () => Home);
+AppRegistry.registerComponent(appName, () => Begin);

@@ -1,10 +1,9 @@
 import React from 'react';
 import ListPizza from './ListPizza';
+
 import {
   View,
-  Image,
   Text,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   Dimensions,

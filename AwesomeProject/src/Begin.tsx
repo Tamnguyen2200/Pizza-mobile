@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginLeft: 70,
     marginTop: 20,
-    color: '#A45D51'
+    color: '#A45D51',
+    fontFamily: 'Comfortaa-Bold'
   },
   img: {
     alignSelf: 'center',
