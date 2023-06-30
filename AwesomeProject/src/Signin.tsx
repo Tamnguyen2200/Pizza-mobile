@@ -38,7 +38,7 @@ function Signin(): JSX.Element {
                   width: '60%',
                 }}
               >
-                <Text style={{ fontSize: 28, color: '#A45D51' }}>Sign In</Text>
+                <Text style={{ fontSize: 28, color: '#A45D51' }}>Register</Text>
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginTop: 20 }}>
@@ -56,7 +56,7 @@ function Signin(): JSX.Element {
                   height: '60%',
                 }}
               >
-                <Text style={{ fontSize: 20, color: '#A45D51' }}>Log In</Text>
+                <Text style={{ fontSize: 20, color: '#A45D51' }}>Register</Text>
               </TouchableOpacity>
             </View>
           </View>
