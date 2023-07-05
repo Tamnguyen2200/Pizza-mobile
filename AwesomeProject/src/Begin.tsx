@@ -67,6 +67,7 @@ const Begin: React.FC<NavigationProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white"
   },
   texttile: {
     fontSize: 30,

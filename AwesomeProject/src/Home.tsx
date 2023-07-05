@@ -20,7 +20,8 @@ function Home({ navigation }: NavigationProps): JSX.Element {
     <View>
       <View style={styles.header}>
         <View style={styles.icon}>
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => navigation.navigate('Profile')}>
             <AntDesign name="user" size={30} color="#900" />
           </TouchableOpacity>
         </View>
