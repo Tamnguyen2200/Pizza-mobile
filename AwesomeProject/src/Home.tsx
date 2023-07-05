@@ -17,7 +17,7 @@ const {width, height} = Dimensions.get('screen'); // lấy kích thước màn h
 
 function Home({ navigation }: NavigationProps): JSX.Element {
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <View style={styles.header}>
         <View style={styles.icon}>
           <TouchableOpacity
@@ -40,6 +40,7 @@ function Home({ navigation }: NavigationProps): JSX.Element {
         </View>
       </View>
       <ScrollView style={styles.scrollView}>
+        <View>
         <Text style={styles.textTitle}> Best Seller</Text>
         <ScrollView horizontal={true}>
           <ListPizza
@@ -188,8 +189,9 @@ function Home({ navigation }: NavigationProps): JSX.Element {
              navigation={navigation}
           />
         </ScrollView>
+        </View>
       </ScrollView>
-    </View>
+      </View>
   );
 }
 
@@ -220,9 +222,9 @@ const styles = StyleSheet.create({
     color: '#A45D51',
   },
   scrollView: {
-    height: (height * 90) / 100,
+    height: height,
     padding: 10,
-  },
+  }, 
 });
 
 export default Home;
