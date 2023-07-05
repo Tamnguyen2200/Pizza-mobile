@@ -11,17 +11,16 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { NavigationProps } from './interface/Props';
+import {NavigationProps} from './interface/Props';
 
 const {width, height} = Dimensions.get('screen'); // lấy kích thước màn hình
 
-function Home({ navigation }: NavigationProps): JSX.Element {
+function Home({navigation}: NavigationProps): JSX.Element {
   return (
     <View style={{height: '100%'}}>
       <View style={styles.header}>
         <View style={styles.icon}>
-          <TouchableOpacity
-          onPress={() => navigation.navigate('Profile')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
             <AntDesign name="user" size={30} color="#900" />
           </TouchableOpacity>
         </View>
@@ -41,157 +40,157 @@ function Home({ navigation }: NavigationProps): JSX.Element {
       </View>
       <ScrollView style={styles.scrollView}>
         <View>
-        <Text style={styles.textTitle}> Best Seller</Text>
-        <ScrollView horizontal={true}>
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation} 
+          <Text style={styles.textTitle}> Best Seller</Text>
+          <ScrollView horizontal={true}>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
             />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-        </ScrollView>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-        <Text style={styles.textTitle}> Hot</Text>
-        <ScrollView horizontal={true}>
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+          </ScrollView>
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+          <Text style={styles.textTitle}> Hot</Text>
+          <ScrollView horizontal={true}>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-        </ScrollView>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-        <Text style={styles.textTitle}> Favourite</Text>
-        <ScrollView horizontal={true}>
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+          </ScrollView>
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+          <Text style={styles.textTitle}> Favourite</Text>
+          <ScrollView horizontal={true}>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-        </ScrollView>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-        <Text style={styles.textTitle}> For You</Text>
-        <ScrollView horizontal={true}>
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+          </ScrollView>
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+          <Text style={styles.textTitle}> For You</Text>
+          <ScrollView horizontal={true}>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
 
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-          <ListPizza
-            img={require('../assets/banner.png')}
-            name="Shrimp Pizza"
-            price="$ 20,99"
-             navigation={navigation}
-          />
-        </ScrollView>
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+            <ListPizza
+              img={require('../assets/banner.png')}
+              name="Shrimp Pizza"
+              price="$ 20,99"
+              navigation={navigation}
+            />
+          </ScrollView>
         </View>
       </ScrollView>
-      </View>
+    </View>
   );
 }
 
@@ -224,7 +223,7 @@ const styles = StyleSheet.create({
   scrollView: {
     height: height,
     padding: 10,
-  }, 
+  },
 });
 
 export default Home;
