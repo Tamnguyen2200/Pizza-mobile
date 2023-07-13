@@ -45,6 +45,13 @@ const Profile: React.FC<NavigationProps> = ({navigation}) => {
         <View style={styles.borderInfo}>
           <Text style={styles.textName}> 02399994455</Text>
         </View>
+        <View style={styles.borderInfoTitle}>
+          <Text style={styles.textBody}> Adress:</Text>
+        </View>
+        <View style={styles.borderInfo}>
+          <Text style={styles.textName}> Tân Bình- Hồ Chí Minh</Text>
+        </View>
+
         <View style={styles.borderLogout}>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.TextEdit}> Logout</Text>
