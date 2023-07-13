@@ -1,12 +1,13 @@
 import React from'react'
 import {Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { NavigationProps } from './interface/Props';
 
-function Size(): JSX.Element
+function Thickness({ navigation }:NavigationProps ): JSX.Element
 {
      return(
         <SafeAreaView style={styles.container}>
-            <View style = {styles.sectionButton}>
-                <TouchableOpacity style = {styles.sectionButton}>
+            <View style = {styles.sectionButton} >
+                <TouchableOpacity style = {styles.sectionButton} onPress={() => navigation.navigate('Size')}>
                     <Image source={require('../assets/arrowback.png')}/>
                     <Text style = {styles.text}>Thickness</Text>
                 </TouchableOpacity>
@@ -15,10 +16,12 @@ function Size(): JSX.Element
                   <Text style={styles.text}> Thin Crust </Text>
             </View>  
             <View style = {styles.margins}>
-                  <Image source={require('../assets/Thick1.png')} />
+              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
+              <Image source={require('../assets/Thick1.png')} />
+              </TouchableOpacity>
             </View>
             <View style={styles.row1}>
-                  <Text style={styles.text}> Thin Crust </Text>
+                  <Text style={styles.text}> New Your Crust </Text>
             </View>  
             <View style = {styles.margins}>
                   <Image source={require('../assets/Thick2.png')} />
@@ -76,4 +79,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default Size;
+export default Thickness;

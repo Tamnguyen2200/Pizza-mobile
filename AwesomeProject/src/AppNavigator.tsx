@@ -10,6 +10,7 @@ import Payment from './Payment';
 import Search from './Search';
 import Topping from './Topping';
 import Size from './Size';
+import Thickness from './Thickness';
 
 const Stack = createNativeStackNavigator();
 function Navigation() {
@@ -24,6 +25,7 @@ function Navigation() {
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="Topping" component={Topping} />
           <Stack.Screen name="Size" component={Size} />
+          <Stack.Screen name="Thickness" component={Thickness} />
         </Stack.Navigator>
       </NavigationContainer>
     );

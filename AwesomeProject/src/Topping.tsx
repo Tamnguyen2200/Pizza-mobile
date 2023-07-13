@@ -4,9 +4,10 @@ import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 import ToppingButton from "./components/ToppingButton";
+import { NavigationProps } from "./interface/Props";
 
 
-function Topping(): JSX.Element{
+function Topping({ navigation }: NavigationProps): JSX.Element{
 
     const [showImage, setShowImage] = useState<boolean>(false);
 
@@ -17,7 +18,7 @@ function Topping(): JSX.Element{
     return( 
     <SafeAreaView style = {styles.sectionContainer}>
         <View style = {styles.sectionButton}>
-            <TouchableOpacity style = {styles.sectionButton}>
+            <TouchableOpacity style = {styles.sectionButton} onPress={() => navigation.navigate('Thickness')}>
                 <Image source={require('../assets/arrowback.png')}/>
                 <Text style = {styles.text}>Choose your topping</Text>
             </TouchableOpacity>
@@ -39,7 +40,7 @@ function Topping(): JSX.Element{
             </View>
         </View>
         <View style = {styles.sectionfoodButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Payment')}>
                 <Image source={require('../assets/arrownext.png')}/>
             </TouchableOpacity>
         </View>

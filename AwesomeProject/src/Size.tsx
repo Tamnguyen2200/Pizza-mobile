@@ -13,10 +13,14 @@ function Size({ navigation }: NavigationProps): JSX.Element
                 </TouchableOpacity>
             </View>
             <View style={styles.row1}>
+              <TouchableOpacity  onPress={() => navigation.navigate('Thickness')}>
                 <View style = {styles.margins}>
                   <Image source={require('../assets/SizeS.png')} />
                 </View>
+                </TouchableOpacity>
+
                 <Text style={styles.text}>7”: $3.99</Text>
+                
             </View>
             <View style={styles.row2}>
                 <View style = {styles.margins}>
