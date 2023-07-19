@@ -10,7 +10,9 @@ const Profile: React.FC<NavigationProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => navigation.navigate('Home')}>
           <AntDesign name="arrowleft" size={30} color="white" />
         </TouchableOpacity>
         <View style={styles.title}>
