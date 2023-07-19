@@ -3,7 +3,6 @@ import { ActivityIndicator, Alert, FlatList, Image, ScrollView } from "react-nat
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
-import FastImage from "react-native-fast-image";
 import ToppingButton from "./components/ToppingButton";
 import { NavigationProps, ToppingProps } from "./interface/Props";
 import { api, app } from "./interface/urrl";

@@ -10,7 +10,8 @@ import { View,
 import { NavigationProps } from "./interface/Props";
 import axios from "axios";
 import { api, app } from "./interface/urrl";
-//0387064024
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 function Login({ navigation }: NavigationProps): JSX.Element{
   fetch(`https://api.backendless.com/${app}/${api}/users/login`, {
   method: 'POST',
@@ -19,12 +20,12 @@ function Login({ navigation }: NavigationProps): JSX.Element{
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    login: '03461323356',
+    login: '0346132336',
     password: 'tam1234',
   }),
 }).then(response => response.json())
 .then(data => {
-  console.log(data); ;
+  console.log(data); 
 })
 .catch(error => {
   console.error('Error:', error);
@@ -56,14 +57,16 @@ return (
                   placeholder="User Name"></TextInput>
               </View>
 
+              <View>
               <Text style={[styles.text2, {marginLeft: 10, marginTop: 20}]}>
                 {' '}
                 PASSWORD
               </Text>
-              <View>
                 <TextInput
                   style={styles.textinputstyle}
-                  placeholder="Phone Number"></TextInput>
+                  placeholder="Phone Number"
+                  autoCapitalize="none"/>
+                <AntDesign name="arrowleft" size={30} style={{position: "absolute", right: 30, top: 70}}/>
               </View>
             </View>
             <View style={{marginLeft: 110, marginTop: 40}}>
