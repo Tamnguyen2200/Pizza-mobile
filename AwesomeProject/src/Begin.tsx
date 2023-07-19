@@ -67,10 +67,11 @@ const Begin: React.FC<NavigationProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white"
   },
   texttile: {
     fontSize: 30,
-    // fontWeight: '700',
+    fontWeight: '700',
     marginLeft: 70,
     marginTop: 20,
     color: '#A45D51',

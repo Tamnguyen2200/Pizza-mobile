@@ -39,7 +39,7 @@ function Signin({ navigation }: NavigationProps): JSX.Element {
                 }}
                 onPress={() => navigation.navigate('Login')}
               >
-                <Text style={{ fontSize: 28, color: '#A45D51' }}>Register</Text>
+                <Text style={{ fontSize: 28, color: '#A45D51' }}>Signin</Text>
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginTop: 20 }}>
@@ -58,7 +58,7 @@ function Signin({ navigation }: NavigationProps): JSX.Element {
                 }}
                 onPress={() => navigation.navigate('Login')}
               >
-                <Text style={{ fontSize: 20, color: '#A45D51' }}>Register</Text>
+                <Text style={{ fontSize: 20, color: '#A45D51' }}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>

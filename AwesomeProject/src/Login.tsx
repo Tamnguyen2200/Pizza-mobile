@@ -1,5 +1,5 @@
 import React from "react-native"
-import {PropsWithChildren, useRef, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import { View, 
     Text,
      StyleSheet, 
@@ -8,9 +8,29 @@ import { View,
      TouchableOpacity,
       Animated } from 'react-native';
 import { NavigationProps } from "./interface/Props";
-
-
+import axios from "axios";
+import { api, app } from "./interface/urrl";
+//0387064024
 function Login({ navigation }: NavigationProps): JSX.Element{
+  fetch(`https://api.backendless.com/${app}/${api}/users/login`, {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    login: '03461323356',
+    password: 'tam1234567',
+  }),
+}).then(response => response.json())
+.then(data => {
+  console.log(data); ;
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+
+  
 return (
     <View style={{backgroundColor: '#A45D51', flex: 1}}>
       {/* Login */}
@@ -86,7 +106,7 @@ return (
                   height: '60%',
                 }}
                 onPress={() => navigation.navigate('Signin')}>
-                <Text style={{fontSize: 20, color: '#A45D51'}}>Sig In</Text>
+                <Text style={{fontSize: 20, color: '#A45D51'}}>Register</Text>
               </TouchableOpacity>
             </View>
           </View>

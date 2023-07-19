@@ -1,48 +1,109 @@
-import React, { useState } from "react";
-import { Image, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, FlatList, Image, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
+import FastImage from "react-native-fast-image";
 import ToppingButton from "./components/ToppingButton";
+import { NavigationProps, ToppingProps } from "./interface/Props";
+import { api, app } from "./interface/urrl";
 
 
-function Topping(): JSX.Element{
+function Topping({ navigation }: NavigationProps): JSX.Element{
 
-    const [showImage, setShowImage] = useState<boolean>(false);
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+    const [selectedPrices, setSelectedPrices] = useState<number[]>([]);
+    const [isLoading, setLoading] = useState(true);
 
-    const handleSelectToppingButton = () => {
-        setShowImage(true);
+    const [data, setData] = useState<ToppingProps[]>([]);
+
+    const handleSelectToppingButton = (img: string , price: number) => {
+        const newSelectedImages = [...selectedImages];
+        const newSelectedPrice = [...selectedPrices]
+        const indexImage = newSelectedImages.indexOf(img);
+        const indexPrice = newSelectedPrice.indexOf(price)
+
+        if (indexImage === -1) {
+            newSelectedImages.push(img);
+        } else {
+            newSelectedImages.splice(indexImage, 1);
+        }
+        
+        if (indexPrice === -1) {
+            newSelectedPrice.push(price);
+        } else {
+            newSelectedPrice.splice(indexPrice, 1);
+        }
+        
+        setSelectedImages(newSelectedImages); 
+        setSelectedPrices(newSelectedPrice)
     }
-    
+    const totalPrice = selectedPrices.reduce((total, price) => {
+        const selectedTopping = data.find((item) => item.PriceTopping === price);
+        return total + (selectedTopping ? selectedTopping.PriceTopping : 0);
+    }, 0);
+    useEffect(() => {
+        setLoading(true);
+        fetchListTopping();
+    }, []);
+
+    const fetchListTopping = async () =>{
+        try{
+            const url = `https://api.backendless.com/${app}/${api}/data/Topping`;
+            const response = await fetch(url);
+            const json = await response.json();
+            setData(json);
+        }
+        catch (error){
+            Alert.alert('error');
+            setLoading(false);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    const renderItem = ({ item }: { item: ToppingProps }) => (
+        <ToppingButton Name={item.ToppingName} img={item.Image} price={item.PriceTopping} pizzaImg={item.ImagePizza} onSelectTopping={handleSelectToppingButton} isSelected={selectedImages.includes(item.Image)}/>
+    );
+    const NextPage = ()=>{
+        console.log(totalPrice)
+        navigation.navigate('Payment')
+    }
     return( 
     <SafeAreaView style = {styles.sectionContainer}>
         <View style = {styles.sectionButton}>
-            <TouchableOpacity style = {styles.sectionButton}>
+            <TouchableOpacity style = {styles.sectionButton} onPress={() => navigation.navigate('Thickness')}>
                 <Image source={require('../assets/arrowback.png')}/>
                 <Text style = {styles.text}>Choose your topping</Text>
             </TouchableOpacity>
         </View>
         <View style = {styles.sectionImg}>
             <Image style ={ styles.pizzaImg } source={require('../assets/pizza.png')}/>
-            {showImage && (
-            <Image source={require('../assets/bacon-topping.png')} style ={ styles.toppingImg }/>
-            )} 
+            {selectedImages.map((img) => (
+                <Image key={img} source={{ uri: img }} style={styles.toppingImg} />
+            ))}
         </View>
         <View style = {styles.sectionTopping}>
             <Text style = {styles.test}>Toppings</Text>
             <View style = {styles.topping}>
-                <ScrollView horizontal = {true}>
-                {[...Array(15)].map((_, index) => (
-                    <ToppingButton showImage={showImage} setShowImage={setShowImage} key={index}/>
-                ))}
-                </ScrollView>
+                <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.objectId}
+                horizontal = {true}
+                />
             </View>
         </View>
         <View style = {styles.sectionfoodButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={NextPage}>
                 <Image source={require('../assets/arrownext.png')}/>
             </TouchableOpacity>
         </View>
+        {isLoading && (
+            <View style={styles.loadingIndicator} >
+                    <ActivityIndicator size={'large'}/>
+            </View>
+        )}
     </SafeAreaView>
     )
 }
@@ -102,6 +163,15 @@ const styles = StyleSheet.create({
         width: 240,
         height: 240
     },
+    loadingIndicator:{
+        position: 'absolute',
+        zIndex: 15,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        backgroundColor: 'rgba(164, 93, 81, 0.08)',
+        justifyContent: 'center'
+    }
 }) 
 
 export default Topping;
