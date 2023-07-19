@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   texttile: {
     fontSize: 30,
-    // fontWeight: '700',
+    fontWeight: '700',
     marginLeft: 70,
     marginTop: 20,
     color: '#A45D51',

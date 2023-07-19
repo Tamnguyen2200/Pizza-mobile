@@ -1,6 +1,10 @@
 export interface ToppingButtonProps {
-    showImage: boolean;
-    setShowImage: React.Dispatch<React.SetStateAction<boolean>>;
+    Name:string;
+    price: number;
+    img:any;
+    pizzaImg: any;
+    isSelected: boolean
+    onSelectTopping?: (img: string, price: number) => void;
 }
 
 export interface ListPizzaProps{
@@ -12,4 +16,12 @@ export interface ListPizzaProps{
 
 export interface NavigationProps{
     navigation: any; 
+}
+
+export interface ToppingProps{
+    objectId: string,
+    ToppingName: string,
+    PriceTopping: number,
+    Image:string,
+    ImagePizza: string
 }
