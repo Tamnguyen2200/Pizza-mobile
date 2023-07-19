@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "7c90fb7e-b666-45ae-8646-c20e968da359",
+		"name": "PizzaMobile",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23972137"
+	},
+	"item": [
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"PhoneNumber\": \"0346132335\",\r\n  \"password\": \"tam12345\",\r\n  \"ConfirmPassword\": \"tam12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/register",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"0346132335\",\r\n    \"password\": \"tam1234567\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/login",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/services/UserService/changePassword",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "user-token",
+						"value": "C052977F-F103-4524-A0DF-F5C22837A012",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currentPassword\": \"tam1234567\",\r\n    \"newPassword\": \"tam12345\",\r\n    \"confirmPassword\": \"tam12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/services/UserService/changePassword",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"services",
+						"UserService",
+						"changePassword"
+					],
+					"query": [
+						{
+							"key": "user-token",
+							"value": "86D2AD18-3EA3-4F3C-B849-984BD9E0E00B",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/logout",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Pizza/find",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Pizza",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"data",
+						"Pizza"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Topping/find",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Topping",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"data",
+						"Topping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Thickness/find",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Thickness",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"data",
+						"Thickness"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Size/find",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pageSize\": 15,\r\n    \"offset\": 0,\r\n    // \"where\": \"PizzaName like 'P%'\",\r\n    \"distinct\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Size",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"data",
+						"Size"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Profile/find",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Profile",
+					"protocol": "https",
+					"host": [
+						"api",
+						"backendless",
+						"com"
+					],
+					"path": [
+						"A5006051-5583-53F6-FF4D-3C4BD85F2800",
+						"D8B6ABE7-71A8-464D-89C6-8E29D654C873",
+						"data",
+						"Profile"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

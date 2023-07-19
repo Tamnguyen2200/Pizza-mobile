@@ -19,7 +19,7 @@ function Login({ navigation }: NavigationProps): JSX.Element{
   },
   body: JSON.stringify({
     login: '03461323356',
-    password: 'tam1234567',
+    password: 'tam1234',
   }),
 }).then(response => response.json())
 .then(data => {
