@@ -4,6 +4,8 @@ import { NavigationProps } from './interface/Props';
 
 function Size({ navigation }: NavigationProps): JSX.Element
 {
+
+  
      return(
         <SafeAreaView style={styles.container}>
             <View style = {styles.sectionButton}>

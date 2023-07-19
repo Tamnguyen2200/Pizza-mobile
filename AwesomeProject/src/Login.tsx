@@ -9,9 +9,10 @@ import { View,
       Animated } from 'react-native';
 import { NavigationProps } from "./interface/Props";
 import axios from "axios";
+import { api, app } from "./interface/urrl";
 //0387064024
 function Login({ navigation }: NavigationProps): JSX.Element{
-  fetch('https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/users/login', {
+  fetch(`https://api.backendless.com/${app}/${api}/users/login`, {
   method: 'POST',
   headers: {
     Accept: 'application/json',

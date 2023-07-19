@@ -6,21 +6,23 @@ import {
 } from 'react-native';
 import { ToppingButtonProps } from '../interface/Props';
 
-function ToppingButton({ showImage, setShowImage }: ToppingButtonProps): JSX.Element {
+function ToppingButton({ Name, img, price, pizzaImg , onSelectTopping }: ToppingButtonProps): JSX.Element {
     
     const [isPressed, setIsPressed] = useState(false);
 
     const handlePress = () => {
         setIsPressed(!isPressed);
-        setShowImage(!showImage);
+        if (onSelectTopping) {
+            onSelectTopping(pizzaImg, price); 
+        }
     };
 
     return (
         <View style ={styles.item}>
-            <Image source={require('../../assets/bacon.png')} style = {styles.img}/>
+            <Image source={{uri: img}} style = {styles.img}/>
             <View style = {styles.box}>
-                <Text style = {styles.titleTopping}>Bacon</Text>
-                <Text style = {styles.titleTopping}>$2</Text>
+                <Text style = {styles.titleTopping}>{Name}</Text>
+                <Text style = {styles.titleTopping}>${price}</Text>
                 <TouchableOpacity style={[styles.button, isPressed && styles.buttonPressed]}
                     onPress={handlePress}>
                     <View style = {[styles.textBorder, { borderColor: isPressed ? '#ffffff' : '#A45D51' },]}>
@@ -36,7 +38,10 @@ const styles = StyleSheet.create({
     img:{
         position: 'absolute',
         zIndex: 1,
-        margin: 12.5
+        margin: 12.5,
+        top: 15,
+        width: 100,
+        height: 100
     },
     box:{
         backgroundColor: 'white',
