@@ -1,7 +1,7 @@
 import React from'react'
 import {Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native'
 
-function Size(): JSX.Element
+function Size({}): JSX.Element
 {
      return(
         <SafeAreaView style={styles.container}>
