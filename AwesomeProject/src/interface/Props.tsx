@@ -13,7 +13,12 @@ export interface ListPizzaProps{
     price: string;
     navigation: any;
 }
-
+export interface HomeProps{
+    img: any;
+    name: string;
+    price: string;
+    navigation: any;
+}
 export interface NavigationProps{
     navigation: any; 
 }

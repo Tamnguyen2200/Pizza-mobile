@@ -1,16 +1,27 @@
-import {TouchableOpacity} from 'react-native';
 import {StyleSheet} from 'react-native';
-import {Text, View, Dimensions, Image, TextInput} from 'react-native';
+import {useState} from 'react';
+import {
+  Text,
+  View,
+  Dimensions,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {NavigationProps} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('screen');
 
 const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
+  const [getpassword, setpasswordvi] = useState(false);
+  const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Profile')}>
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => navigation.navigate('Profile')}>
           <AntDesign name="arrowleft" size={30} color="white" />
         </TouchableOpacity>
         <View style={styles.title}>
@@ -29,19 +40,71 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
           <Text style={styles.textBody}> User Name</Text>
-          <TextInput placeholder="User Name" style={styles.TextInput}></TextInput>
+          <TextInput
+            placeholder="User Name"
+            style={styles.TextInput}></TextInput>
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
-          <Text style={styles.textBody}> Email</Text>
-          <TextInput placeholder="Email" style={styles.TextInput}></TextInput>
-        </View>
-        <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
-          <Text style={styles.textBody}> Phone Number</Text>
-          <TextInput placeholder="Phone Number" style={styles.TextInput}></TextInput>
+          <Text style={styles.textBody}> Phone</Text>
+          <TextInput
+            placeholder="Phone Number"
+            style={styles.TextInput}></TextInput>
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
           <Text style={styles.textBody}> Password</Text>
-          <TextInput placeholder="Password" style={styles.TextInput}></TextInput>
+          <TextInput
+            placeholder="PassWord"
+            style={styles.TextInput}
+            autoCapitalize="none"
+            secureTextEntry={getpassword ? false : true}
+          />
+          <TouchableOpacity
+            style={{position: 'absolute', right: 40, top: 35}}
+            onPress={() => {
+              setpasswordvi(!getpassword);
+            }}>
+            {getpassword ? (
+              <Image
+                source={require('../assets/no-eye.png')}
+                style={{height: 30, width: 40, right: 0}}
+              />
+            ) : (
+              <Image
+                source={require('../assets/eye.png')}
+                style={{height: 30, width: 40, right: 0}}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
+          <Text style={styles.textBody}> Confirm Password</Text>
+          <TextInput
+            placeholder="Confirm Password"
+            style={styles.TextInput}
+            autoCapitalize="none"
+            secureTextEntry={getconfirmpassword ? false : true}
+          />
+          <TouchableOpacity
+            style={{position: 'absolute', right: 40, top: 35}}
+            onPress={() => {
+              setconfirmpasswordvi(!getconfirmpassword);
+            }}>
+            {getconfirmpassword ? (
+              <Image
+                source={require('../assets/no-eye.png')}
+                style={{height: 30, width: 40, right: 0}}
+              />
+            ) : (
+              <Image
+                source={require('../assets/eye.png')}
+                style={{height: 30, width: 40, right: 0}}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
+          <Text style={styles.textBody}> Address</Text>
+          <TextInput placeholder="Address" style={styles.TextInput}></TextInput>
         </View>
         <View style={styles.borderLogout}>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
@@ -56,6 +119,7 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   header: {
     width: width,
@@ -148,7 +212,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     backgroundColor: 'black',
-    marginTop: 30,
+    marginTop: 15,
     left: 80,
   },
   TextUpdate: {
@@ -157,11 +221,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Comfortaa',
     color: 'white',
   },
-  TextInput:
-  {
+  TextInput: {
     height: 40,
     marginTop: 5,
-    marginLeft: 25, 
+    marginLeft: 25,
     marginRight: 25,
     borderWidth: 1,
     padding: 10,

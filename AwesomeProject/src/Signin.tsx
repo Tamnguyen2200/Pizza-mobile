@@ -1,34 +1,145 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { NavigationProps } from './interface/Props';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  Image,
+} from 'react-native';
+import {NavigationProps} from './interface/Props';
+import {api, app} from './interface/urrl';
 
-function Signin({ navigation }: NavigationProps): JSX.Element {
+function Signin({navigation}: NavigationProps): JSX.Element {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
+  const [getpassword, setpasswordvi] = useState(false);
+  const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
+
+  const handleRegister = () => {
+    if (!username || !password || !confirmPassword) {
+      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ tên đăng nhập và mật khẩu.');
+      return;
+    }
+    fetch(`https://api.backendless.com/${app}/${api}/users/register`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        PhoneNumber: username,
+        password: password,
+        ConfirmPassword: confirmPassword,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.objectId) {
+          navigation.navigate('Login');
+        } else {
+          Alert.alert('Lỗi', 'Tên đăng nhập hoặc mật khẩu không đúng.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
   return (
-    <View style={{ backgroundColor: '#A45D51', flex: 1 }}>
+    <View style={{backgroundColor: '#A45D51', flex: 1}}>
       {/* Login */}
-      <View style={{ backgroundColor: 'white', flex: 1, margin: 10, borderRadius: 10 }}>
-        <View style={{ flex: 1, marginVertical: 40 }}>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          backgroundColor: 'white',
+          flex: 1,
+          margin: 10,
+          borderRadius: 10,
+        }}>
+        <View style={{flex: 1, marginVertical: 40}}>
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={styles.texttitle}>Register</Text>
           </View>
           {/* Input */}
-          <View style={{ flex: 4 }}>
+          <View style={{flex: 4}}>
             <View>
-              <Text style={[styles.text2, { marginLeft: 10 }]}> USER NAME</Text>
+              <Text style={[styles.text2, {marginLeft: 10}]}> USER NAME</Text>
               <View>
-                <TextInput style={styles.textinputstyle} placeholder="User Name" />
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="User Name"
+                  value={username}
+                  onChangeText={text => setUsername(text)}
+                />
               </View>
 
-              <Text style={[styles.text2, { marginLeft: 10, marginTop: 20 }]}> PASSWORD</Text>
+              <Text style={[styles.text2, {marginLeft: 10, marginTop: 20}]}>
+                {' '}
+                PASSWORD
+              </Text>
               <View>
-                <TextInput style={styles.textinputstyle} placeholder="Password" />
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="Password"
+                  autoCapitalize="none"
+                  secureTextEntry={getpassword ? false : true}
+                  value={password}
+                  onChangeText={text => setPassword(text)}
+                />
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 30, top: 17}}
+                  onPress={() => {
+                    setpasswordvi(!getpassword);
+                  }}>
+                  {getpassword ? (
+                    <Image
+                      source={require('../assets/no-eye.png')}
+                      style={{height: 30, width: 40, right: 0}}
+                    />
+                  ) : (
+                    <Image
+                      source={require('../assets/eye.png')}
+                      style={{height: 30, width: 40, right: 0}}
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
-              <Text style={[styles.text2, { marginLeft: 10, marginTop: 20 }]}> CONFIRM PASSWORD</Text>
+              <Text style={[styles.text2, {marginLeft: 10, marginTop: 20}]}>
+                {' '}
+                CONFIRM PASSWORD
+              </Text>
               <View>
-                <TextInput style={styles.textinputstyle} placeholder="Confirm Password" />
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="Confirm Password"
+                  autoCapitalize="none"
+                  secureTextEntry={getconfirmpassword ? false : true}
+                  value={confirmPassword}
+                  onChangeText={text => setconfirmPassword(text)}
+                />
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 30, top: 17}}
+                  onPress={() => {
+                    setconfirmpasswordvi(!getconfirmpassword);
+                  }}>
+                  {getconfirmpassword ? (
+                    <Image
+                      source={require('../assets/no-eye.png')}
+                      style={{height: 30, width: 40, right: 0}}
+                    />
+                  ) : (
+                    <Image
+                      source={require('../assets/eye.png')}
+                      style={{height: 30, width: 40, right: 0}}
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={{ marginLeft: 110, marginTop: 40 }}>
+            <View style={{marginLeft: 110, marginTop: 40}}>
               <TouchableOpacity
                 style={{
                   borderWidth: 1,
@@ -37,13 +148,24 @@ function Signin({ navigation }: NavigationProps): JSX.Element {
                   borderRadius: 10,
                   width: '60%',
                 }}
-                onPress={() => navigation.navigate('Login')}
-              >
-                <Text style={{ fontSize: 28, color: '#A45D51' }}>Signin</Text>
+                onPress={handleRegister}>
+                <Text style={{fontSize: 28, color: '#A45D51'}}>Signin</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginTop: 20 }}>
-              <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20, color: '#A45D51' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                margin: 10,
+                marginTop: 20,
+              }}>
+              <Text
+                style={{
+                  marginTop: 20,
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                  color: '#A45D51',
+                }}>
                 You already have an account
               </Text>
               <TouchableOpacity
@@ -56,9 +178,8 @@ function Signin({ navigation }: NavigationProps): JSX.Element {
                   width: '25%',
                   height: '60%',
                 }}
-                onPress={() => navigation.navigate('Login')}
-              >
-                <Text style={{ fontSize: 20, color: '#A45D51' }}>Login</Text>
+                onPress={() => navigation.navigate('Login')}>
+                <Text style={{fontSize: 20, color: '#A45D51'}}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
