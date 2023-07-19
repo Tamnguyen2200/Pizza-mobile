@@ -25,3 +25,10 @@ export interface ToppingProps{
     Image:string,
     ImagePizza: string
 }
+
+export interface ChesseProps{
+    objectId: string,
+    ChesseName: string,
+    PriceChesse: number,
+    
+}
