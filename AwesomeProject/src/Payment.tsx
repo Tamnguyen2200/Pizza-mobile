@@ -8,6 +8,7 @@ import { NavigationProps } from "./interface/Props";
 function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
     const { data } = route.params;
     
+    
     const [keyboardIsShow, setkeyboardIsShow] = useState(false)
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', () => {
@@ -16,6 +17,7 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
         Keyboard.addListener('keyboardDidHide', () => {
             setkeyboardIsShow(false)
         })
+        console.log(route)
     })
 
    
@@ -37,7 +39,10 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
                     justifyContent: 'space-between'
                 }}>
                     <View>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('Home')
+                        }}>
                             <Image
                                 source={require('../assets/left.png')}
                                 style={{
