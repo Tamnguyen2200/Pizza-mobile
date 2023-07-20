@@ -36,12 +36,6 @@ const Profile: React.FC<NavigationProps> = ({navigation}) => {
           <Text style={styles.textName}> Nguyen Thi Thu Tam</Text>
         </View>
         <View style={styles.borderInfoTitle}>
-          <Text style={styles.textBody}> Email:</Text>
-        </View>
-        <View style={styles.borderInfo}>
-          <Text style={styles.textName}> ThuTam@gmail.com</Text>
-        </View>
-        <View style={styles.borderInfoTitle}>
           <Text style={styles.textBody}> Phone:</Text>
         </View>
         <View style={styles.borderInfo}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Image,
@@ -11,7 +11,6 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ListPizzaProps } from '../interface/Props';
-
 
 
 const {width, height} = Dimensions.get('screen'); // lấy kích thước màn hình
@@ -29,10 +28,12 @@ function ListPizza({ img, name, price, navigation }: ListPizzaProps): JSX.Elemen
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.textName}> {name}</Text>
+          <Text style={styles.textName}
+              > {name}</Text>
           <View>
             <View style={styles.textInfor}>
-              <Text style={styles.textPrice}> {price} </Text>
+              <Text style={styles.textPrice}
+                > $ {price} </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Size')}>
                 <AntDesign name="pluscircle" size={30} color="#900" />
               </TouchableOpacity>
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     marginVertical: 20
   },
   img: {
-    width: 80,
+    width: 100,
     height: 100,
     alignSelf: 'center',
   },
