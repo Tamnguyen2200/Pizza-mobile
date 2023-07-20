@@ -33,7 +33,7 @@ function ListPizza({ img, name, price, navigation }: ListPizzaProps): JSX.Elemen
           <View>
             <View style={styles.textInfor}>
               <Text style={styles.textPrice}
-                > {price} </Text>
+                > $ {price} </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Size')}>
                 <AntDesign name="pluscircle" size={30} color="#900" />
               </TouchableOpacity>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     marginVertical: 20
   },
   img: {
-    width: 80,
+    width: 100,
     height: 100,
     alignSelf: 'center',
   },

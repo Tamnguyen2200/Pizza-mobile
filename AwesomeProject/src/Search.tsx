@@ -1,5 +1,5 @@
 import {NavigationProp} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useTransition} from 'react';
 import {
   Text,
   View,
@@ -12,19 +12,17 @@ import {
   Dimensions
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {NavigationProps, SearchProps} from './interface/Props';
-import filter from "lodash.filter"
 import {api, app} from './interface/urrl';
 
 const {width, height} = Dimensions.get('screen');
 
 function Search({navigation}: NavigationProps): JSX.Element {
-  const [searchQuery, setSeachQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [fullData, setFullData] = useState([]);
+  const [error, setError] = useState<any>(null);
   const [data, setData] = useState<SearchProps[]>([]);
+  const [originalData, setOriginalData] = useState<SearchProps[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,29 +36,25 @@ function Search({navigation}: NavigationProps): JSX.Element {
       const json = await respone.json();
       setData(json);
 
-      setFullData(json);
       setIsLoading(false);
-      console.log(json[0]);
+      setOriginalData(json);
+      console.log(json);
     } catch (error) {
       setError(error);
       console.log(error);
     }
   };
-  const handleSeach = (query: string) => {
-    setSeachQuery(query);
-    const formattedQuery = query.toLowerCase();
-    const filteredData = filter(fullData, (data) =>{
-      return contains(data, formattedQuery);
-    });
+  const handleSeach = (searchTerm: string) => {
+    setSearchQuery(searchTerm);
+    const formattedQuery = searchTerm.toLowerCase();
+    const filteredData = originalData.filter((user) =>
+      user.PizzaName.toLowerCase().includes(formattedQuery)
+    );
     setData(filteredData);
   };
-  const contains = (PizzaName: string, query: string) => {
-    const {first} = PizzaName;
-
-    if( first.includes(query)){
-      return true;
-    }
-    return false;
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setData(originalData);
   };
 
   if (isLoading) {
@@ -101,25 +95,30 @@ function Search({navigation}: NavigationProps): JSX.Element {
               left: 20,
             }}
           />
-          <TextInput placeholder="Seach..." />
-          <MaterialIcons
-            name="cancel"
-            style={{fontSize: 15, position: 'absolute', right: 20}}
-          />
+          <TextInput placeholder="Seach..." 
+          clearButtonMode='always'
+          autoCapitalize='none'
+          autoCorrect={false}
+          onChangeText={(event) => handleSeach(event)}
+          onEndEditing={() => {
+            if (!searchQuery) {
+              handleClearSearch();
+            }
+          }}/>
         </View>
         <View style={styles.listcontainer}>
           <FlatList
             data={data}
             keyExtractor={item => item.objectId}
             renderItem={({item}) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Size')}>
               <View style={styles.listcontainer}>
                 <Image
-                source={{ uri: item.Image}}
+                source={{uri:item.Image}}
                 style={styles.image} />
                 <View>
                   <Text style={styles.Textname}>{item.PizzaName}</Text>
-                  <Text style={styles.des}></Text>
+                  <Text style={styles.des}>$ {item.Price}</Text>
                 </View>
               </View>
               </TouchableOpacity>
@@ -148,21 +147,24 @@ const styles = StyleSheet.create({
   listcontainer: {
     marginTop: 45,
     marginLeft: 10,
+    marginRight: 10,
     flexDirection: 'row',
+    borderBottomWidth: 1,
   },
   image: {
-    width: 80,
+    width: 100,
     height: 100,
     borderRadius: 25,
+    marginBottom: 30
   },
   Textname: {
-    fontSize: 20,
+    fontSize: 25,
     marginLeft: 10,
     fontWeight: '600',
     color: 'black',
   },
   des: {
-    fontSize: 14,
+    fontSize: 20,
     marginLeft: 10,
     color: 'gray',
   },

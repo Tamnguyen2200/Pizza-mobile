@@ -12,16 +12,19 @@ export interface ListPizzaProps{
     name: string;
     price: string;
     navigation: any;
+   
 }
 export interface SearchProps{
     Image: any;
     PizzaName: string;
     objectId: string;
+    Price: number;
+
 }
 export interface HomeProps{
-    img: any;
-    name: string;
-    price: string;
+    Image: any;
+    PizzaName: string;
+    Price: string;
     navigation: any;
 }
 export interface NavigationProps{
