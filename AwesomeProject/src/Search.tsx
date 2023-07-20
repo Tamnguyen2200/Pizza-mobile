@@ -38,7 +38,6 @@ function Search({navigation}: NavigationProps): JSX.Element {
 
       setIsLoading(false);
       setOriginalData(json);
-      console.log(json);
     } catch (error) {
       setError(error);
       console.log(error);

@@ -48,7 +48,6 @@ function Home({navigation}: NavigationProps): JSX.Element {
       const BestSellerItems = json.filter((item: any) => item.TypeData === "Best Seller");
       setBestSellerData(BestSellerItems);
 
-      console.log(BestSellerItems)
     } catch(error){
     setError(error);
     console.log(setError)
@@ -87,6 +86,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
            img={{uri:item.Image}}
            name={item.PizzaName}
            price= {item.Price}
+           id = {item.objectId}
            navigation={navigation}/>}
           />
         </View>
@@ -100,6 +100,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
            img={{uri:item.Image}}
            name={item.PizzaName}
            price= {item.Price}
+           id = {item.objectId}
            navigation={navigation}/>}
           />
         </View>
@@ -113,6 +114,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
            img={{uri:item.Image}}
            name={item.PizzaName}
            price= {item.Price}
+           id = {item.objectId}
            navigation={navigation}/>}
           />
         </View>
@@ -125,6 +127,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
           <ListPizza
            img={{uri:item.Image}}
            name={item.PizzaName}
+           id = {item.objectId}
            price= {item.Price}
            navigation={navigation}/>}
           />

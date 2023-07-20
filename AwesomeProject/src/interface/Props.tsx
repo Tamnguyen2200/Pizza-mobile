@@ -17,6 +17,7 @@ export interface ListPizzaProps{
     img: any;
     name: string;
     price: string;
+    id: string; 
     navigation: any;
    
 }
@@ -31,6 +32,7 @@ export interface HomeProps{
     Image: any;
     PizzaName: string;
     Price: string;
+    objectId: string,
     navigation: any;
 }
 export interface NavigationProps{
@@ -51,4 +53,11 @@ export interface ChesseProps{
     CheeseName: string,
     PriceCheese: number,
     
+}
+
+export interface SizeProps{
+    objectId: string,
+    SizeName: string,
+    PriceSize: number,
+    Image:string,
 }

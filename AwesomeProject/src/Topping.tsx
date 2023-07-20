@@ -66,11 +66,7 @@ function Topping({ navigation }: NavigationProps): JSX.Element{
     );
     const NextPage = ()=>{
         console.log(totalPrice)
-<<<<<<< HEAD
-        navigation.navigate('Payment', {data: 'Cash'})
-=======
         navigation.navigate('Payment' , {data: 'Cash'})
->>>>>>> tien.pham
     }
     return( 
     <SafeAreaView style = {styles.sectionContainer}>

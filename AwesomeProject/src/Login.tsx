@@ -18,7 +18,7 @@ function Login({navigation}: NavigationProps): JSX.Element {
   const [getpassword, setpasswordvi] = useState(false);
   const handleLogin = () => {
     if (!username || !password) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ tên đăng nhập và mật khẩu.');
+      Alert.alert('Error', 'Please fill in your full username and password.');
       return;
     }
     fetch(`https://api.backendless.com/${app}/${api}/users/login`, {
@@ -34,11 +34,10 @@ function Login({navigation}: NavigationProps): JSX.Element {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         if (data.objectId) {
           navigation.navigate('Home');
         } else {
-          Alert.alert('Lỗi', 'Tên đăng nhập hoặc mật khẩu không đúng.');
+          Alert.alert('Error', 'Username or password is incorrect.');
         }
       })
       .catch(error => {

@@ -27,14 +27,7 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
             <View style={{flex: 10,marginLeft: 15,width: 225,paddingTop: 10}}>
                 <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
                     <View>
-<<<<<<< HEAD
                         <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
-=======
-                        <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('Home')
-                        }}>
->>>>>>> tien.pham
                             <Image
                                 source={require('../assets/arrowback.png')}
                                 style={{

@@ -1,10 +1,42 @@
-import React from'react'
-import {Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native'
-import { NavigationProps } from './interface/Props';
+import React, { useEffect, useState } from'react'
+import {Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
+import { NavigationProps, SizeProps } from './interface/Props';
+import { api, app } from './interface/urrl';
 
 function Size({ navigation }: NavigationProps): JSX.Element
 {
+  const handleSelectSizeSButton = () => {
+    const id = '641A0B89-D00E-4698-B598-9D185A95B55F'
+    fetchAddSizeToOrder(id)
+  }
+  const handleSelectSizeMButton = () => {
+    const id = 'C009F961-F0C6-4CAB-857D-6084FCFB9CDD'
+    fetchAddSizeToOrder(id)
+  }
+  const handleSelectSizeLButton = () => {
+    const id = 'EF70E875-24E1-43E2-95E9-76BDF82817B1'
+    fetchAddSizeToOrder(id)
+  }
 
+  const fetchAddSizeToOrder = async(id: string) => {
+    // fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data.objectId}/Size`, {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify([
+    //     id
+    //   ]),
+    // }).then(response => response.json())
+    // .then(data =>{
+    //   if(data == 1){
+    //     navigation.navigate('Thickness')
+    //   } else{
+    //     Alert.alert('Error', "Can't add pizza.");
+    //   }
+    // })
+  }
   
      return(
         <SafeAreaView style={styles.container}>
@@ -15,7 +47,7 @@ function Size({ navigation }: NavigationProps): JSX.Element
                 </TouchableOpacity>
             </View>
             <View style={styles.row1}>
-              <TouchableOpacity  onPress={() => navigation.navigate('Thickness')}>
+              <TouchableOpacity  onPress={handleSelectSizeSButton}>
                 <View style = {styles.margins}>
                   <Image source={require('../assets/SizeS.png')} />
                 </View>
@@ -25,15 +57,19 @@ function Size({ navigation }: NavigationProps): JSX.Element
                 
             </View>
             <View style={styles.row2}>
+              <TouchableOpacity onPress={handleSelectSizeMButton}>
                 <View style = {styles.margins}>
                   <Image source={require('../assets/SizeM.png')}/>
                 </View>
+                </TouchableOpacity>
                 <Text style={styles.text}>9”: $7.99</Text>
             </View>
             <View style={styles.row3}>
+              <TouchableOpacity onPress={handleSelectSizeLButton}>
                 <View style = {styles.margins}>
                   <Image source={require('../assets/SizeL.png')}/>
                 </View>
+                </TouchableOpacity>
                 <Text style={styles.text}>12”: $11.99</Text>
             </View>
         </SafeAreaView>  
