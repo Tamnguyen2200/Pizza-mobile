@@ -16,6 +16,7 @@ export interface ListPizzaProps{
 
 export interface NavigationProps{
     navigation: any; 
+    route: any
 }
 
 export interface ToppingProps{

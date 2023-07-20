@@ -13,6 +13,11 @@ import Size from './Size';
 import Profile  from './Profile';
 import Editprofile from './Editprofile';
 import Thickness from './Thickness';
+import PaymentSuccessful from './PaymentSuccessful';
+import PaymentMethods from './PaymentMethods';
+import Paypal from './Paypal';
+import MasterCard from './MasterCard';
+import VisaCard from './VisaCard';
 
 const Stack = createNativeStackNavigator();
 function Navigation() {
@@ -29,6 +34,11 @@ function Navigation() {
           <Stack.Screen name="Topping" component={Topping} />
           <Stack.Screen name="Size" component={Size} />
           <Stack.Screen name="Thickness" component={Thickness} />
+          <Stack.Screen name="PaymentMethods" component={PaymentMethods} />
+          <Stack.Screen name="PaymentSuccessful" component={PaymentSuccessful} />
+          <Stack.Screen name="Paypal" component={Paypal} />
+          <Stack.Screen name="MasterCard" component={MasterCard} />
+          <Stack.Screen name="VisaCard" component={VisaCard} />
           <Stack.Screen name="Editprofile" component={Editprofile}/>
         </Stack.Navigator>
       </NavigationContainer>
