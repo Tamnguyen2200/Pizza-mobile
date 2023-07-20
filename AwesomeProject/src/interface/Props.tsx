@@ -27,6 +27,7 @@ export interface HomeProps{
 }
 export interface NavigationProps{
     navigation: any; 
+    route: any
 }
 
 export interface ToppingProps{
