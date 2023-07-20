@@ -13,6 +13,11 @@ export interface ListPizzaProps{
     price: string;
     navigation: any;
 }
+export interface SearchProps{
+    Image: any;
+    PizzaName: string;
+    objectId: string;
+}
 export interface HomeProps{
     img: any;
     name: string;
