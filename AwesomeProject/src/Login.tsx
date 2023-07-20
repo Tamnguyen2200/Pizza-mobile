@@ -79,7 +79,7 @@ function Login({navigation}: NavigationProps): JSX.Element {
                 </Text>
                 <TextInput
                   style={styles.textinputstyle}
-                  placeholder="Phone Number"
+                  placeholder="Password"
                   autoCapitalize="none"
                   secureTextEntry={getpassword ? false : true}
                   value={password}

@@ -29,9 +29,9 @@ function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
                     justifyContent: 'space-between',
                     // backgroundColor: 'blue'
                 }}>
-                    <View>
+                    <View style={{height: 47}}>
                         <TouchableOpacity onPress ={() => {
-                            navigation.navigate('Payment')
+                            navigation.navigate('Payment',{data: 'Cash'})
                         }}>
                             <Image
                                 source={require('../assets/left.png')}
@@ -227,24 +227,6 @@ function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                 }}></View>
-                <TouchableOpacity
-                 onPress={() => {
-                    navigation.navigate('Payment')
-                }}
-                style={{
-                    marginTop: 30,
-                    borderColor: '#A45D51',
-                    borderWidth: 1,
-                    height: 40,
-                    borderRadius: 7,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <Text style={{
-                        fontSize: 15,
-                        color: '#A45D51'
-                    }}>Ok</Text>
-                </TouchableOpacity>
             </View>
         </View>
     )

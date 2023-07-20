@@ -20,26 +20,14 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
 
    
     return( 
-        <View 
-        style={{
-            backgroundColor: '#F5F5F5',
-            flex: 100
-        }}>
-            <View style={{
-                flex: 10,
-                marginLeft: 15,
-                width: 225,
-                paddingTop: 10
-            }}>
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                }}>
+        <ScrollView style={{backgroundColor: '#F5F5F5',flex: 100}}>
+            {/* Button Back */}
+            <View style={{flex: 10,marginLeft: 15,width: 225,paddingTop: 10}}>
+                <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
                     <View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
                             <Image
-                                source={require('../assets/left.png')}
+                                source={require('../assets/arrowback.png')}
                                 style={{
                                     width: 25,
                                     height: 25
@@ -47,371 +35,141 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
                             />
                         </TouchableOpacity>
                     </View>
-                    <View style={{
-                    }}>
-                        <Text style={{
-                            color: '#000000',
-                            fontSize: 20,
-                        }}>Payment</Text>
+                    <View>
+                        <Text style={{color: '#000000',fontSize: 20,fontWeight: '700',}}>Payment</Text>
                     </View>
                 </View>
             </View>
-    
-    
-            {/* view2 */}
-            <View style={{
-                flex: 20,
-                marginLeft: 15,
-                marginRight: 15,
-            }}>
-                <Text style={{
-                    color: '#000000',
-                    fontSize: 15,
-                    paddingBottom: 5
-                }}
-                >FILL YOUR INFORMATION</Text>
-    
-                <View style={{
-                    backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
-                    borderColor: '#CFCCCC',
-                    height: 30,
-                    borderRadius: 7,
-                    marginBottom: 10
-                }}>
-                    <TextInput style={{
-                        color: 'black',
-                        height: 35
-                    }}
+            {/* Form */}
+            <View style={{flex: 20,marginLeft: 15,marginRight: 15,marginTop: 25}}>
+                <Text style={{color: '#000000',fontSize: 15,paddingBottom: 5, fontWeight: '700'}}>FILL YOUR INFORMATION</Text>
+                <View style={{backgroundColor: '#FFFFFF',borderWidth: 1,borderColor: '#CFCCCC',borderRadius: 7,marginBottom: 10}}>
+                    <TextInput 
+                        style={{color: 'black',height: 40}}
                         placeholder='Name'
                     />
-    
                 </View>
-                <View style={{
-                    backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
-                    borderColor: '#CFCCCC',
-                    height: 30,
-                    borderRadius: 7,
-                    marginBottom: 10
-    
-                }}>
-                    <TextInput style={{
-                        color: 'black',
-                        height: 35
-                    }}
+                <View style={{backgroundColor: '#FFFFFF',borderWidth: 1,borderColor: '#CFCCCC',borderRadius: 7,marginBottom: 10}}>
+                    <TextInput style={{color: 'black', height: 40}}
                         placeholder='Phone number'
                     />
                 </View>
-                <View style={{
-                    backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
-                    borderColor: '#CFCCCC',
-                    height: 30,
-                    borderRadius: 7
-    
-                }}>
-                    <TextInput style={{
-                        color: 'black',
-                        height: 35
-                    }}
+                <View style={{backgroundColor: '#FFFFFF',borderWidth: 1,borderColor: '#CFCCCC',borderRadius: 7}}>
+                    <TextInput style={{ color: 'black',height: 40}}
                         placeholder='Address'
                     />
                 </View>
             </View>
-    
-            {/* View3 */}
-            {keyboardIsShow == false && <View style={{
-                flex: 35,
-                marginLeft: 15,
-                marginRight: 15,
-                paddingTop: 10
-            }}>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                }}>
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 15,
-                        marginBottom: 10
-                    }}
-                    >ORDER PROCESSING</Text>
-    
-                    {/* <TouchableOpacity>
-                    <Text style={{
-                        color: 'black',
-                        fontSize: 15,
-                    }}
-                    >More dishes</Text>
-                    </TouchableOpacity> */}
-                    
-                </View>
-    
-                <View style={{
-                    flex: 100
-                }}>
-                    <View style={{
-                        backgroundColor: '#FFFFFF',
-                        borderWidth: 1,
-                        borderColor: '#CFCCCC',
-                        height: '45%',
-                        marginBottom: 10,
-                        borderRadius: 15
-                    }}>
-                        <View style={{
-                            padding: 10,
-                            flexDirection: 'row',
-                        }}>
-                            <Image
-                                source={require('../assets/pizza1.png')}
-                                style={{
-                                    width: 70,
-                                    height: 70
-                                }}
-                            />
-                            <View>
-                                <Text style={{
-                                    color: '#000000',
-                                    fontSize: 13,
-                                    marginLeft: 20
-                                }}
-                                >Shrimp</Text>
-                                <Text style={{
-                                    color: '#000000',
-                                    fontSize: 12,
-                                    marginLeft: 20
-                                }}
-                                >Size S, Thin crust, Double cheese</Text>
-                                <Text style={{
-                                    color: '#000000',
-                                    fontSize: 13,
-                                    marginLeft: 20
-                                }}
-                                >150$</Text>
-                                <View style={{
-                                    marginTop: 5,
-                                    width: 100,
-                                    marginLeft: 20,
-                                    backgroundColor: 'white',
-                                    borderWidth: 1,
-                                    borderColor: '#000000',
-                                    height: 20,
-                                    borderRadius: 10,
-                                }}>
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-around'
-                                    }}>
-                                        <TouchableOpacity>
-                                            <Image
-                                                source={require('../assets/minus-sign.png')}
-                                                style={{
-                                                    width: 20,
-                                                    height: 17
-                                                }}
-                                            />
-                                        </TouchableOpacity>
-                                        <Text style={{
-                                            color: '#000000',
-                                            fontSize: 13
-                                        }}
-                                        >1</Text>
-                                        <TouchableOpacity>
-                                            <Image
-                                                source={require('../assets/plus.png')}
-                                                style={{
-                                                    margin: 1,
-                                                    width: 16,
-                                                    height: 16
-                                                }}
-                                            />
-                                        </TouchableOpacity>
-    
-                                    </View>
+            {/* Order */}
+            <View style={{flexDirection: 'row',justifyContent: 'space-between',marginTop: 20, marginLeft: 16, marginRight: 16}}>
+                <Text style={{color: '#000000',fontSize: 15,marginBottom: 10, fontWeight:'600'}}>ORDER PROCESSING</Text>
+                <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
+                    <Text style={{color: 'black',fontSize: 15,}}>More dishes</Text>
+                </TouchableOpacity>
+            </View>
+            {/* Product */}
+            <View style={{flex: 100,marginTop: 15, marginLeft: 16, marginRight: 16 }}>
+                <View style={{backgroundColor: '#FFFFFF',borderWidth: 1,borderColor: '#CFCCCC',height: 150,marginBottom: 10,borderRadius: 15, }}>
+                    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', alignContent: 'center', paddingLeft: 15, paddingTop:20, position:'relative'}}>
+                        <Image
+                            source={require('../assets/pizza1.png')}
+                            style={{width: 100, height: 100}}
+                        />
+                        <View>
+                            <Text style={{color: '#000000',fontSize: 13,marginLeft: 20, fontWeight: '700'}}>Shrimp</Text>
+                            <Text style={{color: '#000000',fontSize: 12,marginLeft: 20, paddingTop: 5, paddingBottom: 5}}>Size S, Thin crust, Double cheese</Text>
+                            <Text style={{color: '#000000',fontSize: 13,marginLeft: 20, fontWeight:'700'}}>150$</Text>
+                            <View style={{marginTop: 15,width: 90,marginLeft: 20,backgroundColor: 'white',borderWidth: 1,borderColor: '#000000',height: 30,borderRadius: 15,}}>
+                                <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
+                                    <TouchableOpacity style={{alignItems: 'center',display: 'flex', alignContent: 'center'}}>
+                                        <View style={{backgroundColor: 'black', width: 12, height: 2, marginTop: 12, }}></View>
+                                    </TouchableOpacity>
+                                    <Text style={{color: '#000000',fontSize: 13, marginTop: 4}}>1</Text>
+                                    <TouchableOpacity>
+                                        <View>
+                                            <View style={{backgroundColor: 'black', width: 12, height: 2, marginTop: 12, position:'relative'}}></View>
+                                            <View style={{backgroundColor: 'black', width: 2, height: 12, position:'absolute',marginTop:6.5, marginLeft: 5 }}></View>
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <TouchableOpacity>
-                                <Image
-                                    source={require('../assets/close.png')}
-                                    style={{
-                                        marginLeft: 80,
-                                        width: 10,
-                                        height: 10
-                                    }}
-                                />
-                            </TouchableOpacity>
-                        </View>
+                        </View >
                     </View>
-                    <View style={{
-                        backgroundColor: '#FFFFFF',
-                        borderWidth: 1,
-                        borderColor: '#CFCCCC',
-                        height: '45%',
-                        borderRadius: 15
-                    }}>
-                        <View style={{
-                            padding: 10,
-                            flexDirection: 'row'
-                        }}>
-                            <Image
-                                source={require('../assets/pizza1.png')}
-                                style={{
-                                    width: 70,
-                                    height: 70
-                                }}
-                            />
-                            <View>
-                                <Text style={{
-                                    color: '#000000',
-                                    fontSize: 13,
-                                    marginLeft: 20
-                                }}
-                                >Shrimp</Text>
-                                <Text style={{
-                                    color: '#000000',
-                                    fontSize: 12,
-                                    marginLeft: 20
-                                }}
-                                >Size S, Thin crust, Double cheese</Text>
-                                <Text style={{
-                                    color: '#000000',
-                                    fontSize: 13,
-                                    marginLeft: 20
-                                }}
-                                >150$</Text>
-                                <View style={{
-                                    marginTop: 5,
-                                    width: 100,
-                                    marginLeft: 20,
-                                    backgroundColor: 'white',
-                                    borderWidth: 1,
-                                    borderColor: '#000000',
-                                    height: 20,
-                                    borderRadius: 10,
-                                }}>
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-around'
-                                    }}>
-                                        <TouchableOpacity>
-                                            <Image
-                                                source={require('../assets/minus-sign.png')}
-                                                style={{
-                                                    width: 20,
-                                                    height: 17
-                                                }}
-                                            />
-                                        </TouchableOpacity>
-                                        <Text style={{
-                                            color: '#000000',
-                                            fontSize: 13
-                                        }}
-                                        >1</Text>
-                                        <TouchableOpacity>
-                                            <Image
-                                                source={require('../assets/plus.png')}
-                                                style={{
-                                                    marginTop: 1,
-    
-                                                    width: 16,
-                                                    height: 16
-                                                }}
-                                            />
-                                        </TouchableOpacity>
-    
-                                    </View>
+                    <TouchableOpacity style={{position:'absolute', marginLeft: 270, marginTop: 15}}>
+                        <Image
+                            source={require('../assets/close.png')}
+                            style={{
+                                marginLeft: 60,
+                                width: 10,
+                                height: 10
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
+                <View style={{backgroundColor: '#FFFFFF',borderWidth: 1,borderColor: '#CFCCCC',height: 150,marginBottom: 10,borderRadius: 15, }}>
+                    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', alignContent: 'center', paddingLeft: 15, paddingTop:20, position:'relative'}}>
+                        <Image
+                            source={require('../assets/pizza1.png')}
+                            style={{width: 100, height: 100}}
+                        />
+                        <View>
+                            <Text style={{color: '#000000',fontSize: 13,marginLeft: 20, fontWeight: '700'}}>Shrimp</Text>
+                            <Text style={{color: '#000000',fontSize: 12,marginLeft: 20, paddingTop: 5, paddingBottom: 5}}>Size S, Thin crust, Double cheese</Text>
+                            <Text style={{color: '#000000',fontSize: 13,marginLeft: 20, fontWeight:'700'}}>150$</Text>
+                            <View style={{marginTop: 15,width: 90,marginLeft: 20,backgroundColor: 'white',borderWidth: 1,borderColor: '#000000',height: 30,borderRadius: 15,}}>
+                                <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
+                                    <TouchableOpacity style={{alignItems: 'center',display: 'flex', alignContent: 'center'}}>
+                                        <View style={{backgroundColor: 'black', width: 12, height: 2, marginTop: 12, }}></View>
+                                    </TouchableOpacity>
+                                    <Text style={{color: '#000000',fontSize: 13, marginTop: 4}}>1</Text>
+                                    <TouchableOpacity>
+                                        <View>
+                                            <View style={{backgroundColor: 'black', width: 12, height: 2, marginTop: 12, position:'relative'}}></View>
+                                            <View style={{backgroundColor: 'black', width: 2, height: 12, position:'absolute',marginTop:6.5, marginLeft: 5 }}></View>
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <TouchableOpacity>
-                                <Image
-                                    source={require('../assets/close.png')}
-                                    style={{
-                                        marginLeft: 80,
-                                        width: 10,
-                                        height: 10
-                                    }}
-                                />
-                            </TouchableOpacity>
-                        </View>
+                        </View >
                     </View>
+                    <TouchableOpacity style={{position:'absolute', marginLeft: 270, marginTop: 15}}>
+                        <Image
+                            source={require('../assets/close.png')}
+                            style={{
+                                marginLeft: 60,
+                                width: 10,
+                                height: 10
+                            }}
+                        />
+                    </TouchableOpacity>
                 </View>
-            </View>}
-    
-    
-            {/* View4 */}
-            {keyboardIsShow == false && <View style={{
-                flex: 30,
-                marginLeft: 15,
-                marginRight: 15,
-            }}>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                }}>
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 15,
-                    }}
-                    >Subtotal (2 items):</Text>
-    
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 15,
-                    }}
-                    >$300</Text>
+            </View>
+            {/* Price */}
+            <View style={{flex: 20,marginLeft: 15,marginRight: 15,marginTop: 10}}>
+                <View style={{backgroundColor: '#D9D9D9', width: '100%', height: 1,marginBottom: 10}}></View>
+                <View style={{flexDirection: 'row',justifyContent: 'space-between',marginLeft: 10, marginRight: 10}}>
+                    <Text style={{color: '#000000',fontSize: 15,}}>Subtotal (2 items):</Text>
+                    <Text style={{color: '#000000',fontSize: 15,}}>$300</Text>
                 </View>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                }}>
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 15,
-                    }}
-                    >Shipping: 2.8km</Text>
-    
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 15,
-                    }}
-                    >$1.2</Text>
+
+                <View style={{flexDirection: 'row',justifyContent: 'space-between',marginLeft: 10, marginRight: 10}}>
+                    <Text style={{color: '#000000',fontSize: 15,}}>Shipping: 2.8km</Text>
+                    <Text style={{color: '#000000',fontSize: 15,}}>$1.2</Text>
                 </View>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginBottom: 10
-                }}>
-                    <Text style={{
-                        fontSize: 15,
-                        color: '#A45D51',
-                    }}
-                    >Total:</Text>
-    
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 15,
-                    }}
-                    >$301.2</Text>
+                <View style={{backgroundColor: '#D9D9D9', width: '100%', height: 1,marginBottom: 10, marginTop: 10}}></View>
+                <View style={{flexDirection: 'row',justifyContent: 'space-between',marginBottom: 10 ,marginLeft: 10, marginRight: 10}}>
+                    <Text style={{fontSize: 15,color: '#A45D51',}}>Total:</Text>
+                    <Text style={{color: '#000000',fontSize: 15,}}>$301.2</Text>
                 </View>
-    
-                <Text style={{
-                    color: '#000000',
-                    fontSize: 15,
-                    paddingBottom: 5
-                }}
-                >PAYMENT METHOD</Text>
-                <TouchableOpacity
-                onPress={() => {
+            </View>
+            {/* PaymentMethod */}
+            <View  style={{flex: 20,marginLeft: 15,marginRight: 15,marginTop: 10}}>
+                <Text style={{color: '#000000',fontSize: 15,paddingBottom: 5}}>PAYMENT METHOD</Text>
+                <TouchableOpacity style={{height: 45,borderRadius: 7,flexDirection: 'row',alignItems: 'center',backgroundColor: 'white', marginTop: 17}}
+                    onPress={() => {
                     navigation.navigate('PaymentMethods')
-                }}
-                style={{
-                    height: 35,
-                    borderRadius: 7,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    backgroundColor: 'white'
-                }}>
+                    }}
+                >
                     {data === 'Cash' && ( 
                         <><Image
                             source={require('../assets/dollar.png')}
@@ -427,7 +185,7 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
                             <Image
                         source={require('../assets/right-arrow.png')}
                         style={{
-                            marginLeft: 250,
+                            marginLeft: 230,
                             width: 15,
                             height: 15
                         }}
@@ -449,7 +207,7 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
                             <Image
                         source={require('../assets/right-arrow.png')}
                         style={{
-                            marginLeft: 240,
+                            marginLeft: 220,
                             width: 15,
                             height: 15
                         }}
@@ -471,7 +229,7 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
                             <Image
                         source={require('../assets/right-arrow.png')}
                         style={{
-                            marginLeft: 200,
+                            marginLeft: 180,
                             width: 15,
                             height: 15
                         }}
@@ -493,37 +251,37 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
                             <Image
                         source={require('../assets/right-arrow.png')}
                         style={{
-                            marginLeft: 220,
+                            marginLeft: 200,
                             width: 15,
                             height: 15
                         }}
                     />
-                            </>
+                    </>
                     )}
-                    
                 </TouchableOpacity>
-    
+            </View>
+            <View style={{flex: 20,marginLeft: 15,marginRight: 15,marginTop: 10, marginBottom:40}}>
                 <TouchableOpacity 
-                onPress={() => {
-                    navigation.navigate('PaymentSuccessful')
-                }}
-                style={{
-                    marginTop: 15,
-                    borderColor: '#A45D51',
-                    borderWidth: 1,
-                    height: 40,
-                    borderRadius: 7,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
+                    onPress={() => {
+                        navigation.navigate('PaymentSuccessful')
+                    }}
+                    style={{
+                        marginTop: 15,
+                        borderColor: '#A45D51',
+                        borderWidth: 1,
+                        height: 40,
+                        borderRadius: 7,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
                     <Text style={{
                         fontSize: 15,
                         color: '#A45D51'
                     }}>Order</Text>
                 </TouchableOpacity>
-    
-            </View>}
-        </View>
+            </View>
+        </ScrollView>
+      
     )
 }
 const styles = StyleSheet.create({

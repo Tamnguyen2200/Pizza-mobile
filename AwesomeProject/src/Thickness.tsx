@@ -20,7 +20,25 @@ function Thickness({ navigation }: NavigationProps): JSX.Element {
 
   };
   const handleSelectCheeseButton = () =>{
-    navigation.navigate('Topping')
+    Alert.alert(
+      'Change topping',
+      'Do you want to change the topping of the cake?',
+      [
+        {
+          text: 'Không',
+          onPress: () => {
+            navigation.navigate('Payment',{data: 'Cash'});
+          },
+        },
+        {
+          text: 'Có',
+          onPress: () => {
+            navigation.navigate('Topping');
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   }
   useEffect(() => {
     setLoading(true);
@@ -152,7 +170,7 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 1,
     width: 300,
-    height: 200,
+    height: 100,
     borderRadius: 10,
     borderColor: '#A45D51'
   },

@@ -33,7 +33,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
           </TouchableOpacity>
         </View>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.navigate('Payment')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Payment', {data: 'Cash'})}>
             <AntDesign name="shoppingcart" size={30} color="#900" />
           </TouchableOpacity>
         </View>
