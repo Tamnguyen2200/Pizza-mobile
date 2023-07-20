@@ -19,7 +19,9 @@ function Thickness({ navigation }: NavigationProps): JSX.Element {
     }
 
   };
-
+  const handleSelectCheeseButton = () =>{
+    navigation.navigate('Topping')
+  }
   useEffect(() => {
     setLoading(true);
     fetchListCheese();
@@ -31,7 +33,6 @@ const fetchListCheese = async () =>{
         const response = await fetch(url);
         const json = await response.json();
         setData(json);
-        console.log(json)
     }
     catch (error){
         Alert.alert('error');
@@ -42,9 +43,9 @@ const fetchListCheese = async () =>{
     }
 }
 const renderItem = ({ item }: { item: ChesseProps }) => (
-  <View>
-    <Text>{item.ChesseName} = {item.PriceChesse}$</Text>
-  </View>
+  <TouchableOpacity onPress={handleSelectCheeseButton}>
+    <Text style={styles.text1}>{item.CheeseName} = {item.PriceCheese}$</Text>
+  </TouchableOpacity>  
 )
   return (
     <SafeAreaView style={styles.container}>
@@ -66,16 +67,12 @@ const renderItem = ({ item }: { item: ChesseProps }) => (
       </View>
       {selectedDropdown === 'thin' && (
         <View style={styles.row2}>
-          <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
             <View style={styles.box}>
               <FlatList
                data={data}
                renderItem={renderItem}
-               style={styles.text1}
-               keyExtractor={(item, index) => index.toString()}
               />
             </View>
-          </TouchableOpacity>
         </View>
       )}
 
@@ -92,24 +89,11 @@ const renderItem = ({ item }: { item: ChesseProps }) => (
       </View>
       {selectedDropdown === 'newyork' && (
         <View style={styles.row2}>
-          <View style={styles.box1}>
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
-                <Text style={styles.text1}>Cheesy Crust = 0.99$</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
-                <Text style={styles.text1}>Sausage Parsley = 0.99$</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
-                <Text style={styles.text1}>Sausage Cheesy = 1.99$</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.box}>
+           <FlatList
+            data={data}
+            renderItem={renderItem}
+            />
           </View>
         </View>
       )}
@@ -127,24 +111,11 @@ const renderItem = ({ item }: { item: ChesseProps }) => (
       </View>
       {selectedDropdown === 'handtossed' && (
         <View style={styles.row2}>
-          <View style={styles.box1}>
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
-                <Text style={styles.text1}>Extra Cheese = 0.50$</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
-                <Text style={styles.text1}>Double Cheese = 0.75$ </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Topping')}>
-                <Text style={styles.text1}>Triple Cheese = 0.99$</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.box}>
+            <FlatList
+                data={data}
+                renderItem={renderItem}
+                />
           </View>
         </View>
       )}
@@ -181,7 +152,7 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 1,
     width: 300,
-    height: 40,
+    height: 200,
     borderRadius: 10,
     borderColor: '#A45D51'
   },

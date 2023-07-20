@@ -7,6 +7,12 @@ export interface ToppingButtonProps {
     onSelectTopping?: (img: string, price: number) => void;
 }
 
+export interface CheeseButtonProps {
+    Name:string;
+    price: number;
+    onSelectCheese?: () => void;
+}
+
 export interface ListPizzaProps{
     img: any;
     name: string;
@@ -33,7 +39,7 @@ export interface ToppingProps{
 
 export interface ChesseProps{
     objectId: string,
-    ChesseName: string,
-    PriceChesse: number,
+    CheeseName: string,
+    PriceCheese: number,
     
 }
