@@ -38,7 +38,11 @@ function PaymentSuccessful ({navigation}: NavigationProps): JSX.Element{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                 }}>
-                    <TouchableOpacity style={{
+                    <TouchableOpacity 
+                    onPress={() => {
+                        navigation.navigate('Tracking')
+                    }}
+                    style={{
                         marginTop: 30,
                         borderColor: '#A45D51',
                         backgroundColor: '#A45D51',

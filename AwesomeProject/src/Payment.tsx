@@ -3,11 +3,11 @@ import { Dimensions, Image, Keyboard, ScrollView, TextInput, TouchableOpacityCom
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
-import { NavigationProps } from "./interface/Props";
+import { NavigationProps, OrderProps } from "./interface/Props";
 
 function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
     const { data } = route.params;
-    
+    const [OrderData, setData] = useState<OrderProps[]>([]);
     
     const [keyboardIsShow, setkeyboardIsShow] = useState(false)
     useEffect(() => {
@@ -17,8 +17,27 @@ function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
         Keyboard.addListener('keyboardDidHide', () => {
             setkeyboardIsShow(false)
         })
-        console.log(route)
+        
+        // setLoading(true);
+        fetchListTopping();
     })
+
+    const fetchListTopping = async () =>{
+        try{
+            const url = `https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Order?loadRelations=Cheese%2CCustomer.PhoneNumber%2CPizza.Topping%2CSize%2CThiness`;
+            const response = await fetch(url);
+            const json = await response.json();
+            setData(json);
+            // console.log(json)
+        }
+        catch (error){
+            // Alert.alert('error');
+            // setLoading(false);
+        }
+        finally {
+           // setLoading(false);
+        }
+    }
 
    
     return( 

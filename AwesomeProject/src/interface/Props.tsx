@@ -61,3 +61,36 @@ export interface SizeProps{
     PriceSize: number,
     Image:string,
 }
+
+export interface OrderProps{
+    Pizza: PizzaProps;
+    Thiness: ThicknessProps;
+    Customer: CustomerProps;
+    Size: SizeProps;
+    Cheese: ChesseProps;
+}
+
+export interface PizzaProps{
+    objectId: string;
+    Price: number;
+    Image: string;
+    PizzaName: string;
+}
+
+export interface ThicknessProps{
+    objectId: string;
+    PriceThickness: number;
+    Image: string;
+    ThicknessName: string;
+}
+
+export interface CustomerProps{
+    Fullname: string;
+    PhoneNumber: PhoneNumberProps;
+    Address: string;
+}
+
+export interface PhoneNumberProps{
+    objectId: string;
+    PhoneNumber: number;
+}
