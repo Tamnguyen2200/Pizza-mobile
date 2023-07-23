@@ -37,7 +37,7 @@ function Login({navigation}: NavigationProps): JSX.Element {
         if (data.objectId) {
           navigation.navigate('Home');
         } else {
-          Alert.alert('Error', 'Username or password is incorrect.');
+          Alert.alert('Lỗi', 'Bạn Đã Nhập Sai Tài Khoảng Hoặc Mật Khẩu!');
         }
       })
       .catch(error => {

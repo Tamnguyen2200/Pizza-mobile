@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,9 +25,11 @@ function Home({navigation}: NavigationProps): JSX.Element {
   const [hot, setHotData] = useState<HomeProps[]>([]);
   const [forYou, setforYouData] = useState<HomeProps[]>([]);
   const [bestSeller, setBestSellerData] = useState<HomeProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
+    setIsLoading(true);
   }, []);
 
   const fetchData = async() => {
@@ -47,11 +50,26 @@ function Home({navigation}: NavigationProps): JSX.Element {
 
       const BestSellerItems = json.filter((item: any) => item.TypeData === "Best Seller");
       setBestSellerData(BestSellerItems);
+      setIsLoading(false);
 
     } catch(error){
     setError(error);
     console.log(setError)
     }
+  }
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
+      </View>
+    );
   }
   return (
     <View style={{height: '100%'}}>
@@ -142,18 +160,16 @@ const styles = StyleSheet.create({
     height: (height * 10) / 100,
     paddingTop: 25,
     paddingHorizontal: (width * 1) / 100,
-    // backgroundColor: 'red',
     flexDirection: 'row',
+
   },
   icon: {
     width: (width * 10) / 100,
-    // backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
     width: (width * 65) / 100,
-    // backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
   },

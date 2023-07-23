@@ -41,7 +41,7 @@ function Signin({navigation}: NavigationProps): JSX.Element {
         if (data.objectId) {
           navigation.navigate('Login');
         } else {
-          Alert.alert('Lỗi', 'Tên đăng nhập hoặc mật khẩu không đúng.');
+          Alert.alert('Lỗi', 'Đăng Ký Không Thành Công.');
         }
       })
       .catch(error => {
