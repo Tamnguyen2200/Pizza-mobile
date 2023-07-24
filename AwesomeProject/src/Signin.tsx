@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import {NavigationProps} from './interface/Props';
-import {api, app} from './interface/urrl';
+import {api, app, apiLogin} from './interface/urrl';
 
 function Signin({navigation}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');
@@ -20,28 +20,56 @@ function Signin({navigation}: NavigationProps): JSX.Element {
 
   const handleRegister = () => {
     if (!username || !password || !confirmPassword) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ tên đăng nhập và mật khẩu.');
+      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ số điện thoại và mật khẩu.');
+      return;
+    } else if (username > '11' || username < '10') {
+      Alert.alert('Lỗi', 'Vui lòng điền số điện thoại hợp lệ.');
       return;
     }
-    fetch(`https://api.backendless.com/${app}/${api}/users/register`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+
+    fetch(
+      `https://api.backendless.com/${app}/${apiLogin}/data/Users?where=phoneNumber%3D'${username}'`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       },
-      body: JSON.stringify({
-        PhoneNumber: username,
-        password: password,
-        ConfirmPassword: confirmPassword,
-      }),
-    })
+    )
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        if (data.objectId) {
-          navigation.navigate('Login');
+        if (data.length > 0) {
+          console.log('Tài Khoảng đã Tồn Tại');
+          Alert.alert('Lỗi', 'Số điện thoại đã tồn tại');
         } else {
-          Alert.alert('Lỗi', 'Đăng Ký Không Thành Công.');
+          fetch(`https://api.backendless.com/${app}/${api}/users/register`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              phoneNumber: username,
+              password: password,
+              ConfirmPassword: confirmPassword,
+            }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              if (data.objectId) {
+                console.log('objectId:', data.objectId);
+                navigation.navigate('Login');
+                Alert.alert('Thông báo:', 'Đăng Ký Thành Công');
+              } else {
+                Alert.alert('Lỗi', 'Đăng Ký Không Thành Công.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
         }
       })
       .catch(error => {
@@ -66,11 +94,14 @@ function Signin({navigation}: NavigationProps): JSX.Element {
           {/* Input */}
           <View style={{flex: 4}}>
             <View>
-              <Text style={[styles.text2, {marginLeft: 10}]}> USER NAME</Text>
+              <Text style={[styles.text2, {marginLeft: 10}]}>
+                {' '}
+                Phone Number
+              </Text>
               <View>
                 <TextInput
                   style={styles.textinputstyle}
-                  placeholder="User Name"
+                  placeholder="Phone Number"
                   value={username}
                   onChangeText={text => setUsername(text)}
                 />

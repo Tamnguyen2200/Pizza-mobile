@@ -26,6 +26,7 @@ export interface SearchProps{
     PizzaName: string;
     objectId: string;
     Price: number;
+    id: string;
 
 }
 export interface HomeProps{

@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {Text, View, Dimensions, Image} from 'react-native';
 import {NavigationProps} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -33,18 +34,21 @@ const Profile: React.FC<NavigationProps> = ({navigation}) => {
           <Text style={styles.textBody}> Name:</Text>
         </View>
         <View style={styles.borderInfo}>
+          <AntDesign name="user" size={30} style={styles.icontext}/>
           <Text style={styles.textName}> Nguyen Thi Thu Tam</Text>
         </View>
         <View style={styles.borderInfoTitle}>
           <Text style={styles.textBody}> Phone:</Text>
         </View>
         <View style={styles.borderInfo}>
+          <AntDesign name="phone" size={30} style={styles.icontext}/>
           <Text style={styles.textName}> 02399994455</Text>
         </View>
         <View style={styles.borderInfoTitle}>
           <Text style={styles.textBody}> Adress:</Text>
         </View>
         <View style={styles.borderInfo}>
+          <Entypo name="address" size={30} style={styles.icontext}/>
           <Text style={styles.textName}> Tân Bình- Hồ Chí Minh</Text>
         </View>
 
@@ -66,6 +70,8 @@ const styles = StyleSheet.create({
     width: width,
     height: (height * 20) / 100,
     backgroundColor: '#A45D51',
+     borderBottomEndRadius: 50,
+    borderBottomStartRadius: 50
   },
   icon: {
     top: 20,
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
   },
   borderInfoTitle: {
     height: 30,
-    marginTop: 2,
+    marginTop: 8,
     // borderWidth: 1,
     // borderRadius: 20,
     // backgroundColor: '#dee2e6',
@@ -141,13 +147,16 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   borderInfo: {
-    marginTop: 2,
+    marginTop: 5,
     marginLeft: 9,
-    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: '#dee2e6',
     borderColor: '#dee2e6',
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+
   },
   borderLogout: {
     borderWidth: 1,
@@ -158,9 +167,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     backgroundColor: 'black',
-    marginTop: 30,
+    marginTop: 70,
     left: (width * 30) / 100,
   },
+  icontext: {
+    marginLeft: 20
+ }
 });
 
 export default Profile;

@@ -45,15 +45,9 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
             style={styles.TextInput}></TextInput>
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
-          <Text style={styles.textBody}> Phone</Text>
-          <TextInput
-            placeholder="Phone Number"
-            style={styles.TextInput}></TextInput>
-        </View>
-        <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
           <Text style={styles.textBody}> Password</Text>
           <TextInput
-            placeholder="PassWord"
+            placeholder="Password"
             style={styles.TextInput}
             autoCapitalize="none"
             secureTextEntry={getpassword ? false : true}
@@ -125,6 +119,8 @@ const styles = StyleSheet.create({
     width: width,
     height: (height * 20) / 100,
     backgroundColor: '#A45D51',
+    borderBottomEndRadius: 50,
+    borderBottomStartRadius: 50
   },
   icon: {
     top: 20,
@@ -156,15 +152,16 @@ const styles = StyleSheet.create({
   },
   body: {
     height: (height * 80) / 100,
-    marginTop: 40,
+    marginTop: 10,
   },
   borderEdit: {
     width: 150,
     height: 50,
     borderRadius: 10,
     left: 120,
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 10,
+
   },
   TextEdit: {
     fontWeight: 'bold',
@@ -212,7 +209,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     backgroundColor: 'black',
-    marginTop: 15,
+    marginTop: 40,
     left: 80,
   },
   TextUpdate: {

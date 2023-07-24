@@ -9,35 +9,63 @@ import {
   Alert,
 } from 'react-native';
 import {NavigationProps} from './interface/Props';
-import {api, app} from './interface/urrl';
+import {api, app, apiLogin} from './interface/urrl';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 function Login({navigation}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [getpassword, setpasswordvi] = useState(false);
+
   const handleLogin = () => {
     if (!username || !password) {
-      Alert.alert('Error', 'Please fill in your full username and password.');
+      Alert.alert('Lỗi', 'Bạn hãy điền đầy đủ thông tin!');
       return;
     }
-    fetch(`https://api.backendless.com/${app}/${api}/users/login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+
+    fetch(
+      `https://api.backendless.com/${app}/${apiLogin}/data/Users?where=phoneNumber%3D'${username}'`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       },
-      body: JSON.stringify({
-        login: username,
-        password: password,
-      }),
-    })
+    )
       .then(response => response.json())
       .then(data => {
-        if (data.objectId) {
-          navigation.navigate('Home');
+        if (data.length > 0) {
+          fetch(`https://api.backendless.com/${app}/${api}/users/login`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              login: username,
+              password: password,
+            }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.objectId) {
+                console.log('objectId:', data.objectId);
+                navigation.navigate('Home');
+              } else {
+                console.log('Sai Mật Khẩu');
+                Alert.alert('Lỗi', 'Sai Mật Khẩu');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
         } else {
-          Alert.alert('Lỗi', 'Bạn Đã Nhập Sai Tài Khoảng Hoặc Mật Khẩu!');
+          console.log('Tài Khoảng Không Tồn Tại');
+          Alert.alert(
+            'Lỗi',
+            'Tài khoảng không tồn tại. Bạn hãy tạo tài khoảng để đặt bánh ',
+          );
         }
       })
       .catch(error => {
@@ -63,7 +91,10 @@ function Login({navigation}: NavigationProps): JSX.Element {
           {/* Input */}
           <View style={{flex: 4}}>
             <View>
-              <Text style={[styles.text2, {marginLeft: 10}]}> USER NAME</Text>
+              <Text style={[styles.text2, {marginLeft: 10}]}>
+                {' '}
+                Phone Number
+              </Text>
               <View>
                 <TextInput
                   style={styles.textinputstyle}

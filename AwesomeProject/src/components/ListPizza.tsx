@@ -58,7 +58,7 @@ function ListPizza({ img, name, price, id, navigation }: ListPizzaProps): JSX.El
         finally {
         }
       } else{
-        Alert.alert('Error', "Can't create order");
+        Alert.alert('Lỗi', "Không Thêm Hoá Đơn Được");
       }
     })
     .catch(error => {

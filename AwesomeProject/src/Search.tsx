@@ -23,37 +23,42 @@ function Search({navigation}: NavigationProps): JSX.Element {
   const [data, setData] = useState<SearchProps[]>([]);
   const [originalData, setOriginalData] = useState<SearchProps[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [mainData, setmainData] = useState<SearchProps[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
     fetchData();
   }, []);
-
+  
   const fetchData = async () => {
     try {
-      const url = `https://api.backendless.com/${app}/${api}/data/Pizza`;
+      const url = `https://api.backendless.com/${app}/${api}/data/Pizza?pageSize=21`;
       const respone = await fetch(url);
       const json = await respone.json();
       setData(json);
 
+      const mainItems = json.filter((item: any) => item.TypeMain === "main");
+      setmainData(mainItems);
+
       setIsLoading(false);
-      setOriginalData(json);
+      setOriginalData(mainItems);
     } catch (error) {
       setError(error);
       console.log(error);
     }
   };
+
   const handleSeach = (searchTerm: string) => {
     setSearchQuery(searchTerm);
     const formattedQuery = searchTerm.toLowerCase();
     const filteredData = originalData.filter((user) =>
       user.PizzaName.toLowerCase().includes(formattedQuery)
     );
-    setData(filteredData);
+    setmainData(filteredData);
   };
   const handleClearSearch = () => {
     setSearchQuery('');
-    setData(originalData);
+    setmainData(originalData);
   };
 
   if (isLoading) {
@@ -107,7 +112,7 @@ function Search({navigation}: NavigationProps): JSX.Element {
         </View>
         <View style={styles.listcontainer}>
           <FlatList
-            data={data}
+            data={mainData}
             keyExtractor={item => item.objectId}
             renderItem={({item}) => (
           <TouchableOpacity onPress={() => navigation.navigate('Size')}>
