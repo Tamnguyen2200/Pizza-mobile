@@ -108,18 +108,6 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       <ScrollView style={styles.scrollView}>
         <View>
           <Text style={styles.textTitle}> Best Seller</Text>
-<<<<<<< HEAD
-          <FlatList 
-          horizontal={true }
-          data={bestSeller}
-          renderItem={({item}) => 
-          <ListPizza
-           img={{uri:item.Image}}
-           name={item.PizzaName}
-           price= {item.Total}
-           id = {item.objectId}
-           navigation={navigation}/>}
-=======
           <FlatList
             horizontal={true}
             data={bestSeller}
@@ -127,28 +115,15 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
               <ListPizza
                 img={{uri: item.Image}}
                 name={item.PizzaName}
-                price={item.Price}
+                price={item.Total}
                 id={item.objectId}
                 navigation={navigation}
               />
             )}
->>>>>>> phat.huynh
           />
         </View>
         <View>
           <Text style={styles.textTitle}> Hot</Text>
-<<<<<<< HEAD
-          <FlatList 
-          horizontal={true }
-          data={hot}
-          renderItem={({item}) => 
-          <ListPizza
-           img={{uri:item.Image}}
-           name={item.PizzaName}
-           price= {item.Total}
-           id = {item.objectId}
-           navigation={navigation}/>}
-=======
           <FlatList
             horizontal={true}
             data={hot}
@@ -156,28 +131,15 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
               <ListPizza
                 img={{uri: item.Image}}
                 name={item.PizzaName}
-                price={item.Price}
+                price={item.Total}
                 id={item.objectId}
                 navigation={navigation}
               />
             )}
->>>>>>> phat.huynh
           />
         </View>
         <View>
           <Text style={styles.textTitle}> Favourite</Text>
-<<<<<<< HEAD
-          <FlatList 
-          horizontal={true}
-          data={favouriteData}
-          renderItem={({item}) => 
-          <ListPizza
-           img={{uri:item.Image}}
-           name={item.PizzaName}
-           price= {item.Total}
-           id = {item.objectId}
-           navigation={navigation}/>}
-=======
           <FlatList
             horizontal={true}
             data={favouriteData}
@@ -185,28 +147,15 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
               <ListPizza
                 img={{uri: item.Image}}
                 name={item.PizzaName}
-                price={item.Price}
+                price={item.Total}
                 id={item.objectId}
                 navigation={navigation}
               />
             )}
->>>>>>> phat.huynh
           />
         </View>
         <View>
           <Text style={styles.textTitle}> For You</Text>
-<<<<<<< HEAD
-          <FlatList 
-          horizontal={true }
-          data={forYou}
-          renderItem={({item}) => 
-          <ListPizza
-           img={{uri:item.Image}}
-           name={item.PizzaName}
-           id = {item.objectId}
-           price= {item.Total}
-           navigation={navigation}/>}
-=======
           <FlatList
             horizontal={true}
             data={forYou}
@@ -215,11 +164,10 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 img={{uri: item.Image}}
                 name={item.PizzaName}
                 id={item.objectId}
-                price={item.Price}
+                price={item.Total}
                 navigation={navigation}
               />
             )}
->>>>>>> phat.huynh
           />
         </View>
       </ScrollView>
