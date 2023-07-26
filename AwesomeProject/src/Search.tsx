@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
-  Dimensions
+  Dimensions,
+  Alert,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {NavigationProps, SearchProps} from './interface/Props';
@@ -23,37 +24,91 @@ function Search({navigation}: NavigationProps): JSX.Element {
   const [data, setData] = useState<SearchProps[]>([]);
   const [originalData, setOriginalData] = useState<SearchProps[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [mainData, setmainData] = useState<SearchProps[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
     fetchData();
   }, []);
 
+  const fetchCreateNewOrder = async (pizzaId: string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    })
+      .then(response => response.json())
+      .then(async data => {
+        if (data.objectId) {
+          try {
+            fetch(
+              `https://api.backendless.com/${app}/${api}/data/Order/${data.objectId}/Pizza`,
+              {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify([pizzaId]),
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                if (data == 1) {
+                  navigation.navigate('Size');
+                } else {
+                  Alert.alert('Error', "Can't add pizza.");
+                }
+              });
+          } catch (error) {
+            Alert.alert('error');
+          } finally {
+          }
+        } else {
+          Alert.alert('Lỗi', 'Không Thêm Hoá Đơn Được');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
+  const handlePizzaPress = (pizzaId: string) => {
+    fetchCreateNewOrder(pizzaId); // Pass the pizzaId as an argument
+  };
+
   const fetchData = async () => {
     try {
-      const url = `https://api.backendless.com/${app}/${api}/data/Pizza`;
+      const url = `https://api.backendless.com/${app}/${api}/data/Pizza?pageSize=21`;
       const respone = await fetch(url);
       const json = await respone.json();
       setData(json);
 
+      const mainItems = json.filter((item: any) => item.TypeMain === 'main');
+      setmainData(mainItems);
+
       setIsLoading(false);
-      setOriginalData(json);
+      setOriginalData(mainItems);
     } catch (error) {
       setError(error);
       console.log(error);
     }
   };
+
   const handleSeach = (searchTerm: string) => {
     setSearchQuery(searchTerm);
     const formattedQuery = searchTerm.toLowerCase();
-    const filteredData = originalData.filter((user) =>
-      user.PizzaName.toLowerCase().includes(formattedQuery)
+    const filteredData = originalData.filter(user =>
+      user.PizzaName.toLowerCase().includes(formattedQuery),
     );
-    setData(filteredData);
+    setmainData(filteredData);
   };
   const handleClearSearch = () => {
     setSearchQuery('');
-    setData(originalData);
+    setmainData(originalData);
   };
 
   if (isLoading) {
@@ -71,9 +126,11 @@ function Search({navigation}: NavigationProps): JSX.Element {
     );
   }
   return (
-    <View style={{height: height, width: width, backgroundColor:'white'}}>
+    <View style={{height: height, width: width, backgroundColor: 'white'}}>
       <View>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity
+          style={{width: 40}}
+          onPress={() => navigation.navigate('Home')}>
           <AntDesign
             name="left"
             style={{
@@ -94,37 +151,37 @@ function Search({navigation}: NavigationProps): JSX.Element {
               left: 20,
             }}
           />
-          <TextInput placeholder="Seach..." 
-          clearButtonMode='always'
-          autoCapitalize='none'
-          autoCorrect={false}
-          onChangeText={(event) => handleSeach(event)}
-          onEndEditing={() => {
-            if (!searchQuery) {
-              handleClearSearch();
-            }
-          }}/>
+          <TextInput
+            placeholder="Seach..."
+            clearButtonMode="always"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={event => handleSeach(event)}
+            onEndEditing={() => {
+              if (!searchQuery) {
+                handleClearSearch();
+              }
+            }}
+          />
         </View>
         <View style={styles.listcontainer}>
           <FlatList
-            data={data}
+            data={mainData}
             keyExtractor={item => item.objectId}
             renderItem={({item}) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Size')}>
-              <View style={styles.listcontainer}>
-                <Image
-                source={{uri:item.Image}}
-                style={styles.image} />
-                <View>
-                  <Text style={styles.Textname}>{item.PizzaName}</Text>
-                  <Text style={styles.des}>$ {item.Price}</Text>
+              <TouchableOpacity onPress={() => handlePizzaPress(item.objectId)}>
+                <View style={styles.listcontainer}>
+                  <Image source={{uri: item.Image}} style={styles.image} />
+                  <View>
+                    <Text style={styles.Textname}>{item.PizzaName}</Text>
+                    <Text style={styles.des}>$ {item.Price}</Text>
+                  </View>
                 </View>
-              </View>
               </TouchableOpacity>
             )}></FlatList>
         </View>
       </View>
-      </View>
+    </View>
   );
 }
 
@@ -154,7 +211,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 25,
-    marginBottom: 30
+    marginBottom: 30,
   },
   Textname: {
     fontSize: 25,

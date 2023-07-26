@@ -7,6 +7,17 @@ export interface ToppingButtonProps {
     onSelectTopping?: (img: string, price: number) => void;
 }
 
+export interface Profiles{
+    name: string;
+    phoneNumber: string;
+    address :string;
+}
+export interface editProfiles{
+    name: string;
+    ConfirmPassword: string;
+    password: string;
+    address :string;
+}
 export interface CheeseButtonProps {
     Name:string;
     price: number;
@@ -26,6 +37,7 @@ export interface SearchProps{
     PizzaName: string;
     objectId: string;
     Price: number;
+    id: string;
 
 }
 export interface HomeProps{

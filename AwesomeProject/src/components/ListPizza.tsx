@@ -10,22 +10,32 @@ import {
   Alert,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ListPizzaProps } from '../interface/Props';
-import { api, app } from '../interface/urrl';
+import {ListPizzaProps} from '../interface/Props';
+import {api, app} from '../interface/urrl';
 
+const {width, height} = Dimensions.get('screen');
 
+<<<<<<< HEAD
 const {width, height} = Dimensions.get('screen'); // lấy kích thước màn hình
 
 function ListPizza({ img, name, price, id, navigation }: ListPizzaProps): JSX.Element {
 
   const [OrderId, setOrderId] = useState('');
   
+=======
+function ListPizza({
+  img,
+  name,
+  price,
+  id,
+  navigation,
+}: ListPizzaProps): JSX.Element {
+>>>>>>> phat.huynh
   const handlePress = () => {
-    fetchCreateNewOrder()
+    fetchCreateNewOrder();
   };
 
-  const fetchCreateNewOrder = async() => {
+  const fetchCreateNewOrder = async () => {
     fetch(`https://api.backendless.com/${app}/${api}/data/Order`, {
       method: 'POST',
       headers: {
@@ -33,6 +43,7 @@ function ListPizza({ img, name, price, id, navigation }: ListPizzaProps): JSX.El
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({}),
+<<<<<<< HEAD
     }).then(response => response.json())
     .then(data =>{
       if(data['objectId']){
@@ -111,30 +122,58 @@ function ListPizza({ img, name, price, id, navigation }: ListPizzaProps): JSX.El
       } else{
         Alert.alert('Error', "Can't create order");
       }
+=======
+>>>>>>> phat.huynh
     })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
+      .then(response => response.json())
+      .then(async data => {
+        if (data.objectId) {
+          try {
+            fetch(
+              `https://api.backendless.com/${app}/${api}/data/Order/${data.objectId}/Pizza`,
+              {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify([id]),
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                if (data == 1) {
+                  navigation.navigate('Size');
+                } else {
+                  Alert.alert('Error', "Can't add pizza.");
+                }
+              });
+          } catch (error) {
+            Alert.alert('error');
+          } finally {
+          }
+        } else {
+          Alert.alert('Lỗi', 'Không Thêm Hoá Đơn Được');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
 
   return (
     <View style={styles.post}>
       <TouchableOpacity>
         <View>
           <TouchableOpacity>
-            <Image
-              source={img}
-              style={styles.img}
-            />
+            <Image source={img} style={styles.img} />
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.textName}
-              > {name}</Text>
+          <Text style={styles.textName}> {name}</Text>
           <View>
             <View style={styles.textInfor}>
-              <Text style={styles.textPrice}
-                > $ {price} </Text>
+              <Text style={styles.textPrice}> $ {price} </Text>
               <TouchableOpacity onPress={handlePress}>
                 <AntDesign name="pluscircle" size={30} color="#900" />
               </TouchableOpacity>
@@ -158,7 +197,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     justifyContent: 'center',
     paddingHorizontal: 10,
-    marginVertical: 20
+    marginVertical: 20,
   },
   img: {
     width: 100,
