@@ -24,7 +24,7 @@ function ListPizza({
 }: ListPizzaProps): JSX.Element {
   const [OrderId, setOrderId] = useState('');
   const handlePress = () => {
-    // fetchCreateNewOrder();
+    fetchCreateNewOrder();
   };
 
   const fetchCreateNewOrder = async () => {
@@ -54,6 +54,9 @@ function ListPizza({
       fetchAddPizzaToOrder();
     }
   }, [OrderId]);
+  const fetchAddOrderToProfile = async() =>{
+    fetch(`https://api.backendless.com/${app}/${api}/data/Profile/${OrderId}/Pizza`, {})
+  }
   const fetchAddPizzaToOrder = async() => {
     fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Pizza`, {
       method: 'POST',

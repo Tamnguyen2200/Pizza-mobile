@@ -1,59 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, Keyboard, ScrollView, TextInput, TouchableOpacityComponent } from "react-native";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
-<<<<<<< HEAD
-import { NavigationProps, OrderProps } from "./interface/Props";
-
-function Payment({ navigation, route  }:NavigationProps ): JSX.Element{
-    const { data } = route.params;
-    const [OrderData, setData] = useState<OrderProps[]>([]);
-    
-    const [keyboardIsShow, setkeyboardIsShow] = useState(false)
-    useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => {
-            setkeyboardIsShow(true)
-        })
-        Keyboard.addListener('keyboardDidHide', () => {
-            setkeyboardIsShow(false)
-        })
-        
-        // setLoading(true);
-        fetchListTopping();
-    })
-
-    const fetchListTopping = async () =>{
-        try{
-            const url = `https://api.backendless.com/A5006051-5583-53F6-FF4D-3C4BD85F2800/D8B6ABE7-71A8-464D-89C6-8E29D654C873/data/Order?loadRelations=Cheese%2CCustomer.PhoneNumber%2CPizza.Topping%2CSize%2CThiness`;
-            const response = await fetch(url);
-            const json = await response.json();
-            setData(json);
-            // console.log(json)
-        }
-        catch (error){
-            // Alert.alert('error');
-            // setLoading(false);
-        }
-        finally {
-           // setLoading(false);
-        }
-    }
-
-   
-    return( 
-        <ScrollView style={{backgroundColor: '#F5F5F5',flex: 100}}>
-=======
 import { FlatList } from "react-native-gesture-handler";
 import ProductInPayment from "./components/ProductInPayment";
 import { NavigationProps, OrderProps, ProductInPaymentProps, ProfileProps } from "./interface/Props";
 import { app, api } from "./interface/urrl";
 
 function Payment({ navigation, route }: NavigationProps): JSX.Element {
-    // const { data } = route.params;
-    const renderItem = ({ item }: { item: ProductInPaymentProps }) => (
-        <ProductInPayment Pizza={item.Pizza} Size={item.Size} Thiness={item.Thiness} Cheese={item.Cheese} TotalPrice={item.TotalPrice} objectId={""}/>
-    );
+    const [calculatedPrice, setCalculatedPrice] = useState(0);
+    
+    const handleSelectRemoveProduct = (id: string) => {
+        fetchRemoveProductInOrder(id)
+    }
+
+    const handleCalculatedPriceChange = (newPrice: number) => {
+        setCalculatedPrice(newPrice);
+        console.log(calculatedPrice)
+    };
+
+    const fetchRemoveProductInOrder = async(id: string) => {
+        fetch(`https://api.backendless.com/${app}/${api}/data/Profile/${PaymentData?.objectId}/Order`, {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([
+            id
+          ]),
+        }).then(response => response.json())
+        .then(data =>{
+          if(data == 1){
+            Alert.alert('Delete product?')
+            fetchPayment()
+          } else{
+            Alert.alert('Error', "Can't remove product");
+          }
+        })
+      }
+    const { data } = route.params;
+   
 
     const [PaymentData, setPaymentData] = useState<ProfileProps>();
 
@@ -64,8 +52,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             const response = await fetch(url);
             const json = await response.json();
             setPaymentData(json[0]);
-            console.log(PaymentData)
-            console.log('ok')
         }
         catch (error) {
             // Alert.alert('error');
@@ -82,7 +68,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     return (
         <ScrollView style={{ backgroundColor: '#F5F5F5', flex: 100 }}>
->>>>>>> tien.pham
             {/* Button Back */}
             <View style={{ flex: 10, marginLeft: 15, width: 225, paddingTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -135,24 +120,23 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             </View>
             {/* Product */}
             <View style={{ flex: 100, marginTop: 15, marginLeft: 16, marginRight: 16 }}>
-                {/* <FlatList 
-                data={PaymentData?.Order} 
-                renderItem={renderItem} 
-                keyExtractor={(item) => item.objectId}
-                /> */}
+             {PaymentData?.Order.map((item) => (  
+                <View key={item.objectId}>
+                <ProductInPayment 
+                         Pizza={item.Pizza}
+                         Size={item.Size}
+                         id={item.objectId}
+                         Thickness={item.Thickness}
+                         Cheese={item.Cheese}
+                         TotalPrice={item.TotalPrice}
+                         onSelectRemoveProduct={handleSelectRemoveProduct} 
+                         onCalculatedPriceChange={handleCalculatedPriceChange}
+                         />
+                </View>
+                ))}
             </View>
             {/* Price */}
             <View style={{ flex: 20, marginLeft: 15, marginRight: 15, marginTop: 10 }}>
-                <View style={{ backgroundColor: '#D9D9D9', width: '100%', height: 1, marginBottom: 10 }}></View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10, marginRight: 10 }}>
-                    <Text style={{ color: '#000000', fontSize: 15, }}>Subtotal (2 items):</Text>
-                    <Text style={{ color: '#000000', fontSize: 15, }}>$300</Text>
-                </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10, marginRight: 10 }}>
-                    <Text style={{ color: '#000000', fontSize: 15, }}>Shipping: 2.8km</Text>
-                    <Text style={{ color: '#000000', fontSize: 15, }}>$1.2</Text>
-                </View>
                 <View style={{ backgroundColor: '#D9D9D9', width: '100%', height: 1, marginBottom: 10, marginTop: 10 }}></View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginLeft: 10, marginRight: 10 }}>
                     <Text style={{ fontSize: 15, color: '#A45D51', }}>Total:</Text>

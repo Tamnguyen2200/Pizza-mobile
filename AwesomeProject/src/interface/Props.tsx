@@ -7,32 +7,19 @@ export interface ToppingButtonProps {
     onSelectTopping?: (img: string, price: number) => void;
 }
 
-<<<<<<< HEAD
-export interface Profiles{
-    name: string;
-    phoneNumber: string;
-    address :string;
-}
-export interface editProfiles{
-    name: string;
-    ConfirmPassword: string;
-    password: string;
-    address :string;
-}
-=======
 export interface ProductInPaymentProps {
     Pizza: PizzaProps,
     Size: SizeProps
-    Thiness: ThicknessProps
+    Thickness: ThicknessProps
     Cheese: ChesseProps
     TotalPrice: number
-    objectId: string,
-    onSelectTopping?: (img: string, price: number) => void;
+    id: string
+    onSelectRemoveProduct?: (id: string) => void |undefined,
+    onCalculatedPriceChange?:(calculatedPrice: number) => void;
 }
 
 
 
->>>>>>> tien.pham
 export interface CheeseButtonProps {
     Name:string;
     price: number;
@@ -91,12 +78,7 @@ export interface SizeProps{
 
 export interface OrderProps{
     Pizza: PizzaProps;
-    Thiness: ThicknessProps;
-<<<<<<< HEAD
-    Customer: CustomerProps;
-    Size: SizeProps;
-    Cheese: ChesseProps;
-=======
+    Thickness: ThicknessProps;
     Size: SizeProps;
     Cheese: ChesseProps;
     PriceCheese: number;
@@ -105,16 +87,12 @@ export interface OrderProps{
     PriceThiness: number;
     TotalPrice: number;
     objectId: string;
->>>>>>> tien.pham
+    Quantity: number;
 }
 
 export interface PizzaProps{
     objectId: string;
-<<<<<<< HEAD
-    Price: number;
-=======
     Total: number;
->>>>>>> tien.pham
     Image: string;
     PizzaName: string;
 }
@@ -126,27 +104,20 @@ export interface ThicknessProps{
     ThicknessName: string;
 }
 
-<<<<<<< HEAD
-export interface CustomerProps{
-    Fullname: string;
-    PhoneNumber: PhoneNumberProps;
-    Address: string;
-=======
 export interface ProfileProps{
     FullName: string;
     PhoneNumber: PhoneNumberProps;
     Address: string;
+    objectId:string
     Order: OrderProps[];
->>>>>>> tien.pham
 }
 
 export interface PhoneNumberProps{
     objectId: string;
-<<<<<<< HEAD
-    PhoneNumber: number;
-}
-=======
     phoneNumber: number;
 }
-
->>>>>>> tien.pham
+export interface Profiles{
+    name: string;
+    phoneNumber: string;
+    address :string;
+}
