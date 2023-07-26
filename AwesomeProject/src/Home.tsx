@@ -85,7 +85,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
           <ListPizza
            img={{uri:item.Image}}
            name={item.PizzaName}
-           price= {item.Price}
+           price= {item.Total}
            id = {item.objectId}
            navigation={navigation}/>}
           />
@@ -99,7 +99,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
           <ListPizza
            img={{uri:item.Image}}
            name={item.PizzaName}
-           price= {item.Price}
+           price= {item.Total}
            id = {item.objectId}
            navigation={navigation}/>}
           />
@@ -113,7 +113,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
           <ListPizza
            img={{uri:item.Image}}
            name={item.PizzaName}
-           price= {item.Price}
+           price= {item.Total}
            id = {item.objectId}
            navigation={navigation}/>}
           />
@@ -128,7 +128,7 @@ function Home({navigation}: NavigationProps): JSX.Element {
            img={{uri:item.Image}}
            name={item.PizzaName}
            id = {item.objectId}
-           price= {item.Price}
+           price= {item.Total}
            navigation={navigation}/>}
           />
         </View>

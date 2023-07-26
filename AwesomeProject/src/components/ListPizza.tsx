@@ -18,6 +18,8 @@ import { api, app } from '../interface/urrl';
 const {width, height} = Dimensions.get('screen'); // lấy kích thước màn hình
 
 function ListPizza({ img, name, price, id, navigation }: ListPizzaProps): JSX.Element {
+
+  const [OrderId, setOrderId] = useState('');
   
   const handlePress = () => {
     fetchCreateNewOrder()
@@ -32,32 +34,80 @@ function ListPizza({ img, name, price, id, navigation }: ListPizzaProps): JSX.El
       },
       body: JSON.stringify({}),
     }).then(response => response.json())
+    .then(data =>{
+      if(data['objectId']){
+        const objectId = data['objectId'];
+        setOrderId(objectId);
+        
+      } else{
+        Alert.alert('Error', "Can't create order");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+  useEffect(() => {
+    if (OrderId) {
+      fetchAddCustomerToOrder();
+    }
+  }, [OrderId]);
+  const fetchAddCustomerToOrder = async() => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Customer`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(["6C123A20-5A6F-4612-B02F-7034BB317B46"]),
+    }).then(response => response.json())
     .then(async data =>{
-      if(data.objectId){
-        try{
-          fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data.objectId}/Pizza`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([
-              id
-            ]),
-          }).then(response => response.json())
-          .then(data =>{
-            if(data == 1){
-              navigation.navigate('Size')
-            } else{
-              Alert.alert('Error', "Can't add pizza.");
-            }
-          })
-        }
-        catch (error){
-            Alert.alert('error');
-        }
-        finally {
-        }
+      if(data == 1){
+        console.log(data)
+        fetchAddPizzaToOrder()
+      } else{
+        Alert.alert('Error', "Can't create order");
+        console.log(data)
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+  const fetchAddPizzaToOrder = async() => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Pizza`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([id]),
+    }).then(response => response.json())
+    .then(async data =>{
+      if(data == 1){
+        navigation.navigate('Size', { data: OrderId })
+      } else{
+        Alert.alert('Error', "Can't create order");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+  const fetchAddPricePizzaToOrder = async() => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "PricePizza": price
+      }),
+    }).then(response => response.json())
+    .then(async data =>{
+      if(data == 1){
+        navigation.navigate('Size', { data: OrderId })
       } else{
         Alert.alert('Error', "Can't create order");
       }

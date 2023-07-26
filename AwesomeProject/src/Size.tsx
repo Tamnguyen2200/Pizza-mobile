@@ -3,8 +3,10 @@ import {Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, Alert } f
 import { NavigationProps, SizeProps } from './interface/Props';
 import { api, app } from './interface/urrl';
 
-function Size({ navigation }: NavigationProps): JSX.Element
+function Size({ navigation, route }: NavigationProps): JSX.Element
 {
+
+  const { data } = route.params;
   const handleSelectSizeSButton = () => {
     const id = '641A0B89-D00E-4698-B598-9D185A95B55F'
     fetchAddSizeToOrder(id)
@@ -17,31 +19,56 @@ function Size({ navigation }: NavigationProps): JSX.Element
     const id = 'EF70E875-24E1-43E2-95E9-76BDF82817B1'
     fetchAddSizeToOrder(id)
   }
+  const handleSelectBackButton = () => {
+    navigation.navigate('Home')
+  }
+  useEffect(() => {
+    console.log(route)
+  }, []);
 
   const fetchAddSizeToOrder = async(id: string) => {
-    // fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data.objectId}/Size`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify([
-    //     id
-    //   ]),
-    // }).then(response => response.json())
-    // .then(data =>{
-    //   if(data == 1){
-    //     navigation.navigate('Thickness')
-    //   } else{
-    //     Alert.alert('Error', "Can't add pizza.");
-    //   }
-    // })
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data}/Size`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        id
+      ]),
+    }).then(response => response.json())
+    .then(data =>{
+      if(data == 1){
+        // navigation.navigate('Thickness')
+      } else{
+        Alert.alert('Error', "Can't add pizza.");
+      }
+    })
+  }
+  const fetchRemoveSizeToOrder = async(id: string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data}/Size`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        id
+      ]),
+    }).then(response => response.json())
+    .then(data =>{
+      if(data == 1){
+        navigation.navigate('Home')
+      } else{
+        Alert.alert('Error', "Can't add pizza.");
+      }
+    })
   }
   
      return(
         <SafeAreaView style={styles.container}>
             <View style = {styles.sectionButton}>
-                <TouchableOpacity style = {styles.sectionButton} onPress={() => navigation.navigate('Home')}>
+                <TouchableOpacity style = {styles.sectionButton} onPress={handleSelectBackButton}>
                     <Image source={require('../assets/arrowback.png')}/>
                     <Text style = {styles.text}>Home</Text>
                 </TouchableOpacity>

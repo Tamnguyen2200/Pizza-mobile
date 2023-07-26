@@ -31,7 +31,7 @@ export interface SearchProps{
 export interface HomeProps{
     Image: any;
     PizzaName: string;
-    Price: string;
+    Total: string;
     objectId: string,
     navigation: any;
 }
