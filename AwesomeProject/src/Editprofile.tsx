@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -7,21 +7,97 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
-import {NavigationProps} from './interface/Props';
+import {NavigationProps, editProfiles} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {api, app} from './interface/urrl';
 
 const {width, height} = Dimensions.get('screen');
 
-const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
+const Editprofile: React.FC<NavigationProps> = ({navigation, route}) => {
   const [getpassword, setpasswordvi] = useState(false);
   const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
+  const [userProfile, setUserProfile] = useState<editProfiles | null>();
+  const [newPassword, setNewPassword] = useState('');
+  const [newFullname, setNewFullname] = useState('');
+  const [newAddress, setNewAddress] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const {objectId} = route.params || {};
+
+  useEffect(() => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setUserProfile({
+          name: data.name || '',
+          password: data.password || '',
+          address: data.address || '',
+          ConfirmPassword: '',
+        });
+        setConfirmNewPassword(data.ConfirmPassword || '');
+        setNewFullname(data.name || '');
+        setNewPassword(data.password || '');
+        setNewAddress(data.address || '');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [objectId]);
+
+  const handleUpdatePassword = () => {
+    if (!newAddress || !newFullname || !confirmNewPassword) {
+      Alert.alert('Lỗi', 'Không được để trống thông tin');
+      return;
+    } else if (newPassword !== confirmNewPassword) {
+      Alert.alert('Mật khẩu mới và xác nhận mật khẩu không khớp');
+      return;
+    }
+
+    const updatedUserData = {
+      name: newFullname,
+      password: newPassword,
+      address: newAddress,
+      ConfirmPassword: confirmNewPassword,
+    };
+
+    fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUserData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        Alert.alert('Cập nhật thông tin thành công!');
+        navigation.navigate('Profile', {
+          objectId,
+          updatedData: {
+            name: newFullname,
+            address: newAddress,
+          },
+        });
+      })
+      .catch(error => {
+        console.error('Lỗi:', error);
+        Alert.alert('Đã xảy ra lỗi khi cập nhật mật khẩu');
+      });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.icon}
-          onPress={() => navigation.navigate('Profile')}>
+          onPress={() => navigation.navigate('Profile', {objectId})}>
           <AntDesign name="arrowleft" size={30} color="white" />
         </TouchableOpacity>
         <View style={styles.title}>
@@ -39,10 +115,13 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
-          <Text style={styles.textBody}> User Name</Text>
+          <Text style={styles.textBody}> Full Name</Text>
           <TextInput
-            placeholder="User Name"
-            style={styles.TextInput}></TextInput>
+            placeholder="Full Name"
+            style={styles.TextInput}
+            value={newFullname}
+            onChangeText={setNewFullname}
+          />
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
           <Text style={styles.textBody}> Password</Text>
@@ -50,6 +129,8 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
             placeholder="Password"
             style={styles.TextInput}
             autoCapitalize="none"
+            value={newPassword}
+            onChangeText={setNewPassword}
             secureTextEntry={getpassword ? false : true}
           />
           <TouchableOpacity
@@ -76,6 +157,8 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
             placeholder="Confirm Password"
             style={styles.TextInput}
             autoCapitalize="none"
+            value={confirmNewPassword}
+            onChangeText={setConfirmNewPassword}
             secureTextEntry={getconfirmpassword ? false : true}
           />
           <TouchableOpacity
@@ -98,10 +181,15 @@ const Editprofile: React.FC<NavigationProps> = ({navigation}) => {
         </View>
         <View style={[styles.borderInfoTitle, {marginBottom: 50}]}>
           <Text style={styles.textBody}> Address</Text>
-          <TextInput placeholder="Address" style={styles.TextInput}></TextInput>
+          <TextInput
+            placeholder="Address"
+            style={styles.TextInput}
+            value={newAddress}
+            onChangeText={setNewAddress}
+          />
         </View>
         <View style={styles.borderLogout}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <TouchableOpacity onPress={handleUpdatePassword}>
             <Text style={styles.TextUpdate}> Update</Text>
           </TouchableOpacity>
         </View>
@@ -120,7 +208,7 @@ const styles = StyleSheet.create({
     height: (height * 20) / 100,
     backgroundColor: '#A45D51',
     borderBottomEndRadius: 50,
-    borderBottomStartRadius: 50
+    borderBottomStartRadius: 50,
   },
   icon: {
     top: 20,
@@ -161,7 +249,6 @@ const styles = StyleSheet.create({
     left: 120,
     marginTop: 30,
     marginBottom: 10,
-
   },
   TextEdit: {
     fontWeight: 'bold',

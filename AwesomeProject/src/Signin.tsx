@@ -14,19 +14,26 @@ import {api, app, apiLogin} from './interface/urrl';
 function Signin({navigation}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState("");
   const [confirmPassword, setconfirmPassword] = useState('');
   const [getpassword, setpasswordvi] = useState(false);
+  const [address, setaddress] = useState('');
   const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
 
   const handleRegister = () => {
-    if (!username || !password || !confirmPassword) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ số điện thoại và mật khẩu.');
+    if (!fullname || !username || !password || !confirmPassword) {
+      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin số điện thoại và mật khẩu.');
       return;
-    } else if (username > '11' || username < '10') {
-      Alert.alert('Lỗi', 'Vui lòng điền số điện thoại hợp lệ.');
+    } else if (username.length > 10 || username.length < 10) {
+      Alert.alert('Lỗi', 'Vui lòng điền số điện thoại hợp lệ( gồm: 10 chữ số).');
+      return;
+    }else if (password != confirmPassword ){
+      Alert.alert(
+        "Lỗi",
+        "Mật khẩu chưa khớp"
+      );
       return;
     }
-
     fetch(
       `https://api.backendless.com/${app}/${apiLogin}/data/Users?where=phoneNumber%3D'${username}'`,
       {
@@ -49,11 +56,14 @@ function Signin({navigation}: NavigationProps): JSX.Element {
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
+              
             },
             body: JSON.stringify({
               phoneNumber: username,
               password: password,
               ConfirmPassword: confirmPassword,
+              name: fullname,
+              address: address,
             }),
           })
             .then(response => response.json())
@@ -88,15 +98,40 @@ function Signin({navigation}: NavigationProps): JSX.Element {
         }}>
         <View style={{flex: 1, marginVertical: 40}}>
           <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center', top: -20}}>
             <Text style={styles.texttitle}>Register</Text>
           </View>
           {/* Input */}
-          <View style={{flex: 4}}>
+          <View style={{flex: 4, top: -50}}>
             <View>
+            <Text style={[styles.text2, {marginLeft: 10}]}>
+                {' '}
+                Full Name
+              </Text>
+              <View>
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="Full Name"
+                  value={fullname}
+                  onChangeText={(text) => setFullname(text)}
+                />
+              </View>
+
               <Text style={[styles.text2, {marginLeft: 10}]}>
                 {' '}
-                Phone Number
+                Address
+              </Text>
+              <View>
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="Address"
+                  value={address}
+                  onChangeText={(text) => setaddress(text)}
+                />
+              </View>
+              <Text style={[styles.text2, {marginLeft: 10}]}>
+                {' '}
+                Phone Number(*)
               </Text>
               <View>
                 <TextInput
@@ -107,9 +142,9 @@ function Signin({navigation}: NavigationProps): JSX.Element {
                 />
               </View>
 
-              <Text style={[styles.text2, {marginLeft: 10, marginTop: 20}]}>
+              <Text style={[styles.text2, {marginLeft: 10, marginTop: 5}]}>
                 {' '}
-                PASSWORD
+                Password
               </Text>
               <View>
                 <TextInput
@@ -140,7 +175,7 @@ function Signin({navigation}: NavigationProps): JSX.Element {
               </View>
               <Text style={[styles.text2, {marginLeft: 10, marginTop: 20}]}>
                 {' '}
-                CONFIRM PASSWORD
+                Confirm Password
               </Text>
               <View>
                 <TextInput
@@ -170,7 +205,7 @@ function Signin({navigation}: NavigationProps): JSX.Element {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{marginLeft: 110, marginTop: 40}}>
+            <View style={{marginLeft: 110, marginTop: 20}}>
               <TouchableOpacity
                 style={{
                   borderWidth: 1,
@@ -188,11 +223,11 @@ function Signin({navigation}: NavigationProps): JSX.Element {
                 flexDirection: 'row',
                 alignItems: 'center',
                 margin: 10,
-                marginTop: 20,
+                marginTop: 10,
               }}>
               <Text
                 style={{
-                  marginTop: 20,
+                  marginTop: 15,
                   fontWeight: 'bold',
                   fontSize: 20,
                   color: '#A45D51',

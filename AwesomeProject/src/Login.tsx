@@ -10,21 +10,21 @@ import {
 } from 'react-native';
 import {NavigationProps} from './interface/Props';
 import {api, app, apiLogin} from './interface/urrl';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
-function Login({navigation}: NavigationProps): JSX.Element {
+function Login({navigation, route}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [getpassword, setpasswordvi] = useState(false);
 
   const handleLogin = () => {
+    
     if (!username || !password) {
       Alert.alert('Lỗi', 'Bạn hãy điền đầy đủ thông tin!');
       return;
     }
 
     fetch(
-      `https://api.backendless.com/${app}/${apiLogin}/data/Users?where=phoneNumber%3D'${username}'`,
+      `https://api.backendless.com/${app}/${api}/data/Users?where=phoneNumber%3D'${username}'`,
       {
         method: 'GET',
         headers: {
@@ -50,8 +50,7 @@ function Login({navigation}: NavigationProps): JSX.Element {
             .then(response => response.json())
             .then(data => {
               if (data.objectId) {
-                console.log('objectId:', data.objectId);
-                navigation.navigate('Home');
+                navigation.navigate('Home',{objectId : data.objectId});
               } else {
                 console.log('Sai Mật Khẩu');
                 Alert.alert('Lỗi', 'Sai Mật Khẩu');
