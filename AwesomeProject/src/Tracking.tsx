@@ -118,7 +118,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                 marginTop: 35,
                 marginLeft: 25,
                 marginRight: 15,
-                width: '40%'
+                width: '80%'
             }}>
                 <Text style={{
                     color: '#000000',
@@ -138,7 +138,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                 marginTop: 10,
                 marginLeft: 25,
                 marginRight: 15,
-                width: '40%'
+                width: '80%'
             }}>
                 <Text style={{
                     color: '#000000',
@@ -158,19 +158,79 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                 marginTop: 35,
                 marginLeft: 25,
                 marginRight: 15,
-                width: '40%'
+                width: '80%'
             }}>
                 <Text style={{
                     color: '#000000',
                     fontSize: 15,
                 }}
-                >302$</Text>
+                >Name:</Text>
     
                 <Text style={{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >Paypal</Text>
+                >Tien</Text>
+            </View>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 35,
+                marginLeft: 25,
+                marginRight: 15,
+                width: '80%'
+            }}>
+                <Text style={{
+                    color: '#000000',
+                    fontSize: 15,
+                }}
+                >Phone Number:</Text>
+    
+                <Text style={{
+                    color: 'black',
+                    fontSize: 15,
+                }}
+                >0123456789</Text>
+            </View>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 35,
+                marginLeft: 25,
+                marginRight: 15,
+                width: '80%'
+            }}>
+                <Text style={{
+                    color: '#000000',
+                    fontSize: 15,
+                }}
+                >Address:</Text>
+    
+                <Text style={{
+                    color: 'black',
+                    fontSize: 15,
+                }}
+                >TP. Ho Chi Minh</Text>
+            </View>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 35,
+                marginLeft: 25,
+                marginRight: 15,
+                width: '80%'
+            }}>
+                <Text style={{
+                    color: '#000000',
+                    fontSize: 15,
+                }}
+                >Price:</Text>
+    
+                <Text style={{
+                    color: 'black',
+                    fontSize: 15,
+                }}
+                >302$ (Paypal)</Text>
             </View>
         </View>
     )
