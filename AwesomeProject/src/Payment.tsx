@@ -17,7 +17,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     const handleCalculatedPriceChange = (newPrice: number) => {
         setCalculatedPrice(newPrice);
-        console.log(calculatedPrice)
+        // console.log(calculatedPrice)
     };
 
     const fetchRemoveProductInOrder = async(id: string) => {
@@ -64,6 +64,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     useEffect(() => {
         // console.log(route)
         fetchPayment();
+        console.log(route)
     }, [])
 
     return (

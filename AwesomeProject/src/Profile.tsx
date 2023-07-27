@@ -15,15 +15,15 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
   const isFocused = useIsFocused();
   const {objectId} = route.params;
   const [userProfile, setUserProfile] = useState<Profiles | null>({
-    name: '',
-    phoneNumber: '',
-    address: '',
+    FullName: '',
+    PhoneNumber: '',
+    Address: '',
   });
 
   const handleEditProfilePress = () => {
     navigation.navigate('Editprofile', {
       objectId,
-      phoneNumber: userProfile?.phoneNumber,
+      phoneNumber: userProfile?.PhoneNumber,
     });
   };
 
@@ -42,9 +42,9 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
       .then(response => response.json())
       .then(data => {
         setUserProfile({
-          name: data.name || '',
-          phoneNumber: data.phoneNumber || '',
-          address: data.address || '',
+          FullName: data.FullName || '',
+          PhoneNumber: data.PhoneNumber || '',
+          Address: data.Address || '',
         });
         setIsLoading(false);
       })
@@ -131,7 +131,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
           <AntDesign name="user" size={30} style={styles.icontext} />
           <Text style={styles.textName}>
             {' '}
-            {userProfile ? userProfile.name : ''}
+            {userProfile ? userProfile.FullName : ''}
           </Text>
         </View>
         <View style={styles.borderInfoTitle}>
@@ -141,7 +141,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
           <AntDesign name="phone" size={30} style={styles.icontext} />
           <Text style={styles.textName}>
             {' '}
-            {userProfile ? userProfile.phoneNumber : ''}
+            {userProfile ? userProfile.PhoneNumber : ''}
           </Text>
         </View>
         <View style={styles.borderInfoTitle}>
@@ -151,7 +151,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
           <Entypo name="address" size={30} style={styles.icontext} />
           <Text style={styles.textName}>
             {' '}
-            {userProfile ? userProfile.address : ''}
+            {userProfile ? userProfile.Address : ''}
           </Text>
         </View>
 

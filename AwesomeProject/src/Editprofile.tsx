@@ -10,7 +10,7 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import {NavigationProps, editProfiles} from './interface/Props';
+import {NavigationProps, } from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {api, app} from './interface/urrl';
 
@@ -19,7 +19,7 @@ const {width, height} = Dimensions.get('screen');
 const Editprofile: React.FC<NavigationProps> = ({navigation, route}) => {
   const [getpassword, setpasswordvi] = useState(false);
   const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
-  const [userProfile, setUserProfile] = useState<editProfiles | null>();
+ 
   const [newPassword, setNewPassword] = useState('');
   const [newFullname, setNewFullname] = useState('');
   const [newAddress, setNewAddress] = useState('');
@@ -36,16 +36,11 @@ const Editprofile: React.FC<NavigationProps> = ({navigation, route}) => {
     })
       .then(response => response.json())
       .then(data => {
-        setUserProfile({
-          name: data.name || '',
-          password: data.password || '',
-          address: data.address || '',
-          ConfirmPassword: '',
-        });
+       
         setConfirmNewPassword(data.ConfirmPassword || '');
-        setNewFullname(data.name || '');
+        setNewFullname(data.FullName || '');
         setNewPassword(data.password || '');
-        setNewAddress(data.address || '');
+        setNewAddress(data.Address || '');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -62,9 +57,9 @@ const Editprofile: React.FC<NavigationProps> = ({navigation, route}) => {
     }
 
     const updatedUserData = {
-      name: newFullname,
+      FullName: newFullname,
       password: newPassword,
-      address: newAddress,
+      Address: newAddress,
       ConfirmPassword: confirmNewPassword,
     };
 
@@ -82,8 +77,8 @@ const Editprofile: React.FC<NavigationProps> = ({navigation, route}) => {
         navigation.navigate('Profile', {
           objectId,
           updatedData: {
-            name: newFullname,
-            address: newAddress,
+            Fullname: newFullname,
+            Address: newAddress,
           },
         });
       })
