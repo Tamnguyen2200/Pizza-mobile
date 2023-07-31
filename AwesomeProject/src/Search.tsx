@@ -18,13 +18,14 @@ import {api, app} from './interface/urrl';
 
 const {width, height} = Dimensions.get('screen');
 
-function Search({navigation}: NavigationProps): JSX.Element {
+function Search({navigation, route}: NavigationProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<SearchProps[]>([]);
   const [originalData, setOriginalData] = useState<SearchProps[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [mainData, setmainData] = useState<SearchProps[]>([]);
+  const {objectId} = route.params;
 
   useEffect(() => {
     setIsLoading(true);
@@ -130,7 +131,7 @@ function Search({navigation}: NavigationProps): JSX.Element {
       <View>
         <TouchableOpacity
           style={{width: 40}}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.navigate('Home', {objectId})}>
           <AntDesign
             name="left"
             style={{

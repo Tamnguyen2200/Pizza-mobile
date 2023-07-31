@@ -119,7 +119,7 @@ export interface PhoneNumberProps{
     phoneNumber: number;
 }
 export interface Profiles{
-    name: string;
-    phoneNumber: string;
-    address :string;
+    FullName: string;
+    PhoneNumber: string;
+    Address :string;
 }

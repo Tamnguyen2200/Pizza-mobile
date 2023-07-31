@@ -59,11 +59,11 @@ function Signin({navigation}: NavigationProps): JSX.Element {
               
             },
             body: JSON.stringify({
-              phoneNumber: username,
+              PhoneNumber: username,
               password: password,
               ConfirmPassword: confirmPassword,
-              name: fullname,
-              address: address,
+              FullName: fullname,
+              Address: address,
             }),
           })
             .then(response => response.json())
