@@ -31,8 +31,7 @@ export interface ListPizzaProps{
     name: string;
     price: string;
     id: string; 
-    navigation: any;
-   
+    onSelectPizza:(id: string) => void
 }
 export interface SearchProps{
     Image: any;

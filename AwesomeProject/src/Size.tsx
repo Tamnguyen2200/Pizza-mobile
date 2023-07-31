@@ -6,7 +6,7 @@ import { api, app } from './interface/urrl';
 function Size({ navigation, route }: NavigationProps): JSX.Element
 {
 
-  const { data } = route.params;
+  const  OrderId  = route.params.data;
   const handleSelectSizeSButton = () => {
     const id = '641A0B89-D00E-4698-B598-9D185A95B55F'
     fetchAddSizeToOrder(id)
@@ -20,14 +20,14 @@ function Size({ navigation, route }: NavigationProps): JSX.Element
     fetchAddSizeToOrder(id)
   }
   const handleSelectBackButton = () => {
-    navigation.navigate('Home')
+    fetchRemovePizzaToOrder()
   }
   useEffect(() => {
     console.log(route)
   }, []);
 
   const fetchAddSizeToOrder = async(id: string) => {
-    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data}/Size`, {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Size`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -39,29 +39,25 @@ function Size({ navigation, route }: NavigationProps): JSX.Element
     }).then(response => response.json())
     .then(data =>{
       if(data == 1){
-        // navigation.navigate('Thickness')
+        navigation.navigate('Thickness',{data: OrderId, AddData: id})
       } else{
         Alert.alert('Error', "Can't add pizza.");
       }
     })
   }
-  const fetchRemoveSizeToOrder = async(id: string) => {
-    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${data}/Size`, {
+
+  const fetchRemovePizzaToOrder = async() => {
+    console.log(route.params.data)
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify([
-        id
-      ]),
+      body: JSON.stringify({}),
     }).then(response => response.json())
     .then(data =>{
-      if(data == 1){
         navigation.navigate('Home')
-      } else{
-        Alert.alert('Error', "Can't add pizza.");
-      }
     })
   }
   
