@@ -14,7 +14,7 @@ export interface ProductInPaymentProps {
     Cheese: ChesseProps
     TotalPrice: number
     id: string
-    onSelectRemoveProduct?: (id: string) => void |undefined,
+    onSelectRemoveProduct?: (id: string) => void,
     onCalculatedPriceChange?:(calculatedPrice: number) => void;
 }
 
@@ -87,6 +87,7 @@ export interface OrderProps{
     TotalPrice: number;
     objectId: string;
     Quantity: number;
+    id: number;
 }
 
 export interface PizzaProps{
