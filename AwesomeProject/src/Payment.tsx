@@ -10,10 +10,8 @@ import { app, api } from "./interface/urrl";
 
 function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const [total, setTotal] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     const [selectedProducts, setSelectedProducts] = useState<OrderProps[]>([]); // Lưu trữ thông tin các sản phẩm đã chọn
-    const handleUpdateTotal = (calculatedPrice: number) => {
-        setTotal((prevTotal) => prevTotal + calculatedPrice); // Cập nhật tổng tiền
-      };
     
     const handleSelectRemoveProduct = (id: string) => {
         fetchRemoveProductInOrder(id)
@@ -21,7 +19,11 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     const handleCalculatedPriceChange = (calculatedPrice: number) => {
         setTotal(calculatedPrice);
-        console.log(calculatedPrice)
+        const myArray: number[] = [];
+        myArray.push(calculatedPrice);
+        const total = myArray.reduce((acc: any, price: any) => acc + price, 0)
+        console.log(myArray)
+        setTotalPrice(total)
     };
 
     const fetchRemoveProductInOrder = async(id: string) => {
@@ -136,7 +138,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                          TotalPrice={item.TotalPrice}
                          onSelectRemoveProduct={handleSelectRemoveProduct} 
                          onCalculatedPriceChange={handleCalculatedPriceChange}
-                         onUpdateTotal={handleUpdateTotal}
                          />
                 </View>
                 ))}
@@ -146,7 +147,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <View style={{ backgroundColor: '#D9D9D9', width: '100%', height: 1, marginBottom: 10, marginTop: 10 }}></View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginLeft: 10, marginRight: 10 }}>
                     <Text style={{ fontSize: 15, color: '#A45D51', }}>Total:</Text>
-                    <Text style={{ color: '#000000', fontSize: 15, }}>${total.toFixed(2)}</Text>
+                    <Text style={{ color: '#000000', fontSize: 15, }}>${totalPrice}</Text>
                 </View>
             </View>
             {/* PaymentMethod */}

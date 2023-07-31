@@ -16,7 +16,6 @@ export interface ProductInPaymentProps {
     id: string
     onSelectRemoveProduct?: (id: string) => void,
     onCalculatedPriceChange?:(calculatedPrice: number) => void;
-    onUpdateTotal: (calculatedPrice: number) => void; 
 }
 
 
