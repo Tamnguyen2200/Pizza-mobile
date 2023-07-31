@@ -5,15 +5,18 @@ import {
 } from 'react-native';
 import { OrderProps, ProductInPaymentProps } from '../interface/Props';
 
-function ProductInPayment({Pizza, Size, Thickness,id, Cheese, TotalPrice, onSelectRemoveProduct,onCalculatedPriceChange} : ProductInPaymentProps): JSX.Element {
+function ProductInPayment({Pizza, Size, Thickness,id, Cheese, TotalPrice, onSelectRemoveProduct,onCalculatedPriceChange, onUpdateTotal } : ProductInPaymentProps): JSX.Element {
     const [quantity, setQuantity] = useState(1);
     const calculatedPrice = TotalPrice * quantity;
 
     useEffect(() => {
-        const calculatedPrice = TotalPrice * quantity;
-        if(onCalculatedPriceChange)
+        if(onCalculatedPriceChange){
             onCalculatedPriceChange(calculatedPrice);
+        }
       }, [TotalPrice, quantity, onCalculatedPriceChange]);
+      
+
+      
 
     const increaseQuantity = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
@@ -30,7 +33,7 @@ function ProductInPayment({Pizza, Size, Thickness,id, Cheese, TotalPrice, onSele
             onSelectRemoveProduct(id); 
         }
     };
-
+    
     return (
 
         <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', height: 150, marginBottom: 10, borderRadius: 15, }}>
