@@ -16,9 +16,8 @@ function ProductInPayment({ Pizza, Size, Thickness, id, Cheese, TotalPrice , onS
     }
 
     useEffect(() => {
-        const totalPrice = calculatePizzaTotalPrice();
-        console.log(totalPrice)
-        onCalculatedPriceChange && onCalculatedPriceChange(totalPrice);
+        calculatePizzaTotalPrice();
+        onCalculatedPriceChange && onCalculatedPriceChange(total);
     }, [quantity, onCalculatedPriceChange]);
 
     //Hàm tăng số lượng

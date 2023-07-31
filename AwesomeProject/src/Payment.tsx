@@ -19,11 +19,8 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     const handleCalculatedPriceChange = (calculatedPrice: number) => {
         setTotal(calculatedPrice);
-        const myArray: number[] = [];
-        myArray.push(calculatedPrice);
-        const total = myArray.reduce((acc: any, price: any) => acc + price, 0)
-        console.log(myArray)
-        setTotalPrice(total)
+        // console.log("Total " + total + calculatedPrice)
+        // setTotalPrice(total + calculatedPrice)
     };
 
     const fetchRemoveProductInOrder = async(id: string) => {
@@ -130,15 +127,15 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
              {PaymentData?.Order.map((item) => (  
                 <View key={item.objectId}>
                 <ProductInPayment 
-                         Pizza={item.Pizza}
-                         Size={item.Size}
-                         id={item.objectId}
-                         Thickness={item.Thickness}
-                         Cheese={item.Cheese}
-                         TotalPrice={item.TotalPrice}
-                         onSelectRemoveProduct={handleSelectRemoveProduct} 
-                         onCalculatedPriceChange={handleCalculatedPriceChange}
-                         />
+                    Pizza={item.Pizza}
+                    Size={item.Size}
+                    id={item.objectId}
+                    Thickness={item.Thickness}
+                    Cheese={item.Cheese}
+                    TotalPrice={item.TotalPrice}
+                    onSelectRemoveProduct={handleSelectRemoveProduct} 
+                    onCalculatedPriceChange={handleCalculatedPriceChange}
+                    />
                 </View>
                 ))}
             </View>
