@@ -14,7 +14,7 @@ import {api, app, apiLogin} from './interface/urrl';
 function Signin({navigation}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [fullname, setFullname] = useState("");
+  const [fullname, setFullname] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [getpassword, setpasswordvi] = useState(false);
   const [address, setaddress] = useState('');
@@ -22,16 +22,19 @@ function Signin({navigation}: NavigationProps): JSX.Element {
 
   const handleRegister = () => {
     if (!fullname || !username || !password || !confirmPassword) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin số điện thoại và mật khẩu.');
+      Alert.alert(
+        'Lỗi',
+        'Vui lòng điền đầy đủ thông tin số điện thoại và mật khẩu.',
+      );
       return;
     } else if (username.length > 10 || username.length < 10) {
-      Alert.alert('Lỗi', 'Vui lòng điền số điện thoại hợp lệ( gồm: 10 chữ số).');
-      return;
-    }else if (password != confirmPassword ){
       Alert.alert(
-        "Lỗi",
-        "Mật khẩu chưa khớp"
+        'Lỗi',
+        'Vui lòng điền số điện thoại hợp lệ( gồm: 10 chữ số).',
       );
+      return;
+    } else if (password != confirmPassword) {
+      Alert.alert('Lỗi', 'Mật khẩu chưa khớp');
       return;
     }
     fetch(
@@ -56,7 +59,6 @@ function Signin({navigation}: NavigationProps): JSX.Element {
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
-              
             },
             body: JSON.stringify({
               PhoneNumber: username,
@@ -98,35 +100,34 @@ function Signin({navigation}: NavigationProps): JSX.Element {
         }}>
         <View style={{flex: 1, marginVertical: 40}}>
           <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center', top: -20}}>
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              top: -20,
+            }}>
             <Text style={styles.texttitle}>Register</Text>
           </View>
           {/* Input */}
           <View style={{flex: 4, top: -50}}>
             <View>
-            <Text style={[styles.text2, {marginLeft: 10}]}>
-                {' '}
-                Full Name
-              </Text>
+              <Text style={[styles.text2, {marginLeft: 10}]}> Full Name</Text>
               <View>
                 <TextInput
                   style={styles.textinputstyle}
                   placeholder="Full Name"
                   value={fullname}
-                  onChangeText={(text) => setFullname(text)}
+                  onChangeText={text => setFullname(text)}
                 />
               </View>
 
-              <Text style={[styles.text2, {marginLeft: 10}]}>
-                {' '}
-                Address
-              </Text>
+              <Text style={[styles.text2, {marginLeft: 10}]}> Address</Text>
               <View>
                 <TextInput
                   style={styles.textinputstyle}
                   placeholder="Address"
                   value={address}
-                  onChangeText={(text) => setaddress(text)}
+                  onChangeText={text => setaddress(text)}
                 />
               </View>
               <Text style={[styles.text2, {marginLeft: 10}]}>

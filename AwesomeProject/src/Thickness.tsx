@@ -3,47 +3,131 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollVi
 import { ChesseProps, NavigationProps } from './interface/Props';
 import { api, app } from './interface/urrl';
 
-function Thickness({ navigation }: NavigationProps): JSX.Element {
+function Thickness({ navigation, route }: NavigationProps): JSX.Element {
   const [selectedDropdown, setSelectedDropdown] = useState('');
 
   const [data, setData] = useState<ChesseProps[]>([]);
   const [isLoading, setLoading] = useState(true);
+  const  OrderId  = route.params.data;
+  const SizeId = route.params.AddData;
 
 
-
-  const handleDropdownToggle = (dropdownName: string) => {
+  const handleDropdownThinToggle = (dropdownName: string) => {
+    const ThicknessId = '62E62E21-44C6-46BC-AADE-4F48E5158BE9'
     if (selectedDropdown === dropdownName) {
+      fetchRemoveThickessToOrder(ThicknessId)
+      setSelectedDropdown('');
+    } else if (selectedDropdown === '') {
+      fetchAddThickessToOrder(ThicknessId)
+      setSelectedDropdown(dropdownName);
+    }
+  };
+  const handleDropdownNewYourToggle = (dropdownName: string) => {
+    const ThicknessId = 'AD28A746-3DB8-458B-96C5-6ABB375C5152'
+    if (selectedDropdown === dropdownName) {
+      fetchRemoveThickessToOrder(ThicknessId)
       setSelectedDropdown('');
     } else if (selectedDropdown === '') {
       setSelectedDropdown(dropdownName);
+      fetchAddThickessToOrder(ThicknessId)
     }
-
   };
-  const handleSelectCheeseButton = () =>{
-    Alert.alert(
-      'Change topping',
-      'Do you want to change the topping of the cake?',
-      [
-        {
-          text: 'Không',
-          onPress: () => {
-            navigation.navigate('Payment',{data: 'Cash'});
-          },
-        },
-        {
-          text: 'Có',
-          onPress: () => {
-            navigation.navigate('Topping');
-          },
-        },
-      ],
-      { cancelable: true }
-    );
+  const handleDropdownHandtossedToggle = (dropdownName: string) => {
+    const ThicknessId = 'E4B1F5B4-BC72-4B16-8934-09F41A92BCD1'
+    if (selectedDropdown === dropdownName) {
+      fetchRemoveThickessToOrder(ThicknessId)
+      setSelectedDropdown('');
+    } else if (selectedDropdown === '') {
+      setSelectedDropdown(dropdownName);
+      fetchAddThickessToOrder(ThicknessId)
+
+    }
+  };
+  const handleSelectCheeseButton = (CheeseID: string) =>{
+    fetchAddCheeseToOrder(CheeseID)
   }
   useEffect(() => {
     setLoading(true);
     fetchListCheese();
-}, []);
+  }, []);
+  const handleSelectBackButton = () => {
+    fetchRemoveSizeToOrder()
+  }
+  const fetchRemoveSizeToOrder = async() => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Size`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        SizeId
+      ]),
+    }).then(response => response.json())
+    .then(data =>{
+      if(data == 1){
+        navigation.navigate('Size',{ data: OrderId})
+      } else{
+        Alert.alert('Error', "Can't remove size from pizza.");
+      }
+    })
+  }
+  const fetchAddThickessToOrder = async(id: string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Thickness`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        id
+      ]),
+    }).then(response => response.json())
+    .then(data =>{
+      if(data == 1){
+        // navigation.navigate('Thickness',{data: OrderId, AddData: id})
+      } else{
+        Alert.alert('Error', "Can't add pizza.");
+      }
+    })
+  }
+  const fetchRemoveThickessToOrder = async(id: string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Thickness`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        id
+      ]),
+    }).then(response => response.json())
+    .then(data =>{
+      if(data == 1){
+      } else{
+        Alert.alert('Error', "Can't add Thickness to pizza.");
+      }
+    })
+  }
+  const fetchAddCheeseToOrder = async(id: string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Cheese`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        id
+      ]),
+    }).then(response => response.json())
+    .then(data =>{
+      if(data == 1){
+        navigation.navigate('Payment',{data: OrderId, AddData: 'Cash'})
+      } else{
+        Alert.alert('Error', "Can't add pizza.");
+      }
+    })
+  }
 
 const fetchListCheese = async () =>{
     try{
@@ -61,13 +145,13 @@ const fetchListCheese = async () =>{
     }
 }
 const renderItem = ({ item }: { item: ChesseProps }) => (
-  <TouchableOpacity onPress={handleSelectCheeseButton}>
+  <TouchableOpacity onPress={() => handleSelectCheeseButton(item.objectId)}>
     <Text style={styles.text1}>{item.CheeseName} = {item.PriceCheese}$</Text>
   </TouchableOpacity>  
 )
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.sectionButton} onPress={() => navigation.navigate('Size')}>
+      <TouchableOpacity style={styles.sectionButton} onPress={handleSelectBackButton}>
         <Image source={require('../assets/arrowback.png')} />
         <Text style={styles.text}>Thickness</Text>
       </TouchableOpacity>
@@ -77,7 +161,7 @@ const renderItem = ({ item }: { item: ChesseProps }) => (
         <Text style={styles.text}>Thin Crust</Text>
       </View>
       <View>
-        <TouchableOpacity onPress={() => handleDropdownToggle('thin')}>
+        <TouchableOpacity onPress={() => handleDropdownThinToggle('thin')}>
           <View style={styles.margins}>
             <Image source={require('../assets/Thick1.png')} />
           </View>
@@ -99,7 +183,7 @@ const renderItem = ({ item }: { item: ChesseProps }) => (
         <Text style={styles.text}>New York Crust</Text>
       </View>
       <View>
-        <TouchableOpacity onPress={() => handleDropdownToggle('newyork')}>
+        <TouchableOpacity onPress={() => handleDropdownNewYourToggle('newyork')}>
           <View style={styles.margins}>
             <Image source={require('../assets/Thick2.png')} />
           </View>
@@ -121,7 +205,7 @@ const renderItem = ({ item }: { item: ChesseProps }) => (
         <Text style={styles.text}>Handtossed</Text>
       </View>
       <View>
-        <TouchableOpacity onPress={() => handleDropdownToggle('handtossed')}>
+        <TouchableOpacity onPress={() => handleDropdownHandtossedToggle('handtossed')}>
           <View style={styles.margins}>
             <Image source={require('../assets/Thick3.png')} />
           </View>

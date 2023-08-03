@@ -20,63 +20,13 @@ function ListPizza({
   name,
   price,
   id,
-  navigation,
+  onSelectPizza
 }: ListPizzaProps): JSX.Element {
-  const [OrderId, setOrderId] = useState('');
   const handlePress = () => {
-    fetchCreateNewOrder();
-  };
-
-  const fetchCreateNewOrder = async () => {
-    fetch(`https://api.backendless.com/${app}/${api}/data/Order`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({}),
-    })
-      .then(response => response.json())
-      .then(data =>{
-        if(data['objectId']){
-          const objectId = data['objectId'];
-          setOrderId(objectId);
-        } else{
-          Alert.alert('Error', "Can't create order");
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
-  useEffect(() => {
-    if (OrderId) {
-      fetchAddPizzaToOrder();
+    if (onSelectPizza) {
+      onSelectPizza(id); 
     }
-  }, [OrderId]);
-  const fetchAddOrderToProfile = async() =>{
-    fetch(`https://api.backendless.com/${app}/${api}/data/Profile/${OrderId}/Pizza`, {})
-  }
-  const fetchAddPizzaToOrder = async() => {
-    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Pizza`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify([id]),
-    }).then(response => response.json())
-    .then(async data =>{
-      if(data == 1){
-        navigation.navigate('Size', { data: OrderId })
-      } else{
-        Alert.alert('Error', "Can't create order");
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
+  };
 
   return (
     <View style={styles.post}>

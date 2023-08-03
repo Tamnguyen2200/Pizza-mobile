@@ -11,6 +11,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -28,10 +29,11 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const {objectId} = route.params || {};
 
+
   useEffect(() => {
     fetchData();
     setIsLoading(true);
-  }, []);
+  },[]);
 
   const handleProfilePress = () => {
     if (objectId) {
@@ -92,6 +94,76 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       </View>
     );
   }
+  const handleSelectPizzaButton = (id: string) =>{
+    fetchCreateNewOrder(id)
+    console.log('ok')
+  }
+  const fetchCreateNewOrder = async (PizzaId: string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    })
+      .then(response => response.json())
+      .then(data =>{
+        if(data['objectId']){
+          const Id = data['objectId'];
+          console.log(Id)
+          fetchAddOrderToUser(Id,PizzaId)
+        } else{
+          Alert.alert('Error', "Can't create order");
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
+  const fetchAddOrderToUser =async (OrderId: string, PizzaId:string) => {
+    console.log(objectId)
+    fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([OrderId]),
+    }).then(response => response.json())
+    .then(async data =>{
+      if(data == 1){
+        fetchAddPizzaToOrder(OrderId, PizzaId)
+      } else{
+        Alert.alert('Error', "Can't create order");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+  const fetchAddPizzaToOrder = async(OrderId: string, PizzaId:string) => {
+    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Pizza`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([PizzaId]),
+    }).then(response => response.json())
+    .then(async data =>{
+      if(data == 1){
+        navigation.navigate('Size', { data: OrderId})
+      } else{
+        Alert.alert('Error', "Can't create order");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
   return (
     <View style={{height: '100%'}}>
       <View style={styles.header}>
@@ -127,7 +199,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 price={item.Total}
                 id={item.objectId}
-                navigation={navigation}
+                onSelectPizza ={handleSelectPizzaButton}
               />
             )}
           />
@@ -143,7 +215,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 price={item.Total}
                 id={item.objectId}
-                navigation={navigation}
+                onSelectPizza ={handleSelectPizzaButton}
               />
             )}
           />
@@ -159,7 +231,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 price={item.Total}
                 id={item.objectId}
-                navigation={navigation}
+                onSelectPizza ={handleSelectPizzaButton}
               />
             )}
           />
@@ -175,7 +247,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 id={item.objectId}
                 price={item.Total}
-                navigation={navigation}
+                onSelectPizza ={handleSelectPizzaButton}
               />
             )}
           />
