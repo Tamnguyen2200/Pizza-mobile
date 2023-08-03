@@ -9,17 +9,19 @@ import {
   Image,
 } from 'react-native';
 import {NavigationProps} from './interface/Props';
-import {api, app, apiLogin, apiProfile} from './interface/urrl';
+import {api, app, apiLogin} from './interface/urrl';
 
 function Signin({navigation}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState("");
   const [confirmPassword, setconfirmPassword] = useState('');
   const [getpassword, setpasswordvi] = useState(false);
+  const [address, setaddress] = useState('');
   const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
 
   const handleRegister = () => {
-    if (!username || !password || !confirmPassword) {
+    if (!fullname || !username || !password || !confirmPassword) {
       Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin số điện thoại và mật khẩu.');
       return;
     } else if (username.length > 10 || username.length < 10) {
@@ -57,9 +59,11 @@ function Signin({navigation}: NavigationProps): JSX.Element {
               
             },
             body: JSON.stringify({
-              phoneNumber: username,
+              PhoneNumber: username,
               password: password,
               ConfirmPassword: confirmPassword,
+              FullName: fullname,
+              Address: address,
             }),
           })
             .then(response => response.json())
@@ -67,24 +71,6 @@ function Signin({navigation}: NavigationProps): JSX.Element {
               console.log(data);
               if (data.objectId) {
                 console.log('objectId:', data.objectId);
-                fetch(`https://api.backendless.com/${app}/${apiProfile}/data/Profile`, {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    objectId: data.objectId,
-                  }),
-                })
-                  .then(profileResponse => profileResponse.json())
-                  .then(profileData => {
-                    console.log('Tạo tài Profile thành công');
-                  })
-                  .catch(error => {
-                    console.error('Error:', error);
-                  });
-
                 navigation.navigate('Login');
                 Alert.alert('Thông báo:', 'Đăng Ký Thành Công');
               } else {
@@ -116,7 +102,33 @@ function Signin({navigation}: NavigationProps): JSX.Element {
             <Text style={styles.texttitle}>Register</Text>
           </View>
           {/* Input */}
-          <View style={{flex: 4}}>
+          <View style={{flex: 4, top: -50}}>
+            <View>
+            <Text style={[styles.text2, {marginLeft: 10}]}>
+                {' '}
+                Full Name
+              </Text>
+              <View>
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="Full Name"
+                  value={fullname}
+                  onChangeText={(text) => setFullname(text)}
+                />
+              </View>
+
+              <Text style={[styles.text2, {marginLeft: 10}]}>
+                {' '}
+                Address
+              </Text>
+              <View>
+                <TextInput
+                  style={styles.textinputstyle}
+                  placeholder="Address"
+                  value={address}
+                  onChangeText={(text) => setaddress(text)}
+                />
+              </View>
               <Text style={[styles.text2, {marginLeft: 10}]}>
                 {' '}
                 Phone Number(*)
@@ -193,7 +205,7 @@ function Signin({navigation}: NavigationProps): JSX.Element {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{marginLeft: 110, top: -100}}>
+            <View style={{marginLeft: 110, marginTop: 20}}>
               <TouchableOpacity
                 style={{
                   borderWidth: 1,
@@ -239,6 +251,7 @@ function Signin({navigation}: NavigationProps): JSX.Element {
           </View>
         </View>
       </View>
+    </View>
   );
 }
 

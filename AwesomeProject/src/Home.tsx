@@ -38,6 +38,16 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       navigation.navigate('Profile', {objectId});
     }
   };
+  const handlePaymentPress = () => {
+    if (objectId) {
+      navigation.navigate('Payment', {objectId, additionalValue: 'Cash'});
+    }
+  };
+  const handleSearchPress = () => {
+    if (objectId) {
+      navigation.navigate('Search', {objectId});
+    }
+  };
   const fetchData = async () => {
     try {
       const url = `https://api.backendless.com/${app}/${api}/data/Pizza?pageSize=21`;
@@ -94,13 +104,13 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
           <Text style={styles.textTitle}> Pizza Good</Text>
         </View>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+          <TouchableOpacity onPress={handleSearchPress}>
             <FontAwesome name="search" size={30} color="#900" />
           </TouchableOpacity>
         </View>
         <View style={styles.icon}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Payment', {data: 'Cash'})}>
+            onPress={handlePaymentPress}> 
             <AntDesign name="shoppingcart" size={30} color="#900" />
           </TouchableOpacity>
         </View>

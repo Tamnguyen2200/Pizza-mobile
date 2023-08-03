@@ -17,11 +17,11 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     const handleCalculatedPriceChange = (newPrice: number) => {
         setCalculatedPrice(newPrice);
-        console.log(calculatedPrice)
+        // console.log(calculatedPrice)
     };
 
     const fetchRemoveProductInOrder = async(id: string) => {
-        fetch(`https://api.backendless.com/${app}/${api}/data/Profile/${PaymentData?.objectId}/Order`, {
+        fetch(`https://api.backendless.com/${app}/${api}/data/Users/${PaymentData?.objectId}/Order`, {
           method: 'DELETE',
           headers: {
             Accept: 'application/json',
@@ -47,8 +47,8 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     const fetchPayment = async () => {
         try {
-            const relation = "?loadRelations=Order.Cheese%2COrder.Pizza%2COrder.Size%2COrder.Thickness%2CPhoneNumber"
-            const url = `https://api.backendless.com/${app}/${api}/data/Profile${relation}`;
+            const relation = "?loadRelations=Order.Cheese%2COrder.Pizza%2COrder.Size%2COrder.Thickness%2COrder"
+            const url = `https://api.backendless.com/${app}/${api}/data/Users${relation}`;
             const response = await fetch(url);
             const json = await response.json();
             setPaymentData(json[0]);
@@ -64,6 +64,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     useEffect(() => {
         // console.log(route)
         fetchPayment();
+        console.log(route)
     }, [])
 
     return (
@@ -101,7 +102,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7, marginBottom: 10 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Phone number'
-                        value={String(PaymentData?.PhoneNumber.phoneNumber)}
+                        value={String(PaymentData?.PhoneNumber)}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7 }}>
