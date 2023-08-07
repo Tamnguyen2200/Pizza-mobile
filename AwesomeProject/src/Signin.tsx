@@ -21,11 +21,36 @@ function Signin({navigation}: NavigationProps): JSX.Element {
   const [getconfirmpassword, setconfirmpasswordvi] = useState(false);
 
   const handleRegister = () => {
-    if (!fullname || !username || !password || !confirmPassword) {
+    if (!fullname || !username || !password || !confirmPassword || !address) {
+      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin');
+      return;
+    } else if (address.length > 50) {
+      Alert.alert('Lỗi', 'Địa chỉ của bạn chỉ được tối đa 50 ký tự.');
+      return;
+    } else if (address.trim().length === 0) {
+      Alert.alert('Lỗi', 'Vui lòng nhập địa chỉ đầy đủ');
+      return;
+    } else if (fullname.length > 30) {
+      Alert.alert('Lỗi', 'Tối đa tên của bạn được 30 ký tự.');
+      return;
+    } else if (fullname.trim().length === 0) {
+      Alert.alert('Lỗi', 'Vui lòng nhập tên đầy đủ');
+      return;
+    } else if (!/^[a-zA-Z0-9\s]+$/.test(fullname)) {
+      Alert.alert('Lỗi', 'Tên của bạn không được chứa ký tự đặc biệt.');
+      return;
+    } else if (/\d/.test(fullname)) {
       Alert.alert(
         'Lỗi',
-        'Vui lòng điền đầy đủ thông tin số điện thoại và mật khẩu.',
+        'Bạn hãy nhập tên hợp lệ( Không được có số và ký tự đặc biệt).',
       );
+      return;
+    } else if (
+      username.includes(' ') ||
+      password.includes(' ') ||
+      confirmPassword.includes(' ')
+    ) {
+      Alert.alert('Lỗi', 'Vui lòng không nhập space');
       return;
     } else if (username.length > 10 || username.length < 10) {
       Alert.alert(
@@ -33,10 +58,35 @@ function Signin({navigation}: NavigationProps): JSX.Element {
         'Vui lòng điền số điện thoại hợp lệ( gồm: 10 chữ số).',
       );
       return;
+    } else if (username.toString()[0] !== '0') {
+      Alert.alert('Lỗi', 'Vui lòng nhập số điện thoại hợp lệ .');
+      return;
+    } else if (!/^[0-9\s]+$/.test(username)) {
+      Alert.alert(
+        'Lỗi',
+        'Số điện thoại của bạn không hợp lệ(Không được chứa ký tự đặc biệt và chữ cái ).',
+      );
+      return;
+    } else if (!/^[0-9\s]+$/.test(username)) {
+      Alert.alert(
+        'Lỗi',
+        'Số điện thoại của bạn không hợp lệ(Không được chứa ký tự đặc biệt và chữ cái ).',
+      );
+      return;
+    } else if (password?.length < 6 || password?.length > 16) {
+      Alert.alert(
+        'Lỗi',
+        'Mật khẩu của bạn phải có ít nhất 6 ký tự và tối đa là 16 ký tự.',
+      );
+      return;
     } else if (password != confirmPassword) {
       Alert.alert('Lỗi', 'Mật khẩu chưa khớp');
       return;
     }
+    const updatedFullname = fullname.replace(/\s+/g, ' ');
+    const updatedAddress = address.replace(/\s+/g, ' ');
+    setFullname(updatedFullname);
+    setaddress(updatedAddress);
     fetch(
       `https://api.backendless.com/${app}/${apiLogin}/data/Users?where=phoneNumber%3D'${username}'`,
       {

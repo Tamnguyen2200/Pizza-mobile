@@ -1,6 +1,13 @@
 import {TouchableOpacity} from 'react-native';
 import {StyleSheet} from 'react-native';
-import {Text, View, Dimensions, Image, ActivityIndicator, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  Dimensions,
+  Image,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import {NavigationProps, Profiles} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -17,7 +24,6 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
   const [userProfile, setUserProfile] = useState<Profiles | null>({
     FullName: '',
     PhoneNumber: '',
-    Address: '',
   });
 
   const handleEditProfilePress = () => {
@@ -44,7 +50,6 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
         setUserProfile({
           FullName: data.FullName || '',
           PhoneNumber: data.PhoneNumber || '',
-          Address: data.Address || '',
         });
         setIsLoading(false);
       })
@@ -54,9 +59,8 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
   }, [objectId, isFocused]);
 
   const handleLogout = () => {
-
     const currentDateTime = new Date().toISOString();
-  
+
     fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
       method: 'PUT',
       headers: {
@@ -67,31 +71,25 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
         lastLogout: currentDateTime,
       }),
     })
-    .then(response => response.json())
-    .then(data => {
-      Alert.alert(
-        'Xác nhận đăng xuất',
-        'Bạn có chắc chắn muốn đăng xuất?',
-        [
+      .then(response => response.json())
+      .then(data => {
+        Alert.alert('Xác nhận đăng xuất', 'Bạn có chắc chắn muốn đăng xuất?', [
           {
             text: 'Hủy',
             style: 'cancel',
           },
           {
             text: 'Đăng xuất',
-            style: 'destructive', 
+            style: 'destructive',
             onPress: () => {
               navigation.navigate('Login');
             },
           },
-        ],
-      );
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  
-  
+        ]);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   if (isLoading) {
@@ -114,51 +112,55 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
           <Text style={styles.texttitle}> Profile </Text>
         </View>
         <View>
-          <Image source={require('../assets/testanh.png')} style={styles.img} />
+          <Image source={require('../assets/user.png')} style={styles.img} />
+        </View>
+        <View style={styles.name}>
+          <Text style={styles.textname}> {userProfile?.FullName} </Text>
+          <Text style={styles.textphone}> {userProfile?.PhoneNumber} </Text>
         </View>
       </View>
 
       <View style={styles.body}>
-        <View style={styles.borderEdit}>
-          <TouchableOpacity onPress={handleEditProfilePress}>
-            <Text style={styles.TextEdit}> Edit Profile</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.borderInfoTitle}>
-          <Text style={styles.textBody}> Full Name:</Text>
-        </View>
-        <View style={styles.borderInfo}>
-          <AntDesign name="user" size={30} style={styles.icontext} />
-          <Text style={styles.textName}>
-            {' '}
-            {userProfile ? userProfile.FullName : ''}
-          </Text>
-        </View>
-        <View style={styles.borderInfoTitle}>
-          <Text style={styles.textBody}> Phone:</Text>
-        </View>
-        <View style={styles.borderInfo}>
-          <AntDesign name="phone" size={30} style={styles.icontext} />
-          <Text style={styles.textName}>
-            {' '}
-            {userProfile ? userProfile.PhoneNumber : ''}
-          </Text>
-        </View>
-        <View style={styles.borderInfoTitle}>
-          <Text style={styles.textBody}> Adress:</Text>
-        </View>
-        <View style={styles.borderInfo}>
-          <Entypo name="address" size={30} style={styles.icontext} />
-          <Text style={styles.textName}>
-            {' '}
-            {userProfile ? userProfile.Address : ''}
-          </Text>
+        <View style={styles.bodycon}>
+          <View style={styles.bodyconItem}>
+            <TouchableOpacity
+              style={styles.border}
+              onPress={handleEditProfilePress}>
+              <Text style={styles.textButton}>Edit Profile</Text>
+              <AntDesign name="right" size={30} color="#A45D51" />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <View style={styles.borderLogout}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.TextEdit} onPress={handleLogout}> Logout</Text>
-          </TouchableOpacity>
+        <View style={styles.bodycon}>
+          <View style={styles.bodyconItem}>
+            <TouchableOpacity style={styles.border}>
+              <Text style={styles.textButton}>History</Text>
+              <AntDesign name="right" size={30} color="#A45D51" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.bodycon}>
+          <View style={styles.bodyconItem}>
+            <TouchableOpacity
+              style={styles.border}
+              onPress={() => {
+                navigation.navigate('Security');
+              }}>
+              <Text style={styles.textButton}>Security</Text>
+              <AntDesign name="right" size={30} color="#A45D51" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.bodycon}>
+          <View style={styles.bodyconItem}>
+            <TouchableOpacity style={styles.border} onPress={handleLogout}>
+              <Text style={styles.textButton}>Logout</Text>
+              <AntDesign name="right" size={30} color="#A45D51" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -179,7 +181,8 @@ const styles = StyleSheet.create({
   icon: {
     top: 20,
     left: 10,
-    width: 30,
+    height: 50,
+    width: 50,
   },
   title: {
     top: 20,
@@ -195,81 +198,55 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   img: {
-    position: 'absolute',
-    left: 130,
-    top: 40,
-    width: 130,
-    height: 130,
+    marginVertical: 50,
+    alignSelf: 'center',
+    width: 120,
+    height: 120,
     borderRadius: 70,
     borderWidth: 5,
     borderColor: 'white',
   },
+  name: {
+    flex: 1,
+    position: 'absolute',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 50,
+    marginTop: 220,
+  },
+  textname: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  textphone: {
+    fontSize: 15,
+    fontWeight: '400',
+  },
+
   body: {
-    height: (height * 80) / 100,
-    marginTop: 40,
+    width: '90%',
+    height: '60%',
+    marginVertical: 130,
+    alignSelf: 'center',
   },
-  borderEdit: {
-    borderWidth: 3,
-    borderColor: 'black',
-    width: 150,
-    height: 50,
-    backgroundColor: 'black',
+  bodycon: {
+    height: (height * 9) / 100,
+    justifyContent: 'center',
+  },
+  bodyconItem: {},
+  textButton: {
+    fontSize: 23,
+    padding: 10,
+    fontWeight: 'bold',
+  },
+  border: {
+    borderWidth: 1,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    left: 120,
-    marginTop: 10,
-    marginBottom: 30,
-  },
-  TextEdit: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    fontFamily: 'Comfortaa',
-    color: 'white',
-  },
-  textBody: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    fontFamily: 'Comfortaa',
-    color: 'black',
-    marginLeft: 20,
-  },
-  borderInfoTitle: {
-    height: 30,
-    marginTop: 8,
-  },
-  textName: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    fontFamily: 'Comfortaa',
-    color: 'black',
-    marginLeft: 20,
-  },
-  borderInfo: {
-    marginTop: 5,
-    marginLeft: 9,
-    borderWidth: 1,
-    borderRadius: 20,
-    backgroundColor: '#dee2e6',
-    borderColor: '#dee2e6',
-    height: 50,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  borderLogout: {
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: 'black',
-    width: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    backgroundColor: 'black',
-    marginTop: 70,
-    left: (width * 30) / 100,
-  },
-  icontext: {
-    marginLeft: 20,
   },
 });
 

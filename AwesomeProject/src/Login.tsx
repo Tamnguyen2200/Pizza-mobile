@@ -17,7 +17,6 @@ function Login({navigation, route}: NavigationProps): JSX.Element {
   const [getpassword, setpasswordvi] = useState(false);
 
   const handleLogin = () => {
-    
     if (!username || !password) {
       Alert.alert('Lỗi', 'Bạn hãy điền đầy đủ thông tin!');
       return;
