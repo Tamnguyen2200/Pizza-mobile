@@ -17,7 +17,7 @@ import {NavigationProps, SearchProps} from './interface/Props';
 import {api, app} from './interface/urrl';
 
 const {width, height} = Dimensions.get('screen');
-
+// 0346132335 tam12345
 function Search({navigation, route}: NavigationProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
