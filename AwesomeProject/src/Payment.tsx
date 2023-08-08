@@ -12,6 +12,8 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const [total, setTotal] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [selectedProducts, setSelectedProducts] = useState<OrderProps[]>([]); // Lưu trữ thông tin các sản phẩm đã chọn
+    const [PaymentData, setPaymentData] = useState<ProfileProps>();
+
     
     const handleSelectRemoveProduct = (id: string) => {
         fetchRemoveProductInOrder(id)
@@ -44,9 +46,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         })
     }
     const { data } = route.params;
-   
-
-    const [PaymentData, setPaymentData] = useState<ProfileProps>();
 
     const fetchPayment = async () => {
         try {
@@ -67,8 +66,26 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     useEffect(() => {
         // console.log(route)
         fetchPayment();
-        console.log(route)
+        calculateSubtotal()
     }, [])
+
+    const calculateSubtotal = () => {
+        PaymentData?.Order.forEach((order) => {
+            const thicknessPrice = order.Thickness.PriceThickness;
+            const pizzaPrice = order.Pizza.Total;
+            const sizePrice = order.Size.PriceSize;
+            const cheesePrice = order.Cheese.PriceCheese;
+            const quantity = order.Quantity;
+            const PriceOrder = (thicknessPrice + pizzaPrice + sizePrice + cheesePrice) * quantity
+            console.log(PriceOrder)
+        })
+    }
+    // const calculateAllOrderTotals = (orderList) => {
+    //     return orderList.map((order) => {
+    //       const total = calculateOrderTotal(order);
+    //       return { ...order, TotalPrice: total };
+    //     });
+    // };
 
     return (
         <ScrollView style={{ backgroundColor: '#F5F5F5', flex: 100 }}>
