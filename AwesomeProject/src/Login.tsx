@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {NavigationProps} from './interface/Props';
-import {api, app, apiLogin} from './interface/urrl';
+import {api, app} from './interface/urrl';
 
 function Login({navigation, route}: NavigationProps): JSX.Element {
   const [username, setUsername] = useState('');

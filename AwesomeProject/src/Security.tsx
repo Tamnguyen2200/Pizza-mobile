@@ -127,8 +127,10 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
   };
 
   const LockAcc = () => {
+    const currentDateTime = new Date().toISOString();
     const updatedUserData = {
       status: 'Delete',
+      timelock: currentDateTime,
     };
 
     fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {

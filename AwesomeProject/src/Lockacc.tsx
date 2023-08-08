@@ -9,21 +9,46 @@ import {
   Alert,
 } from 'react-native';
 import {NavigationProps, Profiles} from './interface/Props';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {useState, useEffect} from 'react';
-import {api, app, apiLogin} from './interface/urrl';
-import {useIsFocused} from '@react-navigation/native';
-
-const {width, height} = Dimensions.get('screen');
+import {api, app} from './interface/urrl';
 
 const Lockacc: React.FC<NavigationProps> = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [time, settime] = useState('');
+  const [name, setname] = useState('');
+  const [format, setFormattedLockTime] = useState('');
   const {objectId} = route.params || {};
 
   const updatedUserData = {
     status: 'Normal',
   };
+
+  useEffect(() => {
+    fetch(
+      `https://api.backendless.com/${app}/${api}/data/Users?where=objectId%3D'${objectId}'`,
+    )
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          const timelock = data[0].timelock;
+          settime(timelock);
+          setname(data[0].FullName);
+
+          const formattedTime = new Date(timelock).toLocaleTimeString();
+          setFormattedLockTime(formattedTime);
+        }
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setIsLoading(false);
+      });
+  }, []);
+  const formattedTime = new Date(time).toLocaleString();
+
+  const currentDate = new Date();
+  const deleteDate = new Date(currentDate.getTime() + 10 * 24 * 60 * 60 * 1000);
+  const formattedDeleteDate = deleteDate.toLocaleDateString();
 
   const handleRestoreAccount = () => {
     fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
@@ -67,17 +92,25 @@ const Lockacc: React.FC<NavigationProps> = ({navigation, route}) => {
         </View>
         <View style={styles.bodyText}>
           <Text style={styles.Text}>
-            Bạn ơi, tài khoản của bạn đã bị khoá tạm thời
+            {name} ơi, tài khoản của bạn đã bị khoá tạm thời
           </Text>
           <Text style={styles.Textcon}>
-            Tài khoản của bạn sẽ bị xoá trong vòng 10 ngày tới, hãy khôi phục và
+            Tài khoản của bạn sẽ bị xoá trong vòng 10 ngày nữa, hãy khôi phục và
             tiếp tục trải nghiệm ứng dụng của chúng tôi
           </Text>
         </View>
         <View style={styles.thongbao}>
-          <Entypo name="lock" size={50} color="#A45D51" style={styles.icon} />
           <View>
-            <Text style={styles.Texttime}> Ngày khoá tài khoản: </Text>
+            <Text style={styles.Texttime}>
+              Ngày khoá tài khoản: {formattedTime}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.thongbaos}>
+          <View>
+            <Text style={styles.Texttime}>
+              Ngày xoá tài khoản: {formattedDeleteDate}, {format}
+            </Text>
           </View>
         </View>
         <View style={styles.Boder}>
@@ -152,13 +185,19 @@ const styles = StyleSheet.create({
     padding: 5,
     justifyContent: 'center',
   },
+  thongbaos: {
+    borderWidth: 1,
+    borderColor: '#D1EBEB',
+    backgroundColor: '#D1EBEB',
+    marginTop: 20,
+    flexDirection: 'row',
+    padding: 5,
+    justifyContent: 'center',
+  },
   Texttime: {
     fontSize: 17,
     marginLeft: 10,
     fontWeight: 'bold',
-  },
-  icon: {
-    marginLeft: -120,
   },
   Button: {
     borderWidth: 1,

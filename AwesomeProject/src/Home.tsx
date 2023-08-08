@@ -29,11 +29,10 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const {objectId} = route.params || {};
 
-
   useEffect(() => {
     fetchData();
     setIsLoading(true);
-  },[]);
+  }, []);
 
   const handleProfilePress = () => {
     if (objectId) {
@@ -94,10 +93,10 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       </View>
     );
   }
-  const handleSelectPizzaButton = (id: string) =>{
-    fetchCreateNewOrder(id)
-    console.log('ok')
-  }
+  const handleSelectPizzaButton = (id: string) => {
+    fetchCreateNewOrder(id);
+    console.log('ok');
+  };
   const fetchCreateNewOrder = async (PizzaId: string) => {
     fetch(`https://api.backendless.com/${app}/${api}/data/Order`, {
       method: 'POST',
@@ -108,12 +107,12 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       body: JSON.stringify({}),
     })
       .then(response => response.json())
-      .then(data =>{
-        if(data['objectId']){
+      .then(data => {
+        if (data['objectId']) {
           const Id = data['objectId'];
-          console.log(Id)
-          fetchAddOrderToUser(Id,PizzaId)
-        } else{
+          console.log(Id);
+          fetchAddOrderToUser(Id, PizzaId);
+        } else {
           Alert.alert('Error', "Can't create order");
         }
       })
@@ -122,48 +121,56 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       });
   };
 
-  const fetchAddOrderToUser =async (OrderId: string, PizzaId:string) => {
-    console.log(objectId)
-    fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  const fetchAddOrderToUser = async (OrderId: string, PizzaId: string) => {
+    console.log(objectId);
+    fetch(
+      `https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`,
+      {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([OrderId]),
       },
-      body: JSON.stringify([OrderId]),
-    }).then(response => response.json())
-    .then(async data =>{
-      if(data == 1){
-        fetchAddPizzaToOrder(OrderId, PizzaId)
-      } else{
-        Alert.alert('Error', "Can't create order");
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
+    )
+      .then(response => response.json())
+      .then(async data => {
+        if (data == 1) {
+          fetchAddPizzaToOrder(OrderId, PizzaId);
+        } else {
+          Alert.alert('Error', "Can't create order");
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
 
-  const fetchAddPizzaToOrder = async(OrderId: string, PizzaId:string) => {
-    fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Pizza`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  const fetchAddPizzaToOrder = async (OrderId: string, PizzaId: string) => {
+    fetch(
+      `https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Pizza`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([PizzaId]),
       },
-      body: JSON.stringify([PizzaId]),
-    }).then(response => response.json())
-    .then(async data =>{
-      if(data == 1){
-        navigation.navigate('Size', { data: OrderId})
-      } else{
-        Alert.alert('Error', "Can't create order");
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
+    )
+      .then(response => response.json())
+      .then(async data => {
+        if (data == 1) {
+          navigation.navigate('Size', {data: OrderId});
+        } else {
+          Alert.alert('Error', "Can't create order");
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
   return (
     <View style={{height: '100%'}}>
       <View style={styles.header}>
@@ -181,8 +188,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
           </TouchableOpacity>
         </View>
         <View style={styles.icon}>
-          <TouchableOpacity
-            onPress={handlePaymentPress}> 
+          <TouchableOpacity onPress={handlePaymentPress}>
             <AntDesign name="shoppingcart" size={30} color="#900" />
           </TouchableOpacity>
         </View>
@@ -199,7 +205,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 price={item.Total}
                 id={item.objectId}
-                onSelectPizza ={handleSelectPizzaButton}
+                onSelectPizza={handleSelectPizzaButton}
               />
             )}
           />
@@ -215,7 +221,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 price={item.Total}
                 id={item.objectId}
-                onSelectPizza ={handleSelectPizzaButton}
+                onSelectPizza={handleSelectPizzaButton}
               />
             )}
           />
@@ -231,7 +237,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 price={item.Total}
                 id={item.objectId}
-                onSelectPizza ={handleSelectPizzaButton}
+                onSelectPizza={handleSelectPizzaButton}
               />
             )}
           />
@@ -247,7 +253,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
                 name={item.PizzaName}
                 id={item.objectId}
                 price={item.Total}
-                onSelectPizza ={handleSelectPizzaButton}
+                onSelectPizza={handleSelectPizzaButton}
               />
             )}
           />
