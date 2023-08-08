@@ -49,7 +49,15 @@ function Login({navigation, route}: NavigationProps): JSX.Element {
             .then(response => response.json())
             .then(data => {
               if (data.objectId) {
-                navigation.navigate('Home',{objectId : data.objectId});
+                if (data.status && data.status === 'Delete') {
+                  Alert.alert(
+                    'Lỗi',
+                    'Tài khoản của bạn đang bị khoá tạm thời.',
+                  );
+                  navigation.navigate('Lockacc', {objectId: data.objectId});
+                } else {
+                  navigation.navigate('Home', {objectId: data.objectId});
+                }
               } else {
                 console.log('Sai Mật Khẩu');
                 Alert.alert('Lỗi', 'Sai Mật Khẩu');
@@ -60,10 +68,7 @@ function Login({navigation, route}: NavigationProps): JSX.Element {
             });
         } else {
           console.log('Tài Khoảng Không Tồn Tại');
-          Alert.alert(
-            'Lỗi',
-            'Tài khoảng không tồn tại. Bạn hãy tạo tài khoảng để đặt bánh ',
-          );
+          Alert.alert('Lỗi', 'Tài khoảng không tồn tại! ');
         }
       })
       .catch(error => {

@@ -1,5 +1,4 @@
-import {StyleSheet} from 'react-native';
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -8,7 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
+  Modal,
+  StyleSheet,
 } from 'react-native';
 import {NavigationProps} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -21,8 +21,12 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const {objectId} = route.params || {};
   const [showpassword, setshowpassword] = useState(false);
-  const [showPasswordConfirmation, setShowPasswordConfirmation] =
-    useState(false);
+  const [password, setPassword] = useState('');
+  const [hasChanges, setHasChanges] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showLockConfirmation, setShowLockConfirmation] = useState(false);
+  const [lockConfirmationPassword, setLockConfirmationPassword] = useState('');
 
   useEffect(() => {
     fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
@@ -34,15 +38,51 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
     })
       .then(response => response.json())
       .then(data => {
-        setConfirmNewPassword(data.ConfirmPassword || '');
-        setNewPassword(data.password || '');
+        setConfirmPassword(data.ConfirmPassword || '');
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }, [objectId]);
 
-  const handleUpdatePassword = () => {
+  const handleFieldChange = () => {
+    setHasChanges(true);
+  };
+
+  const handleUpdate = () => {
+    if (newPassword?.length < 6 || newPassword?.length > 16) {
+      Alert.alert(
+        'Lỗi',
+        'Mật khẩu mới của bạn phải có ít nhất 6 ký tự và tối đa là 16 ký tự.',
+      );
+      return;
+    } else if (
+      newPassword?.includes(' ') ||
+      confirmNewPassword?.includes(' ')
+    ) {
+      Alert.alert('Lỗi', 'Vui lòng không nhập space');
+      return;
+    } else if (!newPassword || !confirmNewPassword) {
+      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ để cập nhật mật khẩu.');
+      return;
+    } else if (newPassword !== confirmNewPassword) {
+      Alert.alert('Lỗi', 'Vui lòng điền mật khẩu trùng khớp.');
+      return;
+    }
+
+    const updatedPassword = newPassword.replace(/\s+/g, ' ');
+    const updatedConfirm = confirmNewPassword.replace(/\s+/g, ' ');
+    setNewPassword(updatedPassword);
+    setConfirmNewPassword(updatedConfirm);
+
+    if (hasChanges) {
+      setModalVisible(true);
+    } else {
+      performUpdate();
+    }
+  };
+
+  const performUpdate = () => {
     const updatedUserData = {
       password: newPassword,
       ConfirmPassword: confirmNewPassword,
@@ -58,7 +98,8 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
     })
       .then(response => response.json())
       .then(data => {
-        Alert.alert('Thay đổi mật khẩu thành công');
+        setModalVisible(false);
+        Alert.alert('Đổi mật khẩu thành công');
         navigation.navigate('Profile', {
           objectId,
         });
@@ -68,6 +109,58 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
         Alert.alert('Đã xảy ra lỗi khi cập nhật mật khẩu');
       });
   };
+
+  const handlePasswordConfirmation = () => {
+    if (password === confirmPassword) {
+      performUpdate();
+      setModalVisible(false);
+    } else {
+      Alert.alert('Lỗi', 'Sai mật khẩu');
+    }
+
+    setPassword('');
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+    setPassword('');
+  };
+
+  const LockAcc = () => {
+    const updatedUserData = {
+      status: 'Delete',
+    };
+
+    fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUserData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setModalVisible(false);
+        console.log(data);
+        Alert.alert('Thông Báo', 'Tài khoản của bạn sẽ bị khoá sau 10 ngày');
+        navigation.navigate('Login');
+      })
+      .catch(error => {
+        console.error('Lỗi:', error);
+        Alert.alert('Đã xảy ra lỗi khi xoá tài khoản');
+      });
+  };
+
+  const handleLockAccount = () => {
+    if (lockConfirmationPassword === confirmPassword) {
+      LockAcc();
+      setShowLockConfirmation(false);
+    } else {
+      Alert.alert('Mật khẩu xác nhận không chính xác!');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -87,16 +180,16 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
       <View style={styles.body}>
         <View style={styles.borderEdit}></View>
         <View>
-          <View style={styles.borderText}>
-            <Text style={styles.bodyTextTitlephone}> Change Password</Text>
-            <TouchableOpacity onPress={() => setshowpassword(!showpassword)}>
+          <TouchableOpacity onPress={() => setshowpassword(!showpassword)}>
+            <View style={styles.borderText}>
+              <Text style={styles.bodyTextTitlephone}> Change Password</Text>
               <AntDesign
                 name={showpassword ? 'up' : 'down'}
                 size={24}
                 color="black"
               />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
         {showpassword && (
           <View style={styles.changePasss}>
@@ -104,7 +197,11 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
               <Text style={styles.bodyTextTitle}> Password New</Text>
               <TextInput
                 placeholder="Password New"
-                onChangeText={setNewPassword}
+                value={newPassword}
+                onChangeText={text => {
+                  setNewPassword(text);
+                  handleFieldChange();
+                }}
                 secureTextEntry
                 style={styles.bodyTextInput}
               />
@@ -113,11 +210,16 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
               <Text style={styles.bodyTextTitle}> Confirm New Password</Text>
               <TextInput
                 placeholder="Confirm New Password"
+                value={confirmNewPassword}
+                onChangeText={text => {
+                  setConfirmNewPassword(text);
+                  handleFieldChange();
+                }}
                 secureTextEntry
                 style={styles.bodyTextInput}
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleUpdate}>
               <View style={styles.bodyButton}>
                 <Text style={styles.bodyTextButton}> Change</Text>
               </View>
@@ -125,7 +227,7 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
           </View>
         )}
         <View style={styles.bodytextItem}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowLockConfirmation(true)}>
             <View style={styles.borderText}>
               <Text style={styles.bodyTextDelete}> Delete Account</Text>
               <AntDesign name="right" size={24} color="red" />
@@ -133,6 +235,62 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       </View>
+
+      <Modal visible={isModalVisible} transparent>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Nhập mật khẩu để xác nhận</Text>
+            <TextInput
+              placeholder="Mật khẩu"
+              style={styles.modalTextInput}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity onPress={handleCancel}>
+                <View style={styles.modalCancelButton}>
+                  <Text style={styles.modalButtonText}>Huỷ</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handlePasswordConfirmation}>
+                <View style={styles.modalConfirmButton}>
+                  <Text style={styles.modalButtonText}>Xác nhận</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={showLockConfirmation} transparent>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+              Nhập mật khẩu để xác nhận xoá tài khoản
+            </Text>
+            <TextInput
+              placeholder="Mật khẩu"
+              style={styles.modalTextInput}
+              onChangeText={setLockConfirmationPassword}
+              value={lockConfirmationPassword}
+              secureTextEntry
+            />
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity onPress={() => setShowLockConfirmation(false)}>
+                <View style={styles.modalCancelButton}>
+                  <Text style={styles.modalButtonText}>Huỷ</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleLockAccount}>
+                <View style={styles.modalConfirmButton}>
+                  <Text style={styles.modalButtonText}>Xác nhận</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -140,7 +298,6 @@ const Security: React.FC<NavigationProps> = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   header: {
     width: width,
@@ -326,6 +483,58 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+  },
+
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  modalTextInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 200,
+    height: 40,
+    padding: 10,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  modalButtonContainer: {
+    width: 230,
+    flexDirection: 'row',
+    marginTop: 15,
+    justifyContent: 'space-between',
+  },
+  modalCancelButton: {
+    backgroundColor: 'black',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: 80,
+  },
+  modalConfirmButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: 80,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 

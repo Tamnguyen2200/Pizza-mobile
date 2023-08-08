@@ -32,6 +32,11 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
       phoneNumber: userProfile?.PhoneNumber,
     });
   };
+  const handleSecurity = () => {
+    navigation.navigate('Security', {
+      objectId,
+    });
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -134,7 +139,11 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
 
         <View style={styles.bodycon}>
           <View style={styles.bodyconItem}>
-            <TouchableOpacity style={styles.border}>
+            <TouchableOpacity
+              style={styles.border}
+              onPress={() => {
+                navigation.navigate('History', objectId);
+              }}>
               <Text style={styles.textButton}>History</Text>
               <AntDesign name="right" size={30} color="#A45D51" />
             </TouchableOpacity>
@@ -143,11 +152,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
 
         <View style={styles.bodycon}>
           <View style={styles.bodyconItem}>
-            <TouchableOpacity
-              style={styles.border}
-              onPress={() => {
-                navigation.navigate('Security');
-              }}>
+            <TouchableOpacity style={styles.border} onPress={handleSecurity}>
               <Text style={styles.textButton}>Security</Text>
               <AntDesign name="right" size={30} color="#A45D51" />
             </TouchableOpacity>

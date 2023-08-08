@@ -20,7 +20,8 @@ import MasterCard from './MasterCard';
 import VisaCard from './VisaCard';
 import Tracking from './Tracking';
 import Security from './Security';
-
+import Lockacc from './Lockacc';
+import History from './History';
 const Stack = createNativeStackNavigator();
 function Navigation() {
   return (
@@ -44,6 +45,8 @@ function Navigation() {
         <Stack.Screen name="Tracking" component={Tracking} />
         <Stack.Screen name="Editprofile" component={Editprofile} />
         <Stack.Screen name="Security" component={Security} />
+        <Stack.Screen name="Lockacc" component={Lockacc} />
+        <Stack.Screen name="History" component={History} />
       </Stack.Navigator>
     </NavigationContainer>
   );
