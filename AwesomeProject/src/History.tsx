@@ -7,10 +7,10 @@ import {
   Image,
   ActivityIndicator,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {NavigationProps, Profiles} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {useState, useEffect} from 'react';
 import {api, app, apiLogin} from './interface/urrl';
 import {useIsFocused} from '@react-navigation/native';
@@ -41,6 +41,31 @@ const History: React.FC<NavigationProps> = ({navigation, route}) => {
           <Text style={styles.texttitle}> History </Text>
         </View>
       </View>
+      <ScrollView>
+        <View style={styles.body}>
+          <View style={styles.list}>
+            <View style={styles.con}>
+              <Image
+                source={require('../assets/pizza.png')}
+                style={styles.imglist}
+              />
+              <View style={styles.item}>
+                <Text style={styles.ten}> Tên Pizza</Text>
+                <Text style={styles.size}> Size Bánh</Text>
+                <Text style={styles.gia}> Giá Tiền</Text>
+                <Text style={styles.ngay}> Ngày Đặt: </Text>
+              </View>
+              <View style={styles.sl}>
+                <Text style={styles.soluong}> Số lượng</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.list}></View>
+          <View style={styles.list}></View>
+          <View style={styles.list}></View>
+          <View style={styles.list}></View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -72,6 +97,53 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Comfortaa',
     color: 'white',
+  },
+
+  body: {
+    alignItems: 'center',
+    width: width,
+    height: '100%',
+  },
+  list: {
+    width: (width * 95) / 100,
+    height: (height * 20) / 100,
+    borderWidth: 1,
+    marginTop: 10,
+    borderRadius: 10,
+  },
+  imglist: {
+    width: 120,
+    height: 140,
+  },
+  con: {
+    padding: 5,
+    flexDirection: 'row',
+  },
+  item: {
+    marginLeft: 10,
+  },
+  ten: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  size: {
+    fontSize: 20,
+    fontWeight: '400',
+  },
+  gia: {
+    fontSize: 17,
+    fontWeight: '400',
+  },
+  ngay: {
+    fontSize: 17,
+    fontWeight: '400',
+  },
+  sl: {
+    justifyContent: 'flex-end',
+  },
+  soluong: {
+    fontSize: 17,
+    fontWeight: '400',
   },
 });
 
