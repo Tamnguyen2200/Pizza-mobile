@@ -5,55 +5,45 @@ import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import ProductInPayment from "./components/ProductInPayment";
-import { NavigationProps, OrderProps, ProductInPaymentProps, ProfileProps } from "./interface/Props";
+import { ChesseProps, NavigationProps, OrderProps, PizzaProps, ProductInPaymentProps, ProfileProps, SizeProps, ThicknessProps } from "./interface/Props";
 import { app, api } from "./interface/urrl";
 
 function Payment({ navigation, route }: NavigationProps): JSX.Element {
-    const [total, setTotal] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [selectedProducts, setSelectedProducts] = useState<OrderProps[]>([]); // Lưu trữ thông tin các sản phẩm đã chọn
     const [PaymentData, setPaymentData] = useState<ProfileProps>();
-
     
     const handleSelectRemoveProduct = (id: string) => {
-        fetchRemoveProductInOrder(id)
+        // fetchRemoveProductInOrder(id)
     }
 
-    const handleCalculatedPriceChange = (calculatedPrice: number) => {
-        setTotal(calculatedPrice);
-        // console.log("Total " + total + calculatedPrice)
-        // setTotalPrice(total + calculatedPrice)
-    };
-
-    const fetchRemoveProductInOrder = async(id: string) => {
-        fetch(`https://api.backendless.com/${app}/${api}/data/Users/${PaymentData?.objectId}/Order`, {
-          method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify([
-            id
-          ]),
-        }).then(response => response.json())
-        .then(data =>{
-          if(data == 1){
-            Alert.alert('Delete product?')
-            fetchPayment()
-          } else{
-            Alert.alert('Error', "Can't remove product");
-          }
-        })
-    }
-    const { data } = route.params;
+    // const fetchRemoveProductInOrder = async(id: string) => {
+    //     fetch(`https://api.backendless.com/${app}/${api}/data/Users/${PaymentData?.objectId}/Order`, {
+    //       method: 'DELETE',
+    //       headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify([
+    //         id
+    //       ]),
+    //     }).then(response => response.json())
+    //     .then(data =>{
+    //       if(data == 1){
+    //         Alert.alert('Delete product?')
+    //         fetchPayment()
+    //       } else{
+    //         Alert.alert('Error', "Can't remove product");
+    //       }
+    //     })
+    // }
+    const  data  = route.params.objectId;
 
     const fetchPayment = async () => {
         try {
             const relation = "?loadRelations=Order.Cheese%2COrder.Pizza%2COrder.Size%2COrder.Thickness%2COrder"
-            const url = `https://api.backendless.com/${app}/${api}/data/Users${relation}`;
+            const url = `https://api.backendless.com/${app}/${api}/data/Users/${data}${relation}`;
             const response = await fetch(url);
             const json = await response.json();
-            setPaymentData(json[0]);
+            setPaymentData(json);
         }
         catch (error) {
             // Alert.alert('error');
@@ -64,28 +54,44 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         }
     }
     useEffect(() => {
-        // console.log(route)
         fetchPayment();
-        calculateSubtotal()
-    }, [])
+    }, []);
 
-    const calculateSubtotal = () => {
-        PaymentData?.Order.forEach((order) => {
-            const thicknessPrice = order.Thickness.PriceThickness;
-            const pizzaPrice = order.Pizza.Total;
-            const sizePrice = order.Size.PriceSize;
-            const cheesePrice = order.Cheese.PriceCheese;
-            const quantity = order.Quantity;
-            const PriceOrder = (thicknessPrice + pizzaPrice + sizePrice + cheesePrice) * quantity
-            console.log(PriceOrder)
-        })
-    }
-    // const calculateAllOrderTotals = (orderList) => {
-    //     return orderList.map((order) => {
-    //       const total = calculateOrderTotal(order);
-    //       return { ...order, TotalPrice: total };
-    //     });
-    // };
+    
+
+    //tính từng order
+    const calculateTotalPrice = (order: any) => {
+        let totalPrice = 0;
+      
+        if (order.Thickness) {
+          totalPrice += order.Thickness.PriceThickness || 0;
+        }
+        if (order.Pizza) {
+          totalPrice += order.Pizza.Total * (order.Pizza.TypeData === 'Best Seller' ? 15 : 10); // Giá tạm thời, bạn cần thay đổi logic tính giá thực tế
+        }
+        if (order.Size) {
+          totalPrice += order.Size.PriceSize || 0;
+        }
+        if (order.Cheese) {
+          totalPrice += order.Cheese.PriceCheese || 0;
+        }
+      
+        return totalPrice;
+    };
+    
+    //cập nhật order sau khi tính tổng
+    const updatedOrders: { TotalPrice: number; Pizza: PizzaProps; Thickness: ThicknessProps; Size: SizeProps; Cheese: ChesseProps; PriceCheese: number; PricePizza: number; PriceSize: number; PriceThiness: number; objectId: string; Quantity: number; id: number; }[] = [];
+    PaymentData?.Order.forEach((order) => {
+        const totalPrice = calculateTotalPrice(order);
+        updatedOrders.push({
+            ...order,
+            TotalPrice: totalPrice,
+        });
+    });
+    
+    // tính tổng order
+    const totalPriceSum = updatedOrders.reduce((sum, order) => sum + order.TotalPrice, 0);
+    // settotalOrderPrice(totalPriceSum)
 
     return (
         <ScrollView style={{ backgroundColor: '#F5F5F5', flex: 100 }}>
@@ -93,7 +99,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <View style={{ flex: 10, marginLeft: 15, width: 225, paddingTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View>
-                        <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
+                        <TouchableOpacity onPress={() => { navigation.navigate('Home', {data}) }}>
                             <Image
                                 source={require('../assets/arrowback.png')}
                                 style={{
@@ -114,7 +120,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <Text style={{ color: '#000000', fontSize: 15, paddingBottom: 5, fontWeight: '700' }}>FILL YOUR INFORMATION</Text>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7, marginBottom: 10 }}>
                     <TextInput
-                        style={{ color: 'black', height: 40 }}
+                        style={{ color: '   black', height: 40 }}
                         placeholder='Name'
                         value={PaymentData?.FullName}
                     />
@@ -141,7 +147,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             </View>
             {/* Product */}
             <View style={{ flex: 100, marginTop: 15, marginLeft: 16, marginRight: 16 }}>
-             {PaymentData?.Order.map((item) => (  
+             {updatedOrders?.map((item) => ( 
                 <View key={item.objectId}>
                 <ProductInPayment 
                     Pizza={item.Pizza}
@@ -151,7 +157,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                     Cheese={item.Cheese}
                     TotalPrice={item.TotalPrice}
                     onSelectRemoveProduct={handleSelectRemoveProduct} 
-                    onCalculatedPriceChange={handleCalculatedPriceChange}
                     />
                 </View>
                 ))}
@@ -161,7 +166,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <View style={{ backgroundColor: '#D9D9D9', width: '100%', height: 1, marginBottom: 10, marginTop: 10 }}></View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginLeft: 10, marginRight: 10 }}>
                     <Text style={{ fontSize: 15, color: '#A45D51', }}>Total:</Text>
-                    <Text style={{ color: '#000000', fontSize: 15, }}>${totalPrice}</Text>
+                    <Text style={{ color: '#000000', fontSize: 15, }}>${totalPriceSum}</Text>
                 </View>
             </View>
             {/* PaymentMethod */}
@@ -308,3 +313,4 @@ const styles = StyleSheet.create({
 
 
 export default Payment;
+
