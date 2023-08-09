@@ -44,7 +44,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                     fetchPayment()
                   },
                 },
-            ]);
+              ]);
             
           } else{
             Alert.alert('Error', "Can't remove product");
@@ -61,7 +61,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             const response = await fetch(url);
             const json = await response.json();
             setPaymentData(json);
-            setIsLoading(false);
+            
         }
         catch (error) {
             // Alert.alert('error');
@@ -89,7 +89,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
           </View>
         );
-    }
+      }
 
     //tính từng order
     const calculateTotalPrice = (order: any) => {
