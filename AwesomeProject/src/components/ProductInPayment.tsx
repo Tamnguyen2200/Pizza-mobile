@@ -7,23 +7,23 @@ import { OrderProps, ProductInPaymentProps } from '../interface/Props';
 
 function ProductInPayment({ Pizza, Size, Thickness, id, Cheese, TotalPrice , onSelectRemoveProduct, onCalculatedPriceChange}: ProductInPaymentProps): JSX.Element {
     const [quantity, setQuantity] = useState(1);
-    const [total, setTotal] = useState(0)
-
-    function calculatePizzaTotalPrice() {
-        const totalPrice = (Pizza.Total + Size.PriceSize + Thickness.PriceThickness + Cheese.PriceCheese) * quantity
-        setTotal(totalPrice)
-        return totalPrice;
-    }
-
-    useEffect(() => {
-        calculatePizzaTotalPrice();
-        onCalculatedPriceChange && onCalculatedPriceChange(total);
-    }, [quantity, onCalculatedPriceChange]);
+    const [initialPrice, setInitialPrice] = useState(TotalPrice);
 
     //Hàm tăng số lượng
     const increaseQuantity = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
     };
+
+    useEffect(() => {
+        // Calculate total price based on quantity
+        const calculatedTotal = initialPrice * quantity;
+    
+    
+        // Notify parent component about the change
+        if (onCalculatedPriceChange) {
+          onCalculatedPriceChange(id, calculatedTotal);
+        }
+      }, [quantity, initialPrice]);
 
     // Hàm giảm số lượng
     const decreaseQuantity = () => {

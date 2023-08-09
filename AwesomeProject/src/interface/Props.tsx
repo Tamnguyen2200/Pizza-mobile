@@ -15,7 +15,7 @@ export interface ProductInPaymentProps {
   TotalPrice: number;
   id: string;
   onSelectRemoveProduct?: (id: string) => void;
-  onCalculatedPriceChange?: (calculatedPrice: number) => void;
+  onCalculatedPriceChange?: ( id: string ,calculatedPrice: number) => void;
 }
 
 export interface CheeseButtonProps {
