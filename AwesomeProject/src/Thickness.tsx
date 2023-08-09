@@ -10,6 +10,7 @@ function Thickness({ navigation, route }: NavigationProps): JSX.Element {
   const [isLoading, setLoading] = useState(true);
   const  OrderId  = route.params.data;
   const SizeId = route.params.AddData;
+  const objectId = route.params.objectId;
 
 
   const handleDropdownThinToggle = (dropdownName: string) => {
@@ -122,7 +123,7 @@ function Thickness({ navigation, route }: NavigationProps): JSX.Element {
     }).then(response => response.json())
     .then(data =>{
       if(data == 1){
-        navigation.navigate('Payment',{data: OrderId, AddData: 'Cash'})
+        navigation.navigate('Payment',{objectId: objectId, additionalValue: 'Cash'})
       } else{
         Alert.alert('Error', "Can't add pizza.");
       }

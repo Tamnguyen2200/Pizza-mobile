@@ -16,7 +16,20 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const [error, setError] = useState<any>(null);
 
     const handleSelectRemoveProduct = (id: string) => {
-        fetchRemoveProductInOrder(id)
+        Alert.alert('delete order', 'Are you sure to delete this order?', [
+            {
+              text: 'cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Yes',
+              style: 'destructive',
+              onPress: () => {
+                fetchRemoveProductInOrder(id)
+              },
+            },
+          ]);
+        // 
     }
 
     const fetchRemoveProductInOrder = async(id: string) => {
@@ -32,20 +45,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         }).then(response => response.json())
         .then(data =>{
           if(data == 1){
-            Alert.alert('Delete Order', '?', [
-                {
-                  text: 'Hủy',
-                  style: 'cancel',
-                },
-                {
-                  text: 'Ok',
-                  style: 'destructive',
-                  onPress: () => {
-                    fetchPayment()
-                  },
-                },
-              ]);
-            
+            fetchPayment()
           } else{
             Alert.alert('Error', "Can't remove product");
           }
@@ -61,7 +61,19 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             const response = await fetch(url);
             const json = await response.json();
             setPaymentData(json);
-            
+            if (json?.Order) {
+                const updatedOrdersInitial = json.Order.map((order: any) => {
+                  const totalPrice = calculateTotalPrice(order);
+                  return {
+                    ...order,
+                    TotalPrice: totalPrice,
+                  };
+                });
+                setUpdatedOrders(updatedOrdersInitial);
+            }
+        
+            setIsLoading(false);
+ 
         }
         catch (error) {
             // Alert.alert('error');
@@ -111,19 +123,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         return totalPrice;
     };
     
-    useEffect(() => {
-        if (PaymentData?.Order) {
-          const updatedOrdersInitial = PaymentData.Order.map((order) => {
-            const totalPrice = calculateTotalPrice(order);
-            return {
-              ...order,
-              TotalPrice: totalPrice,
-            };
-          });
-          setUpdatedOrders(updatedOrdersInitial);
-        }
-      }, [PaymentData]);
-
     const handleCalculatedPriceChange = (itemId: string, newTotal: number) => {
         // Create a copy of the updatedOrders array
         const updatedOrdersCopy = [...updatedOrders];
@@ -193,7 +192,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             {/* Order */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, marginLeft: 16, marginRight: 16 }}>
                 <Text style={{ color: '#000000', fontSize: 15, marginBottom: 10, fontWeight: '600' }}>ORDER PROCESSING</Text>
-                <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: 'Cash'}) }}>
                     <Text style={{ color: 'black', fontSize: 15, }}>More dishes</Text>
                 </TouchableOpacity>
             </View>
