@@ -48,7 +48,7 @@ function ProductInPayment({ Pizza, Size, Thickness, id, Cheese, TotalPrice , onS
                 <View>
                     <Text style={{ color: '#000000', fontSize: 13, marginLeft: 20, fontWeight: '700' }}>{Pizza.PizzaName}</Text>
                     <Text style={{ color: '#000000', fontSize: 12, marginLeft: 20, paddingTop: 5, paddingBottom: 5 }}>{Size.SizeName}, {Thickness.ThicknessName},{Cheese.CheeseName}</Text>
-                    <Text style={{ color: '#000000', fontSize: 13, marginLeft: 20, fontWeight: '700' }}>${total}</Text>
+                    <Text style={{ color: '#000000', fontSize: 13, marginLeft: 20, fontWeight: '700' }}>${TotalPrice}</Text>
                     <View style={{ marginTop: 15, width: 90, marginLeft: 20, backgroundColor: 'white', borderWidth: 1, borderColor: '#000000', height: 30, borderRadius: 15, }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                             <TouchableOpacity onPress={decreaseQuantity} style={{ alignItems: 'center', display: 'flex', alignContent: 'center' }}>

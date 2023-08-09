@@ -30,6 +30,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
   const {objectId} = route.params || {};
 
   useEffect(() => {
+    console.log(objectId)
     fetchData();
     setIsLoading(true);
   }, []);
