@@ -84,6 +84,7 @@ export interface OrderProps {
   objectId: string;
   Quantity: number;
   id: number;
+
 }
 
 export interface PizzaProps {
@@ -106,6 +107,8 @@ export interface ProfileProps {
   Address: string;
   objectId: string;
   Order: OrderProps[];
+  TotalPriceOrder: number
+  PaymentMethod: string;
 }
 
 export interface PhoneNumberProps {

@@ -11,6 +11,8 @@ function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
         navigation.navigate('Payment', { data: method })
     };
 
+    
+
     return (
         <View style={{
             backgroundColor: '#F5F5F5',

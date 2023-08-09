@@ -15,9 +15,40 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<any>(null);
 
+    const objectId  = route.params.objectId;
+    const PayMentMethod = route.params.additionalValue;
+
     const handleSelectRemoveProduct = (id: string) => {
         fetchRemoveProductInOrder(id)
     }
+
+    const handleSelectAddOrder = () => {
+        fetchAddProductToOrder()
+    }
+
+    const fetchAddProductToOrder = async() => {
+        fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+                objectId : objectId,
+                PaymentMethod: PayMentMethod,
+                TotalPriceOrder: totalOrderPrice
+            }),
+        }).then(response => response.json())
+        .then(data =>{
+            Alert.alert(data)
+          if(data == 1){
+            navigation.navigate('PaymentSuccessful', {objectId, additionalValue: 'Cash'})
+          } else{
+            Alert.alert('Error', "Can't remove product");
+          }
+        })
+    }
+
 
     const fetchRemoveProductInOrder = async(id: string) => {
         fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`, {
@@ -32,7 +63,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         }).then(response => response.json())
         .then(data =>{
           if(data == 1){
-            Alert.alert('Delete Order', '?', [
+            Alert.alert('DELETE', 'Do you want to delete order?', [
                 {
                   text: 'Hủy',
                   style: 'cancel',
@@ -51,8 +82,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
           }
         })
     }
-    const objectId  = route.params.objectId;
-    const PayMentMethod = route.params.additionalValue;
+
 
     const fetchPayment = async () => {
         try {
@@ -61,6 +91,16 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             const response = await fetch(url);
             const json = await response.json();
             setPaymentData(json);
+            if (json?.Order) {
+                const updatedOrdersInitial = json.Order.map((order: any) => {
+                  const totalPrice = calculateTotalPrice(order);
+                  return {
+                    ...order,
+                    TotalPrice: totalPrice,
+                  };
+                });
+                setUpdatedOrders(updatedOrdersInitial);
+            }
             setIsLoading(false);
         }
         catch (error) {
@@ -111,18 +151,18 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         return totalPrice;
     };
     
-    useEffect(() => {
-        if (PaymentData?.Order) {
-          const updatedOrdersInitial = PaymentData.Order.map((order) => {
-            const totalPrice = calculateTotalPrice(order);
-            return {
-              ...order,
-              TotalPrice: totalPrice,
-            };
-          });
-          setUpdatedOrders(updatedOrdersInitial);
-        }
-      }, [PaymentData]);
+    // useEffect(() => {
+    //     if (PaymentData?.Order) {
+    //       const updatedOrdersInitial = PaymentData.Order.map((order) => {
+    //         const totalPrice = calculateTotalPrice(order);
+    //         return {
+    //           ...order,
+    //           TotalPrice: totalPrice,
+    //         };
+    //       });
+    //       setUpdatedOrders(updatedOrdersInitial);
+    //     }
+    //   }, [PaymentData]);
 
     const handleCalculatedPriceChange = (itemId: string, newTotal: number) => {
         // Create a copy of the updatedOrders array
@@ -175,18 +215,21 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                         style={{ color: 'black', height: 40 }}
                         placeholder='Name'
                         value={PaymentData?.FullName}
+                        editable = {false}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7, marginBottom: 10 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Phone number'
                         value={String(PaymentData?.PhoneNumber)}
+                        editable = {false}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Address'
                         value={PaymentData?.Address}
+                        editable = {false}
                     />
                 </View>
             </View>
@@ -323,7 +366,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <View style={{ flex: 20, marginLeft: 15, marginRight: 15, marginTop: 10, marginBottom: 40 }}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('PaymentSuccessful')
+                        handleSelectAddOrder
                     }}
                     style={{
                         marginTop: 15,

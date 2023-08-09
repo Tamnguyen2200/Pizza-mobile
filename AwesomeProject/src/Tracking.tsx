@@ -230,7 +230,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >302$ (Paypal)</Text>
+                >302$ (Cash)</Text>
             </View>
         </View>
     )

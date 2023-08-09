@@ -105,6 +105,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
       </View>
     );
   }
+  
 
   return (
     <View style={styles.container}>
