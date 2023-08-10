@@ -15,72 +15,87 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<any>(null);
 
-    const objectId  = route.params.objectId;
+    const objectId = route.params.objectId;
     const PayMentMethod = route.params.additionalValue;
 
     const handleSelectRemoveProduct = (id: string) => {
         fetchRemoveProductInOrder(id)
     }
 
-    const handleSelectAddOrder = () => {
-        fetchAddProductToOrder()
-    }
-
-    const fetchAddProductToOrder = async() => {
-        fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}`, {
-          method: 'PUT',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-                objectId : objectId,
+    const fetchAddProductToOrder = async () => {
+        try {
+            const orderData = {
+                objectId: objectId,
                 PaymentMethod: PayMentMethod,
-                TotalPriceOrder: totalOrderPrice
-            }),
-        }).then(response => response.json())
-        .then(data =>{
-            Alert.alert(data)
-          if(data == 1){
-            navigation.navigate('PaymentSuccessful', {objectId, additionalValue: 'Cash'})
-          } else{
-            Alert.alert('Error', "Can't remove product");
-          }
-        })
+                TotalPriceOrder: totalOrderPrice,
+            };
+            console.log(orderData)
+
+            const response = await fetch(
+                `https://api.backendless.com/${app}/${api}/data/Users/${objectId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                }
+            );
+            const data = await response.json();
+
+            if (data) {
+                navigation.navigate('PaymentSuccessful', {
+                    PayMentMethod: PayMentMethod,
+                    Fullname: PaymentData?.FullName,
+                    Address: PaymentData?.Address,
+                    PhoneNumber: PaymentData?.PhoneNumber,
+                    PaymentMethod: PaymentData?.PaymentMethod,
+                    TotalPriceOrder: PaymentData?.TotalPriceOrder,
+                    objectId,
+                    additionalValue: 'Cash',
+                });
+            } else {
+                Alert.alert('Error', "Can't order");
+            }
+        } catch (error) {
+            console.error('Error order:', error);
+            Alert.alert('Error', "Can't order");
+        }
     }
 
 
-    const fetchRemoveProductInOrder = async(id: string) => {
+    const fetchRemoveProductInOrder = async (id: string) => {
         fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`, {
-          method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify([
-            id
-          ]),
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([
+                id
+            ]),
         }).then(response => response.json())
-        .then(data =>{
-          if(data == 1){
-            Alert.alert('DELETE', 'Do you want to delete order?', [
-                {
-                  text: 'Hủy',
-                  style: 'cancel',
-                },
-                {
-                  text: 'Ok',
-                  style: 'destructive',
-                  onPress: () => {
-                    fetchPayment()
-                  },
-                },
-            ]);
-            
-          } else{
-            Alert.alert('Error', "Can't remove product");
-          }
-        })
+            .then(data => {
+                if (data == 1) {
+                    Alert.alert('DELETE', 'Do you want to delete order?', [
+                        {
+                            text: 'Hủy',
+                            style: 'cancel',
+                        },
+                        {
+                            text: 'Ok',
+                            style: 'destructive',
+                            onPress: () => {
+                                fetchPayment()
+                            },
+                        },
+                    ]);
+
+                } else {
+                    Alert.alert('Error', "Can't remove product");
+                }
+            })
     }
 
 
@@ -93,11 +108,11 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             setPaymentData(json);
             if (json?.Order) {
                 const updatedOrdersInitial = json.Order.map((order: any) => {
-                  const totalPrice = calculateTotalPrice(order);
-                  return {
-                    ...order,
-                    TotalPrice: totalPrice,
-                  };
+                    const totalPrice = calculateTotalPrice(order);
+                    return {
+                        ...order,
+                        TotalPrice: totalPrice,
+                    };
                 });
                 setUpdatedOrders(updatedOrdersInitial);
             }
@@ -118,39 +133,39 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     if (isLoading) {
         return (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
-          </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
+            </View>
         );
-      }
-      if (error) {
+    }
+    if (error) {
         return (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
-          </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
+            </View>
         );
     }
 
     //tính từng order
     const calculateTotalPrice = (order: any) => {
         let totalPrice = 0;
-      
+
         if (order.Thickness) {
-          totalPrice += order.Thickness.PriceThickness || 0;
+            totalPrice += order.Thickness.PriceThickness || 0;
         }
         if (order.Pizza) {
-          totalPrice += order.Pizza.Total * (order.Pizza.TypeData === 'Best Seller' ? 15 : 10); // Giá tạm thời, bạn cần thay đổi logic tính giá thực tế
+            totalPrice += order.Pizza.Total * (order.Pizza.TypeData === 'Best Seller' ? 15 : 10); // Giá tạm thời, bạn cần thay đổi logic tính giá thực tế
         }
         if (order.Size) {
-          totalPrice += order.Size.PriceSize || 0;
+            totalPrice += order.Size.PriceSize || 0;
         }
         if (order.Cheese) {
-          totalPrice += order.Cheese.PriceCheese || 0;
+            totalPrice += order.Cheese.PriceCheese || 0;
         }
-      
+
         return totalPrice;
     };
-    
+
     // useEffect(() => {
     //     if (PaymentData?.Order) {
     //       const updatedOrdersInitial = PaymentData.Order.map((order) => {
@@ -191,7 +206,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <View style={{ flex: 10, marginLeft: 15, width: 225, paddingTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View>
-                        <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: 'Cash'}) }}>
+                        <TouchableOpacity onPress={() => { navigation.navigate('Home', { objectId, additionalValue: 'Cash' }) }}>
                             <Image
                                 source={require('../assets/arrowback.png')}
                                 style={{
@@ -207,7 +222,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 </View>
             </View>
             {/* Form */}
-            
+
             <View style={{ flex: 20, marginLeft: 15, marginRight: 15, marginTop: 25 }}>
                 <Text style={{ color: '#000000', fontSize: 15, paddingBottom: 5, fontWeight: '700' }}>FILL YOUR INFORMATION</Text>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7, marginBottom: 10 }}>
@@ -215,21 +230,21 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                         style={{ color: 'black', height: 40 }}
                         placeholder='Name'
                         value={PaymentData?.FullName}
-                        editable = {false}
+                        editable={false}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7, marginBottom: 10 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Phone number'
                         value={String(PaymentData?.PhoneNumber)}
-                        editable = {false}
+                        editable={false}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Address'
                         value={PaymentData?.Address}
-                        editable = {false}
+                        editable={false}
                     />
                 </View>
             </View>
@@ -242,19 +257,19 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             </View>
             {/* Product */}
             <View style={{ flex: 100, marginTop: 15, marginLeft: 16, marginRight: 16 }}>
-             {updatedOrders?.map((item) => ( 
-                <View key={item.objectId}>
-                <ProductInPayment 
-                    Pizza={item.Pizza}
-                    Size={item.Size}
-                    id={item.objectId}
-                    Thickness={item.Thickness}
-                    Cheese={item.Cheese}
-                    TotalPrice={item.TotalPrice}
-                    onSelectRemoveProduct={handleSelectRemoveProduct}
-                    onCalculatedPriceChange={handleCalculatedPriceChange}
-                    />
-                </View>
+                {updatedOrders?.map((item) => (
+                    <View key={item.objectId}>
+                        <ProductInPayment
+                            Pizza={item.Pizza}
+                            Size={item.Size}
+                            id={item.objectId}
+                            Thickness={item.Thickness}
+                            Cheese={item.Cheese}
+                            TotalPrice={item.TotalPrice}
+                            onSelectRemoveProduct={handleSelectRemoveProduct}
+                            onCalculatedPriceChange={handleCalculatedPriceChange}
+                        />
+                    </View>
                 ))}
             </View>
             {/* Price */}
@@ -366,7 +381,16 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <View style={{ flex: 20, marginLeft: 15, marginRight: 15, marginTop: 10, marginBottom: 40 }}>
                 <TouchableOpacity
                     onPress={() => {
-                        handleSelectAddOrder
+                        fetchAddProductToOrder()
+                        // navigation.navigate('PaymentSuccessful', {
+                        //     objectId: objectId,
+                        //     PayMentMethod: PayMentMethod,
+                        //     Fullname: PaymentData?.FullName,
+                        //     Address: PaymentData?.Address,
+                        //     PhoneNumber: PaymentData?.PhoneNumber,
+                        //     PaymentMethod: PaymentData?.PaymentMethod,
+                        //     TotalPriceOrder: PaymentData?.TotalPriceOrder
+                        // })
                     }}
                     style={{
                         marginTop: 15,
@@ -384,7 +408,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 </TouchableOpacity>
             </View>
         </ScrollView>
-
     )
 }
 const styles = StyleSheet.create({

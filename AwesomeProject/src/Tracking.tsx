@@ -8,7 +8,11 @@ import ToppingButton from "./components/ToppingButton";
 import { NavigationProps, ToppingProps } from "./interface/Props";
 import { api, app } from "./interface/urrl";
 
-function Tracking({ navigation }: NavigationProps): JSX.Element{
+function Tracking({ navigation, route }: NavigationProps): JSX.Element{
+    // const [TotalOrderPrice, setTotalOrderPrice] = useState(0);
+    // const newTotalPrice = TotalOrderPrice
+    // setTotalOrderPrice(newTotalPrice);
+    const { Fullname, Address, PhoneNumber, PaymentMethod, TotalPriceOrder, } = route.params;
     return (
         <View style={{
             flex: 100,
@@ -112,7 +116,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
     
     
             </View>
-            <View style={{
+            {/* <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginTop: 35,
@@ -121,7 +125,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                 width: '80%'
             }}>
                 <Text style={{
-                    color: '#000000',
+                    color: 'red',
                     fontSize: 15,
                 }}
                 >Vegan</Text>
@@ -151,7 +155,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     fontSize: 15,
                 }}
                 >x1</Text>
-            </View>
+            </View> */}
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -170,7 +174,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >Tien</Text>
+                >{Fullname}</Text>
             </View>
             <View style={{
                 flexDirection: 'row',
@@ -190,7 +194,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >0123456789</Text>
+                >{PhoneNumber}</Text>
             </View>
             <View style={{
                 flexDirection: 'row',
@@ -210,7 +214,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >TP. Ho Chi Minh</Text>
+                >{Address}</Text>
             </View>
             <View style={{
                 flexDirection: 'row',
@@ -230,7 +234,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >302$ (Cash)</Text>
+                >${TotalPriceOrder} ({PaymentMethod})</Text>
             </View>
         </View>
     )

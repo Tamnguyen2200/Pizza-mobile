@@ -3,11 +3,13 @@ import { Dimensions, Image, Keyboard, ScrollView, TextInput, TouchableOpacityCom
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
-import { NavigationProps } from "./interface/Props";
+import { NavigationProps, ProfileProps } from "./interface/Props";
 
 
-function PaymentSuccessful ({navigation}: NavigationProps): JSX.Element{
-    return(
+function PaymentSuccessful({ navigation, route }: NavigationProps): JSX.Element {
+    const { PaymentMethod, Fullname, Address, PhoneNumber, TotalPriceOrder } = route.params;
+
+    return (
         <View style={{
             backgroundColor: '#F5F5F5',
             flex: 100,
@@ -38,47 +40,53 @@ function PaymentSuccessful ({navigation}: NavigationProps): JSX.Element{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                 }}>
-                    <TouchableOpacity 
-                    onPress={() => {
-                        navigation.navigate('Tracking')
-                    }}
-                    style={{
-                        marginTop: 30,
-                        borderColor: '#A45D51',
-                        backgroundColor: '#A45D51',
-                        borderWidth: 1,
-                        width: 180,
-                        height: 40,
-                        borderRadius: 7,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('Tracking', {
+                                Fullname: Fullname,
+                                Address: Address,
+                                PhoneNumber: PhoneNumber,
+                                PaymentMethod: PaymentMethod,
+                                TotalPriceOrder: TotalPriceOrder
+                            })
+                        }}
+                        style={{
+                            marginTop: 30,
+                            borderColor: '#A45D51',
+                            backgroundColor: '#A45D51',
+                            borderWidth: 1,
+                            width: 180,
+                            height: 40,
+                            borderRadius: 7,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                         <Text style={{
                             fontSize: 15,
                             color: 'white'
                         }}>Tracking your order</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
-                    onPress={() => {
-                        navigation.navigate('Home')
-                    }}
-                    style={{
-                        marginTop: 30,
-                        borderColor: '#A45D51',
-                        borderWidth: 1,
-                        width: 180,
-                        height: 40,
-                        borderRadius: 7,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('Home')
+                        }}
+                        style={{
+                            marginTop: 30,
+                            borderColor: '#A45D51',
+                            borderWidth: 1,
+                            width: 180,
+                            height: 40,
+                            borderRadius: 7,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                         <Text style={{
                             fontSize: 15,
                             color: '#A45D51'
                         }}>Order</Text>
                     </TouchableOpacity>
                 </View>
-    
+
             </View>
         </View>
     )
