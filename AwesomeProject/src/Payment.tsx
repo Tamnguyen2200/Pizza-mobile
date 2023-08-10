@@ -144,13 +144,49 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         }
     };
 
+    const fetchAddProductToOrder = async() => {
+        try {
+            const orderData = {
+                objectId: objectId,
+                PaymentMethod: PayMentMethod,
+                TotalPriceOrder: totalOrderPrice,
+            };
+            console.log(orderData)
+
+            const response = await fetch(
+                `https://api.backendless.com/${app}/${api}/data/Users/${objectId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                }
+            );
+            const data = await response.json();
+
+            if (data) {
+                navigation.navigate('PaymentSuccessful', {
+                    objectId,
+                    additionalValue: PayMentMethod,
+                });
+            } else {
+                //   Alert.alert('Error', "Can't order");
+            }
+        } catch (error) {
+            console.error('Error order:', error);
+            Alert.alert('Error', "Can't order");
+        }
+    }
+
     return (
         <ScrollView style={{ backgroundColor: '#F5F5F5', flex: 100 }}>
             {/* Button Back */}
             <View style={{ flex: 10, marginLeft: 15, width: 225, paddingTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View>
-                        <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: 'Cash'}) }}>
+                        <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: PayMentMethod}) }}>
                             <Image
                                 source={require('../assets/arrowback.png')}
                                 style={{
@@ -192,7 +228,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             {/* Order */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, marginLeft: 16, marginRight: 16 }}>
                 <Text style={{ color: '#000000', fontSize: 15, marginBottom: 10, fontWeight: '600' }}>ORDER PROCESSING</Text>
-                <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: 'Cash'}) }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: PayMentMethod}) }}>
                     <Text style={{ color: 'black', fontSize: 15, }}>More dishes</Text>
                 </TouchableOpacity>
             </View>
@@ -226,7 +262,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <Text style={{ color: '#000000', fontSize: 15, paddingBottom: 5 }}>PAYMENT METHOD</Text>
                 <TouchableOpacity style={{ height: 45, borderRadius: 7, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', marginTop: 17 }}
                     onPress={() => {
-                        navigation.navigate('PaymentMethods')
+                        navigation.navigate('PaymentMethods', {objectId, additionalValue: PayMentMethod})
                     }}
                 >
                     {PayMentMethod === 'Cash' && (
@@ -322,7 +358,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <View style={{ flex: 20, marginLeft: 15, marginRight: 15, marginTop: 10, marginBottom: 40 }}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('PaymentSuccessful')
+                        fetchAddProductToOrder()
                     }}
                     style={{
                         marginTop: 15,

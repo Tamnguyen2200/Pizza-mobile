@@ -6,7 +6,11 @@ import { Button, Text, View } from "react-native";
 import { NavigationProps } from "./interface/Props";
 
 
-function PaymentSuccessful ({navigation}: NavigationProps): JSX.Element{
+function PaymentSuccessful ({navigation, route}: NavigationProps): JSX.Element{
+
+    const objectId  = route.params.objectId;
+    const PayMentMethod = route.params.additionalValue;
+
     return(
         <View style={{
             backgroundColor: '#F5F5F5',
@@ -40,7 +44,7 @@ function PaymentSuccessful ({navigation}: NavigationProps): JSX.Element{
                 }}>
                     <TouchableOpacity 
                     onPress={() => {
-                        navigation.navigate('Tracking')
+                        navigation.navigate('Tracking', {objectId, additionalValue: PayMentMethod})
                     }}
                     style={{
                         marginTop: 30,
