@@ -35,48 +35,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         // 
     }
 
-<<<<<<< HEAD
-    const fetchAddProductToOrder = async () => {
-        try {
-            const orderData = {
-                objectId: objectId,
-                PaymentMethod: PayMentMethod,
-                TotalPriceOrder: totalOrderPrice,
-            };
-            console.log(orderData)
-
-            const response = await fetch(
-                `https://api.backendless.com/${app}/${api}/data/Users/${objectId}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderData),
-                }
-            );
-            const data = await response.json();
-
-            if (data) {
-                navigation.navigate('PaymentSuccessful', {
-                    PayMentMethod: PayMentMethod,
-                    Fullname: PaymentData?.FullName,
-                    Address: PaymentData?.Address,
-                    PhoneNumber: PaymentData?.PhoneNumber,
-                    PaymentMethod: PaymentData?.PaymentMethod,
-                    TotalPriceOrder: PaymentData?.TotalPriceOrder,
-                    objectId,
-                    additionalValue: 'Cash',
-                });
-            } else {
-                Alert.alert('Error', "Can't order");
-            }
-        } catch (error) {
-            console.error('Error order:', error);
-            Alert.alert('Error', "Can't order");
-        }
-=======
     const fetchRemoveProductInOrder = async(id: string) => {
         fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`, {
           method: 'DELETE',
@@ -95,7 +53,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             Alert.alert('Error', "Can't remove product");
           }
         })
->>>>>>> main
     }
 
 
@@ -142,16 +99,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             setPaymentData(json);
             if (json?.Order) {
                 const updatedOrdersInitial = json.Order.map((order: any) => {
-<<<<<<< HEAD
-                    const totalPrice = calculateTotalPrice(order);
-                    return {
-                        ...order,
-                        TotalPrice: totalPrice,
-                    };
-                });
-                setUpdatedOrders(updatedOrdersInitial);
-            }
-=======
                   const totalPrice = calculateTotalPrice(order);
                   return {
                     ...order,
@@ -161,7 +108,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 setUpdatedOrders(updatedOrdersInitial);
             }
         
->>>>>>> main
             setIsLoading(false);
  
         }
@@ -212,24 +158,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
         return totalPrice;
     };
-<<<<<<< HEAD
-
-    // useEffect(() => {
-    //     if (PaymentData?.Order) {
-    //       const updatedOrdersInitial = PaymentData.Order.map((order) => {
-    //         const totalPrice = calculateTotalPrice(order);
-    //         return {
-    //           ...order,
-    //           TotalPrice: totalPrice,
-    //         };
-    //       });
-    //       setUpdatedOrders(updatedOrdersInitial);
-    //     }
-    //   }, [PaymentData]);
-
-=======
     
->>>>>>> main
     const handleCalculatedPriceChange = (itemId: string, newTotal: number) => {
         // Create a copy of the updatedOrders array
         const updatedOrdersCopy = [...updatedOrders];
@@ -293,11 +222,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             <View style={{ flex: 10, marginLeft: 15, width: 225, paddingTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View>
-<<<<<<< HEAD
-                        <TouchableOpacity onPress={() => { navigation.navigate('Home', { objectId, additionalValue: 'Cash' }) }}>
-=======
                         <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: PayMentMethod}) }}>
->>>>>>> main
                             <Image
                                 source={require('../assets/arrowback.png')}
                                 style={{
@@ -473,18 +398,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <TouchableOpacity
                     onPress={() => {
                         fetchAddProductToOrder()
-<<<<<<< HEAD
-                        // navigation.navigate('PaymentSuccessful', {
-                        //     objectId: objectId,
-                        //     PayMentMethod: PayMentMethod,
-                        //     Fullname: PaymentData?.FullName,
-                        //     Address: PaymentData?.Address,
-                        //     PhoneNumber: PaymentData?.PhoneNumber,
-                        //     PaymentMethod: PaymentData?.PaymentMethod,
-                        //     TotalPriceOrder: PaymentData?.TotalPriceOrder
-                        // })
-=======
->>>>>>> main
                     }}
                     style={{
                         marginTop: 15,

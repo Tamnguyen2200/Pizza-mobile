@@ -6,19 +6,12 @@ import { Button, Text, View } from "react-native";
 import { NavigationProps, ProfileProps } from "./interface/Props";
 
 
-<<<<<<< HEAD
-function PaymentSuccessful({ navigation, route }: NavigationProps): JSX.Element {
-    const { PaymentMethod, Fullname, Address, PhoneNumber, TotalPriceOrder } = route.params;
-
-    return (
-=======
 function PaymentSuccessful ({navigation, route}: NavigationProps): JSX.Element{
 
     const objectId  = route.params.objectId;
     const PayMentMethod = route.params.additionalValue;
 
     return(
->>>>>>> main
         <View style={{
             backgroundColor: '#F5F5F5',
             flex: 100,
@@ -49,29 +42,6 @@ function PaymentSuccessful ({navigation, route}: NavigationProps): JSX.Element{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                 }}>
-<<<<<<< HEAD
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('Tracking', {
-                                Fullname: Fullname,
-                                Address: Address,
-                                PhoneNumber: PhoneNumber,
-                                PaymentMethod: PaymentMethod,
-                                TotalPriceOrder: TotalPriceOrder
-                            })
-                        }}
-                        style={{
-                            marginTop: 30,
-                            borderColor: '#A45D51',
-                            backgroundColor: '#A45D51',
-                            borderWidth: 1,
-                            width: 180,
-                            height: 40,
-                            borderRadius: 7,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-=======
                     <TouchableOpacity 
                     onPress={() => {
                         navigation.navigate('Tracking', {objectId, additionalValue: PayMentMethod})
@@ -87,7 +57,6 @@ function PaymentSuccessful ({navigation, route}: NavigationProps): JSX.Element{
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
->>>>>>> main
                         <Text style={{
                             fontSize: 15,
                             color: 'white'

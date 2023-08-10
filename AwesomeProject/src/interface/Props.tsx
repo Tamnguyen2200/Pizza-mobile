@@ -107,13 +107,8 @@ export interface ProfileProps {
   Address: string;
   objectId: string;
   Order: OrderProps[];
-<<<<<<< HEAD
-  TotalPriceOrder: number
-  PaymentMethod: string;
-=======
   PaymentMethod: string,
   TotalPriceOrder: number
->>>>>>> main
 }
 
 export interface Profiles {
