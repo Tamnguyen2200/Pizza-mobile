@@ -30,7 +30,6 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
   const {objectId} = route.params || {};
 
   useEffect(() => {
-    console.log(objectId)
     fetchData();
     setIsLoading(true);
   }, []);
@@ -163,7 +162,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       .then(response => response.json())
       .then(async data => {
         if (data == 1) {
-          navigation.navigate('Size', {data: OrderId});
+          navigation.navigate('Size', {objectId, Order: OrderId});
         } else {
           Alert.alert('Error', "Can't create order");
         }

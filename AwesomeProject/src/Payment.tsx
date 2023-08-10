@@ -19,9 +19,23 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const PayMentMethod = route.params.additionalValue;
 
     const handleSelectRemoveProduct = (id: string) => {
-        fetchRemoveProductInOrder(id)
+        Alert.alert('delete order', 'Are you sure to delete this order?', [
+            {
+              text: 'cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Yes',
+              style: 'destructive',
+              onPress: () => {
+                fetchRemoveProductInOrder(id)
+              },
+            },
+          ]);
+        // 
     }
 
+<<<<<<< HEAD
     const fetchAddProductToOrder = async () => {
         try {
             const orderData = {
@@ -62,6 +76,26 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             console.error('Error order:', error);
             Alert.alert('Error', "Can't order");
         }
+=======
+    const fetchRemoveProductInOrder = async(id: string) => {
+        fetch(`https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`, {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([
+            id
+          ]),
+        }).then(response => response.json())
+        .then(data =>{
+          if(data == 1){
+            fetchPayment()
+          } else{
+            Alert.alert('Error', "Can't remove product");
+          }
+        })
+>>>>>>> main
     }
 
 
@@ -108,6 +142,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             setPaymentData(json);
             if (json?.Order) {
                 const updatedOrdersInitial = json.Order.map((order: any) => {
+<<<<<<< HEAD
                     const totalPrice = calculateTotalPrice(order);
                     return {
                         ...order,
@@ -116,7 +151,19 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 });
                 setUpdatedOrders(updatedOrdersInitial);
             }
+=======
+                  const totalPrice = calculateTotalPrice(order);
+                  return {
+                    ...order,
+                    TotalPrice: totalPrice,
+                  };
+                });
+                setUpdatedOrders(updatedOrdersInitial);
+            }
+        
+>>>>>>> main
             setIsLoading(false);
+ 
         }
         catch (error) {
             // Alert.alert('error');
@@ -144,7 +191,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
             </View>
         );
-    }
+      }
 
     //tính từng order
     const calculateTotalPrice = (order: any) => {
@@ -165,6 +212,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
         return totalPrice;
     };
+<<<<<<< HEAD
 
     // useEffect(() => {
     //     if (PaymentData?.Order) {
@@ -179,6 +227,9 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     //     }
     //   }, [PaymentData]);
 
+=======
+    
+>>>>>>> main
     const handleCalculatedPriceChange = (itemId: string, newTotal: number) => {
         // Create a copy of the updatedOrders array
         const updatedOrdersCopy = [...updatedOrders];
@@ -200,13 +251,53 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
         }
     };
 
+    const fetchAddProductToOrder = async() => {
+        try {
+            const orderData = {
+                objectId: objectId,
+                PaymentMethod: PayMentMethod,
+                TotalPriceOrder: totalOrderPrice,
+            };
+            console.log(orderData)
+
+            const response = await fetch(
+                `https://api.backendless.com/${app}/${api}/data/Users/${objectId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                }
+            );
+            const data = await response.json();
+
+            if (data) {
+                navigation.navigate('PaymentSuccessful', {
+                    objectId,
+                    additionalValue: PayMentMethod,
+                });
+            } else {
+                //   Alert.alert('Error', "Can't order");
+            }
+        } catch (error) {
+            console.error('Error order:', error);
+            Alert.alert('Error', "Can't order");
+        }
+    }
+
     return (
         <ScrollView style={{ backgroundColor: '#F5F5F5', flex: 100 }}>
             {/* Button Back */}
             <View style={{ flex: 10, marginLeft: 15, width: 225, paddingTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View>
+<<<<<<< HEAD
                         <TouchableOpacity onPress={() => { navigation.navigate('Home', { objectId, additionalValue: 'Cash' }) }}>
+=======
+                        <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: PayMentMethod}) }}>
+>>>>>>> main
                             <Image
                                 source={require('../assets/arrowback.png')}
                                 style={{
@@ -251,7 +342,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             {/* Order */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, marginLeft: 16, marginRight: 16 }}>
                 <Text style={{ color: '#000000', fontSize: 15, marginBottom: 10, fontWeight: '600' }}>ORDER PROCESSING</Text>
-                <TouchableOpacity onPress={() => { navigation.navigate('Home') }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Home', {objectId, additionalValue: PayMentMethod}) }}>
                     <Text style={{ color: 'black', fontSize: 15, }}>More dishes</Text>
                 </TouchableOpacity>
             </View>
@@ -285,7 +376,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <Text style={{ color: '#000000', fontSize: 15, paddingBottom: 5 }}>PAYMENT METHOD</Text>
                 <TouchableOpacity style={{ height: 45, borderRadius: 7, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', marginTop: 17 }}
                     onPress={() => {
-                        navigation.navigate('PaymentMethods')
+                        navigation.navigate('PaymentMethods', {objectId, additionalValue: PayMentMethod})
                     }}
                 >
                     {PayMentMethod === 'Cash' && (
@@ -382,6 +473,7 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 <TouchableOpacity
                     onPress={() => {
                         fetchAddProductToOrder()
+<<<<<<< HEAD
                         // navigation.navigate('PaymentSuccessful', {
                         //     objectId: objectId,
                         //     PayMentMethod: PayMentMethod,
@@ -391,6 +483,8 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                         //     PaymentMethod: PaymentData?.PaymentMethod,
                         //     TotalPriceOrder: PaymentData?.TotalPriceOrder
                         // })
+=======
+>>>>>>> main
                     }}
                     style={{
                         marginTop: 15,

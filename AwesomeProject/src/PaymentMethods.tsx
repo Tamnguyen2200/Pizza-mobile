@@ -6,9 +6,12 @@ import { Button, Text, View } from "react-native";
 import { NavigationProps } from "./interface/Props";
 
 
-function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
+function PaymentMethods ({navigation, route}: NavigationProps): JSX.Element{
+
+    const objectId  = route.params.objectId;
+    const PayMentMethod = route.params.additionalValue;
     const handlePaymentMethodSelect = (method: string) => {
-        navigation.navigate('Payment', { data: method })
+        navigation.navigate('Payment', { objectId,  additionalValue: method})
     };
 
     
@@ -122,7 +125,7 @@ function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
                         }}>
                             <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('Paypal')
+                                navigation.navigate('Paypal', { objectId,  additionalValue: PayMentMethod})
                             }}
                             style={{
                                 height: 35,
@@ -156,7 +159,7 @@ function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
                         }}>
                             <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('MasterCard')
+                                navigation.navigate('MasterCard', { objectId,  additionalValue: PayMentMethod})
                             }}
                             style={{
                                 height: 35,
@@ -189,7 +192,7 @@ function PaymentMethods ({navigation}: NavigationProps): JSX.Element{
                         }}>
                             <TouchableOpacity 
                             onPress={() => {
-                                navigation.navigate('VisaCard')
+                                navigation.navigate('VisaCard', { objectId,  additionalValue: PayMentMethod})
                             }}
                             style={{
                                 height: 35,

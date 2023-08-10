@@ -6,7 +6,8 @@ import { api, app } from './interface/urrl';
 function Size({ navigation, route }: NavigationProps): JSX.Element
 {
 
-  const  OrderId  = route.params.data;
+  const  OrderId  = route.params.Order;
+  const objectId = route.params.objectId;
   const handleSelectSizeSButton = () => {
     const id = '641A0B89-D00E-4698-B598-9D185A95B55F'
     fetchAddSizeToOrder(id)
@@ -22,9 +23,6 @@ function Size({ navigation, route }: NavigationProps): JSX.Element
   const handleSelectBackButton = () => {
     fetchRemovePizzaToOrder()
   }
-  useEffect(() => {
-    console.log(route)
-  }, []);
 
   const fetchAddSizeToOrder = async(id: string) => {
     fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}/Size`, {
@@ -39,7 +37,7 @@ function Size({ navigation, route }: NavigationProps): JSX.Element
     }).then(response => response.json())
     .then(data =>{
       if(data == 1){
-        navigation.navigate('Thickness',{data: OrderId, AddData: id})
+        navigation.navigate('Thickness',{data: OrderId, AddData: id, objectId: objectId})
       } else{
         Alert.alert('Error', "Can't add pizza.");
       }
@@ -47,7 +45,6 @@ function Size({ navigation, route }: NavigationProps): JSX.Element
   }
 
   const fetchRemovePizzaToOrder = async() => {
-    console.log(route.params.data)
     fetch(`https://api.backendless.com/${app}/${api}/data/Order/${OrderId}`, {
       method: 'DELETE',
       headers: {
@@ -57,7 +54,7 @@ function Size({ navigation, route }: NavigationProps): JSX.Element
       body: JSON.stringify({}),
     }).then(response => response.json())
     .then(data =>{
-        navigation.navigate('Home')
+        navigation.navigate('Home', {objectId})
     })
   }
   

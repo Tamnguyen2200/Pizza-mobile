@@ -103,18 +103,19 @@ export interface ThicknessProps {
 
 export interface ProfileProps {
   FullName: string;
-  PhoneNumber: PhoneNumberProps;
+  PhoneNumber: number;
   Address: string;
   objectId: string;
   Order: OrderProps[];
+<<<<<<< HEAD
   TotalPriceOrder: number
   PaymentMethod: string;
+=======
+  PaymentMethod: string,
+  TotalPriceOrder: number
+>>>>>>> main
 }
 
-export interface PhoneNumberProps {
-  objectId: string;
-  phoneNumber: number;
-}
 export interface Profiles {
   FullName: string;
   PhoneNumber: string;
