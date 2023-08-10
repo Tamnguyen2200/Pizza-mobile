@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   Alert,
   ScrollView,
-  FlatList,
 } from 'react-native';
 import {NavigationProps, Profiles} from './interface/Props';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -22,33 +21,15 @@ const History: React.FC<NavigationProps> = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(false);
   const {objectId} = route.params || {};
   const [data, setData] = useState('');
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchData();
-    setIsLoading(true);
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const url = `https://api.backendless.com/${app}/${api}/data/Order`;
-      const respone = await fetch(url);
-      const json = await respone.json();
-      setData(json);
-      console.log(json);
-    } catch (error) {
-      setError(error);
-      console.log(setError);
-    }
-  };
-
-  // if (isLoading) {
-  //   return (
-  //     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-  //       <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
-  //     </View>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -62,10 +43,8 @@ const History: React.FC<NavigationProps> = ({navigation, route}) => {
           <Text style={styles.texttitle}> History </Text>
         </View>
       </View>
-      <FlatList
-        data={data}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
+      <ScrollView>
+        <View style={styles.body}>
           <View style={styles.list}>
             <View style={styles.con}>
               <Image
@@ -73,18 +52,17 @@ const History: React.FC<NavigationProps> = ({navigation, route}) => {
                 style={styles.imglist}
               />
               <View style={styles.item}>
-                <Text style={styles.ten}>Tên Pizza:</Text>
-                <Text style={styles.size}>Size Bánh</Text>
-                <Text style={styles.gia}>Giá Tiền</Text>
-                <Text style={styles.ngay}>Ngày Đặt:</Text>
+                <Text style={styles.ten}> Anchovy Adict</Text>
+                <Text style={styles.size}> Size : S</Text>
+                <Text style={styles.gia}> Giá Tiền: $12</Text>
               </View>
               <View style={styles.sl}>
-                <Text style={styles.soluong}>Số lượng</Text>
+                <Text style={styles.soluong}> Số lượng: 1</Text>
               </View>
             </View>
           </View>
-        )}
-      />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -142,7 +120,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   ten: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   size: {
