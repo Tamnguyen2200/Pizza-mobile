@@ -139,7 +139,7 @@ function Thickness({navigation, route}: NavigationProps): JSX.Element {
       .then(response => response.json())
       .then(data => {
         if (data == 1) {
-          navigation.navigate('Payment', {data: OrderId, AddData: 'Cash'});
+          navigation.navigate('Payment', {objectId, additionalValue: 'Cash'});
         } else {
           Alert.alert('Error', "Can't add pizza.");
         }

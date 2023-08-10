@@ -15,6 +15,9 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<any>(null);
 
+    const objectId = route.params.objectId;
+    const PayMentMethod = route.params.additionalValue;
+
     const handleSelectRemoveProduct = (id: string) => {
         Alert.alert('delete order', 'Are you sure to delete this order?', [
             {
@@ -48,8 +51,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             fetchPayment()
         })
     }
-    const objectId  = route.params.objectId;
-    const PayMentMethod = route.params.additionalValue;
 
     const fetchPayment = async () => {
         try {
@@ -68,7 +69,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 });
                 setUpdatedOrders(updatedOrdersInitial);
             }
-        
             setIsLoading(false);
  
         }
@@ -87,36 +87,36 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
 
     if (isLoading) {
         return (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
-          </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
+            </View>
         );
-      }
-      if (error) {
+    }
+    if (error) {
         return (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
-          </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
+            </View>
         );
       }
 
     //tính từng order
     const calculateTotalPrice = (order: any) => {
         let totalPrice = 0;
-      
+
         if (order.Thickness) {
-          totalPrice += order.Thickness.PriceThickness || 0;
+            totalPrice += order.Thickness.PriceThickness || 0;
         }
         if (order.Pizza) {
-          totalPrice += order.Pizza.Total * (order.Pizza.TypeData === 'Best Seller' ? 15 : 10); // Giá tạm thời, bạn cần thay đổi logic tính giá thực tế
+            totalPrice += order.Pizza.Total * (order.Pizza.TypeData === 'Best Seller' ? 15 : 10); // Giá tạm thời, bạn cần thay đổi logic tính giá thực tế
         }
         if (order.Size) {
-          totalPrice += order.Size.PriceSize || 0;
+            totalPrice += order.Size.PriceSize || 0;
         }
         if (order.Cheese) {
-          totalPrice += order.Cheese.PriceCheese || 0;
+            totalPrice += order.Cheese.PriceCheese || 0;
         }
-      
+
         return totalPrice;
     };
     
@@ -207,18 +207,21 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                         style={{ color: 'black', height: 40 }}
                         placeholder='Name'
                         value={PaymentData?.FullName}
+                        editable={false}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7, marginBottom: 10 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Phone number'
                         value={String(PaymentData?.PhoneNumber)}
+                        editable={false}
                     />
                 </View>
                 <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CFCCCC', borderRadius: 7 }}>
                     <TextInput style={{ color: 'black', height: 40 }}
                         placeholder='Address'
                         value={PaymentData?.Address}
+                        editable={false}
                     />
                 </View>
             </View>
@@ -231,19 +234,19 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
             </View>
             {/* Product */}
             <View style={{ flex: 100, marginTop: 15, marginLeft: 16, marginRight: 16 }}>
-             {updatedOrders?.map((item) => ( 
-                <View key={item.objectId}>
-                <ProductInPayment 
-                    Pizza={item.Pizza}
-                    Size={item.Size}
-                    id={item.objectId}
-                    Thickness={item.Thickness}
-                    Cheese={item.Cheese}
-                    TotalPrice={item.TotalPrice}
-                    onSelectRemoveProduct={handleSelectRemoveProduct}
-                    onCalculatedPriceChange={handleCalculatedPriceChange}
-                    />
-                </View>
+                {updatedOrders?.map((item) => (
+                    <View key={item.objectId}>
+                        <ProductInPayment
+                            Pizza={item.Pizza}
+                            Size={item.Size}
+                            id={item.objectId}
+                            Thickness={item.Thickness}
+                            Cheese={item.Cheese}
+                            TotalPrice={item.TotalPrice}
+                            onSelectRemoveProduct={handleSelectRemoveProduct}
+                            onCalculatedPriceChange={handleCalculatedPriceChange}
+                        />
+                    </View>
                 ))}
             </View>
             {/* Price */}
@@ -373,7 +376,6 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
                 </TouchableOpacity>
             </View>
         </ScrollView>
-
     )
 }
 const styles = StyleSheet.create({
