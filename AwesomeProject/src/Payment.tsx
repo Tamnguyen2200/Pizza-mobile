@@ -47,11 +47,8 @@ function Payment({ navigation, route }: NavigationProps): JSX.Element {
           ]),
         }).then(response => response.json())
         .then(data =>{
-          if(data == 1){
+            setIsLoading(true)
             fetchPayment()
-          } else{
-            Alert.alert('Error', "Can't remove product");
-          }
         })
     }
 
