@@ -5,10 +5,57 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import ToppingButton from "./components/ToppingButton";
-import { NavigationProps, ToppingProps } from "./interface/Props";
+import { NavigationProps, ProfileProps, ToppingProps } from "./interface/Props";
 import { api, app } from "./interface/urrl";
 
-function Tracking({ navigation }: NavigationProps): JSX.Element{
+function Tracking({ navigation , route}: NavigationProps): JSX.Element{
+
+    const [PaymentData, setPaymentData] = useState<ProfileProps>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<any>(null);
+
+
+    const objectId  = route.params.objectId;
+    const PayMentMethod = route.params.additionalValue;
+
+    useEffect(() => {
+        setIsLoading(true);
+        fetchPayment();
+    }, []);
+
+    const fetchPayment = async () => {
+        try {
+            const relation = "?loadRelations=Order.Cheese%2COrder.Pizza%2COrder.Size%2COrder.Thickness%2COrder"
+            const url = `https://api.backendless.com/${app}/${api}/data/Users/${objectId}${relation}`;
+            const response = await fetch(url);
+            const json = await response.json();
+            setPaymentData(json);
+            setIsLoading(false);
+ 
+        }
+        catch (error) {
+            // Alert.alert('error');
+            // setLoading(false);
+        }
+        finally {
+            // setLoading(false);
+        }
+    }
+    if (isLoading) {
+        return (
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size={'large'} color="#5500dc"></ActivityIndicator>
+          </View>
+        );
+      }
+      if (error) {
+        return (
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text> Lỗi Tải Dữ Liệu, Hãy Kiểm Tra Lại Đuờng Truyền</Text>
+          </View>
+        );
+      }
+
     return (
         <View style={{
             flex: 100,
@@ -29,7 +76,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                 }}>
                     <View>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('Home')
+                            navigation.navigate('Home', {objectId, additionalValue: PayMentMethod})
                         }}>
                             <Image
                                 source={require('../assets/left.png')}
@@ -112,7 +159,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
     
     
             </View>
-            <View style={{
+            {/* <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginTop: 35,
@@ -151,7 +198,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     fontSize: 15,
                 }}
                 >x1</Text>
-            </View>
+            </View> */}
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -170,7 +217,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >Tien</Text>
+                >{PaymentData?.FullName}</Text>
             </View>
             <View style={{
                 flexDirection: 'row',
@@ -190,7 +237,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >0123456789</Text>
+                >{PaymentData?.PhoneNumber}</Text>
             </View>
             <View style={{
                 flexDirection: 'row',
@@ -210,7 +257,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >TP. Ho Chi Minh</Text>
+                >{PaymentData?.Address}</Text>
             </View>
             <View style={{
                 flexDirection: 'row',
@@ -230,7 +277,7 @@ function Tracking({ navigation }: NavigationProps): JSX.Element{
                     color: 'black',
                     fontSize: 15,
                 }}
-                >302$ (Paypal)</Text>
+                >{PaymentData?.TotalPriceOrder}$ ({PaymentData?.PaymentMethod})</Text>
             </View>
         </View>
     )

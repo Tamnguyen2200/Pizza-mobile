@@ -5,10 +5,13 @@ import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 import { Button, Text, View } from "react-native";
 import { NavigationProps } from "./interface/Props";
 
-function Paypal({ navigation }: NavigationProps): JSX.Element {
+function Paypal({ navigation, route }: NavigationProps): JSX.Element {
+
+    const objectId  = route.params.objectId;
+    const PayMentMethod = route.params.additionalValue;
 
     const handlePaymentMethodSelect = (method: string) => {
-        navigation.navigate('Payment', { data: method })
+        navigation.navigate('Payment',  { objectId,  additionalValue: method})
     };
     return (
         <View style={{

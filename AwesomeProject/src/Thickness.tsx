@@ -20,7 +20,7 @@ function Thickness({navigation, route}: NavigationProps): JSX.Element {
   const [isLoading, setLoading] = useState(true);
   const OrderId = route.params.data;
   const SizeId = route.params.AddData;
-  const {objectId} = route.params || {};
+  const objectId = route.params.objectId;
 
   const handleDropdownThinToggle = (dropdownName: string) => {
     const ThicknessId = '62E62E21-44C6-46BC-AADE-4F48E5158BE9';

@@ -39,6 +39,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
   };
 
   useEffect(() => {
+    console.log(route)
     setIsLoading(true);
     fetch(
       `https://api.backendless.com/${app}/${apiLogin}/data/Users/${objectId}`,

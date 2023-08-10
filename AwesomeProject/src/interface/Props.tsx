@@ -15,7 +15,7 @@ export interface ProductInPaymentProps {
   TotalPrice: number;
   id: string;
   onSelectRemoveProduct?: (id: string) => void;
-  onCalculatedPriceChange?: (calculatedPrice: number) => void;
+  onCalculatedPriceChange?: ( id: string ,calculatedPrice: number) => void;
 }
 
 export interface CheeseButtonProps {
@@ -102,16 +102,14 @@ export interface ThicknessProps {
 
 export interface ProfileProps {
   FullName: string;
-  PhoneNumber: PhoneNumberProps;
+  PhoneNumber: number;
   Address: string;
   objectId: string;
   Order: OrderProps[];
+  PaymentMethod: string,
+  TotalPriceOrder: number
 }
 
-export interface PhoneNumberProps {
-  objectId: string;
-  phoneNumber: number;
-}
 export interface Profiles {
   FullName: string;
   PhoneNumber: string;
