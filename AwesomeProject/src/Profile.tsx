@@ -37,9 +37,13 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
       objectId,
     });
   };
-
+  const handleHistory = () => {
+    navigation.navigate('History', {
+      objectId,
+    });
+  };
   useEffect(() => {
-    console.log(route)
+    console.log(route);
     setIsLoading(true);
     fetch(
       `https://api.backendless.com/${app}/${apiLogin}/data/Users/${objectId}`,
@@ -140,11 +144,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
 
         <View style={styles.bodycon}>
           <View style={styles.bodyconItem}>
-            <TouchableOpacity
-              style={styles.border}
-              onPress={() => {
-                navigation.navigate('History', objectId);
-              }}>
+            <TouchableOpacity style={styles.border} onPress={handleHistory}>
               <Text style={styles.textButton}>History</Text>
               <AntDesign name="right" size={30} color="#A45D51" />
             </TouchableOpacity>

@@ -20,6 +20,8 @@ const {width, height} = Dimensions.get('screen');
 const History: React.FC<NavigationProps> = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(false);
   const {objectId} = route.params || {};
+  const [data, setData] = useState('');
+  const [error, setError] = useState('');
 
   if (isLoading) {
     return (
@@ -50,20 +52,15 @@ const History: React.FC<NavigationProps> = ({navigation, route}) => {
                 style={styles.imglist}
               />
               <View style={styles.item}>
-                <Text style={styles.ten}> Tên Pizza</Text>
-                <Text style={styles.size}> Size Bánh</Text>
-                <Text style={styles.gia}> Giá Tiền</Text>
-                <Text style={styles.ngay}> Ngày Đặt: </Text>
+                <Text style={styles.ten}> Anchovy Adict</Text>
+                <Text style={styles.size}> Size : S</Text>
+                <Text style={styles.gia}> Giá Tiền: $12</Text>
               </View>
               <View style={styles.sl}>
-                <Text style={styles.soluong}> Số lượng</Text>
+                <Text style={styles.soluong}> Số lượng: 1</Text>
               </View>
             </View>
           </View>
-          <View style={styles.list}></View>
-          <View style={styles.list}></View>
-          <View style={styles.list}></View>
-          <View style={styles.list}></View>
         </View>
       </ScrollView>
     </View>
@@ -123,7 +120,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   ten: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   size: {
