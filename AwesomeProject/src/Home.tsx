@@ -30,7 +30,6 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
   const {objectId} = route.params || {};
 
   useEffect(() => {
-    console.log(objectId)
     fetchData();
     setIsLoading(true);
   }, []);
@@ -114,7 +113,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
           console.log(Id);
           fetchAddOrderToUser(Id, PizzaId);
         } else {
-          Alert.alert('Error', "Can't create order");
+          Alert.alert('Error', "Can't create order 1");
         }
       })
       .catch(error => {
@@ -123,7 +122,6 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
   };
 
   const fetchAddOrderToUser = async (OrderId: string, PizzaId: string) => {
-    console.log(objectId);
     fetch(
       `https://api.backendless.com/${app}/${api}/data/Users/${objectId}/Order`,
       {
@@ -140,7 +138,7 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
         if (data == 1) {
           fetchAddPizzaToOrder(OrderId, PizzaId);
         } else {
-          Alert.alert('Error', "Can't create order");
+          Alert.alert('Error', "Can't create order 2");
         }
       })
       .catch(error => {
@@ -163,9 +161,9 @@ function Home({navigation, route}: NavigationProps): JSX.Element {
       .then(response => response.json())
       .then(async data => {
         if (data == 1) {
-          navigation.navigate('Size', {data: OrderId});
+          navigation.navigate('Size', {data: OrderId, objectId});
         } else {
-          Alert.alert('Error', "Can't create order");
+          Alert.alert('Error', "Can't create order3");
         }
       })
       .catch(error => {

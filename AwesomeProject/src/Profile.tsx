@@ -142,7 +142,7 @@ const Profile: React.FC<NavigationProps> = ({navigation, route}) => {
             <TouchableOpacity
               style={styles.border}
               onPress={() => {
-                navigation.navigate('History', objectId);
+                navigation.navigate('History', {objectId});
               }}>
               <Text style={styles.textButton}>History</Text>
               <AntDesign name="right" size={30} color="#A45D51" />

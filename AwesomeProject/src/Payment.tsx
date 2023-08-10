@@ -23,6 +23,7 @@ import {app, api} from './interface/urrl';
 function Payment({navigation, route}: NavigationProps): JSX.Element {
   const [total, setTotal] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const {objectId} = route.params;
   const [selectedProducts, setSelectedProducts] = useState<OrderProps[]>([]); // Lưu trữ thông tin các sản phẩm đã chọn
 
   const handleSelectRemoveProduct = (id: string) => {
@@ -95,7 +96,7 @@ function Payment({navigation, route}: NavigationProps): JSX.Element {
           <View>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Home');
+                navigation.navigate('Home', {objectId});
               }}>
               <Image
                 source={require('../assets/arrowback.png')}
